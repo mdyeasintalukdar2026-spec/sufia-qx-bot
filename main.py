@@ -8,7 +8,7 @@ app = Flask(__name__)
 # ================================================================================
 # TWELVE DATA & 358 INSTITUTIONAL CONFLUENCE BINARY TRADING ENGINE
 # ================================================================================
-TWELVE_API_KEY = os.environ.get("TWELVE_API_KEY", "YOUR_TWELVE_DATA_API_KEY")
+TWELVE_API_KEY = os.environ.get("TWELVE_API_KEY", "11720d869f0540ae88d0c622a8fb7e24")
 
 def fetch_twelve_data_candles(symbol="EUR/USD"):
     clean_symbol = symbol.replace("FX:", "").replace("_OTC", "").replace("OTC", "").replace("FX_", "").strip()
@@ -23,7 +23,6 @@ def fetch_twelve_data_candles(symbol="EUR/USD"):
             data = response.json()
             if "values" in data:
                 values = data["values"]
-                # রিভার্স করে সঠিক সিকোয়েন্সে আনা
                 values.reverse()
                 closes = [float(v['close']) for v in values]
                 highs = [float(v['high']) for v in values]
@@ -40,9 +39,8 @@ def calculate_rsi_macd(closes):
     if len(closes) < 15:
         return 50.0, 0.0, 50.0
     
-    # Pandas অলটারনেটিভ রিয়্যাল টাইম ক্যালকুলেশন
     gains = []
-losses = []
+    losses = []
     for i in range(1, len(closes)):
         diff = closes[i] - closes[i-1]
         gains.append(max(diff, 0))
@@ -57,20 +55,17 @@ losses = []
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
         
-    # MACD Calculation (12, 26)
     ema12 = sum(closes[-12:]) / 12
     ema26 = sum(closes[-26:]) / min(26, len(closes))
-    macd = ema12 -ema26
+    macd = ema12 - ema26
     
-    prev_rsi = rsi - 0.5 # এপ্রোক্সিমেট প্রিভিয়াস ভ্যালু
+    prev_rsi = rsi - 0.5 
     return rsi, macd, prev_rsi
 
 def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
-    # Twelve Data থেকে রিয়েল ডাটা ফেচ করা
     market_data = fetch_twelve_data_candles(symbol)
     
     if not market_data:
-        # ফলব্যাক রিয়েল টাইম সেফগার্ড
         curr_time = int(time.time())
         if curr_time % 2 == 0:
             return {
@@ -95,7 +90,6 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     latest_close = closes[-1]
     prev_close = closes[-2]
     
-    # আপনার প্রদান করা মূল RSI & MACD বাইনারি লজিক
     if rsi < 35 and prev_rsi < rsi:
         signal = "CALL (BUY) - NEXT CANDLE UP"
         reason = f"Twelve Data Engine: RSI ({rsi:.1f}) Oversold bounce detected at Price {latest_close}."
@@ -107,7 +101,6 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
         voice_msg = "নেক্সট ক্যান্ডেল প্রেডিকশন হলো পুট অথবা সেল।"
         acc = 91
     else:
-        # স্ট্রোং কনফ্লুয়েন্স ফলব্যাক
         if latest_close >= prev_close:
             signal = "CALL (BUY) - NEXT CANDLE UP"
             reason = f"Momentum Confluence: Bullish candle continuation (RSI: {rsi:.1f})."
@@ -133,7 +126,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (EXPANDED UI & PERFECT BORDER)
+# FRONTEND UI ENGINE
 # ==========================================
 
 HTML_TEMPLATE = """
@@ -575,7 +568,7 @@ HTML_TEMPLATE = """
 
         function updateVoiceChart() {
             const selectedSymbol = document.getElementById('voice-pair-select').value;
-            const selectedTF = document.getElementById('voice-tf-select-hidden') ? '1' : document.getElementById('voice-tf-select').value;
+            const selectedTF = '1';
             document.getElementById('tv-voice-container').innerHTML = '';
             new TradingView.widget({
                 "autosize": true,
