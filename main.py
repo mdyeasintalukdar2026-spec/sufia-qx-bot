@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (COMPACT CHART HEIGHT & 100% CLEAN)
+# FRONTEND UI ENGINE (PERFECT GAP & NO TV LOGO)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -175,12 +175,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-ring {
-            width: 110px;
-            height: 110px;
+            width: 105px;
+            height: 105px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
             border: 3.5px solid #f59e0b;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.5), inset 0 0 12px rgba(245, 158, 11, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -189,13 +189,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         @keyframes pulseGolden {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 0 35px rgba(245, 158, 11, 0.7); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(245, 158, 11, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(245, 158, 11, 0.7); }
         }
 
         .golden-inner-wave {
-            width: 85px;
-            height: 38px;
+            width: 80px;
+            height: 35px;
             background: linear-gradient(180deg, rgba(245, 158, 11, 0.7), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -203,13 +203,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         @keyframes waveMotion {
-            0% { transform: translateY(4px) scaleY(0.8); }
-            100% { transform: translateY(-4px) scaleY(1.1); }
+            0% { transform: translateY(3px) scaleY(0.8); }
+            100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
         .action-btn {
-            width: 34px;
-            height: 34px;
+            width: 33px;
+            height: 33px;
             border-radius: 50%;
             background: rgba(45, 26, 3, 0.85);
             border: 1px solid rgba(245, 158, 11, 0.5);
@@ -231,16 +231,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* FIXED HEIGHT FOR CHART CONTAINER EXACTLY AS MARKED BETWEEN RED LINES */
+        /* PERFECT HEIGHT & SPACING BETWEEN MARKED RED LINES */
         .chart-box-wrapper {
-            height: 230px !important;
-            max-height: 230px !important;
+            height: 245px !important;
+            max-height: 245px !important;
+            margin-top: 4px !important;
         }
 
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 170px !important;
+            height: 185px !important;
+            margin-top: 4px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -250,8 +252,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             height: calc(100% + 55px) !important;
         }
 
+        /* HIDE TRADINGVIEW WATERMARK LOGO */
+        .tv-watermark-cover {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            width: 38px;
+            height: 30px;
+            background: #080502;
+            z-index: 99;
+            pointer-events: none;
+        }
+
         .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 6px; overflow-y: auto; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 5px; overflow-y: auto; }
         .screen.active { display: flex; }
         .icon-svg { width: 18px; height: 18px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
@@ -307,7 +321,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </button>
                 </div>
 
-                <div id="tv-home-container" class="w-full rounded-xl border border-amber-900/60"></div>
+                <div style="position: relative;" class="w-full flex-1">
+                    <div id="tv-home-container" class="w-full rounded-xl border border-amber-900/60"></div>
+                    <div class="tv-watermark-cover"></div>
+                </div>
             </div>
         </div>
 
