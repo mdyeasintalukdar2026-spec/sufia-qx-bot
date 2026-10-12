@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (LARGER VOICE RING & EXTENDED CHART AREA)
+# FRONTEND UI ENGINE (PERFECTLY ADJUSTED UI & CLEAN CHART)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -174,10 +174,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: inset 0 0 15px rgba(217, 119, 6, 0.4);
         }
 
-        /* 15% LARGER GOLDEN VOICE RING */
+        /* GOLDEN VOICE RING */
         .golden-ring {
-            width: 140px;
-            height: 140px;
+            width: 135px;
+            height: 135px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
             border: 4px solid #f59e0b;
@@ -195,8 +195,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-inner-wave {
-            width: 108px;
-            height: 48px;
+            width: 102px;
+            height: 45px;
             background: linear-gradient(180deg, rgba(245, 158, 11, 0.75), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -208,17 +208,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
+        /* LARGER & SHIFTED RIGHT VOICE ACTION BUTTONS */
         .action-btn {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: rgba(45, 26, 3, 0.85);
-            border: 1px solid rgba(245, 158, 11, 0.5);
+            background: rgba(45, 26, 3, 0.9);
+            border: 1px solid rgba(245, 158, 11, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
             color: #fef3c7;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.6);
             transition: all 0.2s ease;
         }
 
@@ -232,17 +233,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* EXTENDED CHART CONTAINER HEIGHT (DOWN TO MARKED MARGIN LINE) */
+        /* EXTENDED CHART CONTAINER WITH CLEAN LOWER MARGIN GAP */
         .chart-box-wrapper {
-            height: 340px !important;
-            max-height: 340px !important;
-            margin-top: 6px !important;
+            height: 335px !important;
+            max-height: 335px !important;
+            margin-top: 8px !important;
+            margin-bottom: 6px !important;
         }
 
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 280px !important;
+            height: 275px !important;
             margin-top: 4px !important;
         }
         #tv-home-container iframe {
@@ -250,19 +252,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             top: -38px !important;
             left: 0 !important;
             width: 100% !important;
-            height: calc(100% + 55px) !important;
-        }
-
-        /* 100% HIDE TRADINGVIEW WATERMARK AND BLACK COVER */
-        .tv-watermark-cover {
-            position: absolute;
-            bottom: -2px;
-            left: -2px;
-            width: 110px;
-            height: 50px;
-            background: #080502;
-            z-index: 9999;
-            pointer-events: none;
+            height: calc(100% + 18px) !important;
         }
 
         .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
@@ -276,22 +266,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- LARGER VOICE RING AREA -->
+            <!-- VOICE RING & ADJUSTED RIGHT BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <div class="absolute right-[-24px] top-2 flex flex-col gap-2.5">
+                    <!-- BUTTONS MOVED SLIGHTLY RIGHT & EXPANDED -->
+                    <div class="absolute right-[-32px] top-1 flex flex-col gap-2.5">
                         <button onclick="toggleChatModal()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
                         <button onclick="startVoiceRecognition()" class="action-btn !bg-amber-100 !text-black">
-                            <svg class="icon-svg w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+                            <svg class="icon-svg w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
@@ -308,7 +299,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper border border-amber-500/40 flex flex-col mb-1">
+            <!-- LOWER CHART CONTAINER WITH PERFECT GAP AT BOTTOM -->
+            <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper border border-amber-500/40 flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
                         <option value="FX:EURUSD">EUR/USD</option>
@@ -325,7 +317,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 <div style="position: relative;" class="w-full flex-1 overflow-hidden">
                     <div id="tv-home-container" class="w-full rounded-xl border border-amber-900/60"></div>
-                    <div class="tv-watermark-cover"></div>
                 </div>
             </div>
         </div>
