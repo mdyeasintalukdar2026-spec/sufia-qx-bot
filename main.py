@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (PERFECTLY ADJUSTED UI & CLEAN CHART)
+# FRONTEND UI ENGINE (EXTENDED DOWNWARD & ADJUSTED VOICE AREA)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -168,16 +168,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 8px 10px 52px 10px;
+            padding: 6px 10px 52px 10px;
             overflow: hidden;
             border: 2px solid #d97706;
             box-shadow: inset 0 0 15px rgba(217, 119, 6, 0.4);
         }
 
-        /* GOLDEN VOICE RING */
+        /* SLIGHTLY LARGER & SHIFTED DOWN VOICE RING */
         .golden-ring {
-            width: 135px;
-            height: 135px;
+            width: 145px;
+            height: 145px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
             border: 4px solid #f59e0b;
@@ -186,6 +186,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             justify-content: center;
             align-items: center;
             position: relative;
+            margin-top: 4px;
             animation: pulseGolden 2.5s infinite ease-in-out;
         }
 
@@ -195,8 +196,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-inner-wave {
-            width: 102px;
-            height: 45px;
+            width: 110px;
+            height: 48px;
             background: linear-gradient(180deg, rgba(245, 158, 11, 0.75), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -208,7 +209,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
-        /* LARGER & SHIFTED RIGHT VOICE ACTION BUTTONS */
+        /* ACTION BUTTONS MOVED FURTHER RIGHT */
         .action-btn {
             width: 38px;
             height: 38px;
@@ -233,18 +234,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* EXTENDED CHART CONTAINER WITH CLEAN LOWER MARGIN GAP */
+        /* LIVE CHART CONTAINER EXTENDED DOWN TO BOTTOM MARK LINE */
         .chart-box-wrapper {
-            height: 335px !important;
-            max-height: 335px !important;
+            height: 360px !important;
+            max-height: 360px !important;
             margin-top: 8px !important;
-            margin-bottom: 6px !important;
+            margin-bottom: 2px !important;
         }
 
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 275px !important;
+            height: 300px !important;
             margin-top: 4px !important;
         }
         #tv-home-container iframe {
@@ -252,11 +253,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             top: -38px !important;
             left: 0 !important;
             width: 100% !important;
-            height: calc(100% + 18px) !important;
+            height: calc(100% + 42px) !important;
         }
 
         .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 5px; overflow-y: auto; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
         .screen.active { display: flex; }
         .icon-svg { width: 18px; height: 18px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
@@ -266,15 +267,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- VOICE RING & ADJUSTED RIGHT BUTTONS -->
+            <!-- VOICE RING & MOVED RIGHT BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <!-- BUTTONS MOVED SLIGHTLY RIGHT & EXPANDED -->
-                    <div class="absolute right-[-32px] top-1 flex flex-col gap-2.5">
+                    <!-- BUTTONS MOVED FURTHER TO RIGHT -->
+                    <div class="absolute right-[-38px] top-2 flex flex-col gap-2.5">
                         <button onclick="toggleChatModal()" class="action-btn">
                             <svg class="icon-svg text-amber-300 w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
@@ -287,7 +288,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </div>
                 </div>
 
-                <div class="mt-1.5 text-center">
+                <div class="mt-1 text-center">
                     <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-amber-400 tracking-wider">TOT AI MASTER IS LISTENING...</h2>
                 </div>
             </div>
@@ -299,7 +300,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- LOWER CHART CONTAINER WITH PERFECT GAP AT BOTTOM -->
+            <!-- EXTENDED CHART SECTION DOWN TO LOWER MARK LINE -->
             <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper border border-amber-500/40 flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
