@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (PERFECT GAP & NO TV/BLACK BOX)
+# FRONTEND UI ENGINE (LARGER VOICE RING & EXTENDED CHART AREA)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -174,13 +174,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: inset 0 0 15px rgba(217, 119, 6, 0.4);
         }
 
+        /* 15% LARGER GOLDEN VOICE RING */
         .golden-ring {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
-            border: 3.5px solid #f59e0b;
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.5), inset 0 0 12px rgba(245, 158, 11, 0.4);
+            border: 4px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 0 16px rgba(245, 158, 11, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -189,14 +190,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         @keyframes pulseGolden {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(245, 158, 11, 0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(245, 158, 11, 0.7); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 22px rgba(245, 158, 11, 0.5); }
+            50% { transform: scale(1.03); box-shadow: 0 0 38px rgba(245, 158, 11, 0.8); }
         }
 
         .golden-inner-wave {
-            width: 75px;
-            height: 32px;
-            background: linear-gradient(180deg, rgba(245, 158, 11, 0.7), rgba(180, 83, 9, 0.15));
+            width: 108px;
+            height: 48px;
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.75), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
             animation: waveMotion 2s infinite alternate ease-in-out;
@@ -208,8 +209,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .action-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: rgba(45, 26, 3, 0.85);
             border: 1px solid rgba(245, 158, 11, 0.5);
@@ -231,18 +232,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* PERFECT GAP & HEIGHT EXTENDED TO LOWER MARK */
+        /* EXTENDED CHART CONTAINER HEIGHT (DOWN TO MARKED MARGIN LINE) */
         .chart-box-wrapper {
-            height: 295px !important;
-            max-height: 295px !important;
-            margin-top: 8px !important;
+            height: 340px !important;
+            max-height: 340px !important;
+            margin-top: 6px !important;
         }
 
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 235px !important;
-            margin-top: 6px !important;
+            height: 280px !important;
+            margin-top: 4px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -252,15 +253,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             height: calc(100% + 55px) !important;
         }
 
-        /* HIDE TRADINGVIEW WATERMARK LOGO & BOTTOM BLACK BOX */
+        /* 100% HIDE TRADINGVIEW WATERMARK AND BLACK COVER */
         .tv-watermark-cover {
             position: absolute;
-            bottom: 0px;
-            left: 0px;
-            width: 90px;
-            height: 65px;
+            bottom: -2px;
+            left: -2px;
+            width: 110px;
+            height: 50px;
             background: #080502;
-            z-index: 999;
+            z-index: 9999;
             pointer-events: none;
         }
 
@@ -275,13 +276,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
+            <!-- LARGER VOICE RING AREA -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <div class="absolute right-[-24px] top-1 flex flex-col gap-2">
+                    <div class="absolute right-[-24px] top-2 flex flex-col gap-2.5">
                         <button onclick="toggleChatModal()" class="action-btn">
                             <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
@@ -289,12 +291,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                             <svg class="icon-svg w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
 
-                <div class="mt-1 text-center">
+                <div class="mt-1.5 text-center">
                     <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-amber-400 tracking-wider">TOT AI MASTER IS LISTENING...</h2>
                 </div>
             </div>
@@ -321,7 +323,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </button>
                 </div>
 
-                <div style="position: relative;" class="w-full flex-1">
+                <div style="position: relative;" class="w-full flex-1 overflow-hidden">
                     <div id="tv-home-container" class="w-full rounded-xl border border-amber-900/60"></div>
                     <div class="tv-watermark-cover"></div>
                 </div>
@@ -490,7 +492,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 "hide_legend": true,
                 "disabled_features": [
                     "volume_force_overlay",
-                    "create_volume_indicator_by_default"
+                    "create_volume_indicator_by_default",
+                    "display_market_status"
                 ],
                 "container_id": "tv-home-container"
             });
