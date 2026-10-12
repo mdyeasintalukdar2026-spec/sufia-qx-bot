@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (ELECTRIC SCANNING ANIMATION & DYNAMIC NAV BORDER)
+# FRONTEND UI ENGINE (STABLE CHART & INDEPENDENT SHIFTING BORDERS)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -160,21 +160,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
+        /* OUTER CONTAINER WITH INDEPENDENT COLOR SHIFTING ANIMATION */
         .mobile-container {
             width: 100%;
             max-width: 420px;
             height: 100vh;
+            max-height: 100vh;
             background: radial-gradient(circle at top, #1a0203 0%, #080502 95%);
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 10px 58px 10px;
+            padding: 6px 10px 62px 10px;
             overflow: hidden;
-            border: 2px solid #ef4444;
-            box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.4);
+            animation: containerGlow 3.5s infinite linear;
+            box-shadow: inset 0 0 15px rgba(255, 0, 234, 0.2);
         }
 
-        /* DARK RED DEEP VOICE RING WITH DYNAMIC MULTI-COLOR LIGHTING BORDER */
+        @keyframes containerGlow {
+            0% { border: 2px solid #ff00ea; }
+            33% { border: 2px solid #00ff88; }
+            66% { border: 2px solid #00bfff; }
+            100% { border: 2px solid #ff00ea; }
+        }
+
+        /* VOICE RING WITH INDEPENDENT UNIQUE COLOR CYCLE */
         .golden-ring {
             width: 145px;
             height: 145px;
@@ -185,15 +194,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: ringBorderGlow 1.5s infinite linear;
+            animation: ringGlow 2.3s infinite linear;
         }
 
-        @keyframes ringBorderGlow {
-            0% { border: 4px solid #ff0055; box-shadow: 0 0 25px #ff0055, inset 0 0 15px #ff0055; }
-            25% { border: 4px solid #ffaa00; box-shadow: 0 0 25px #ffaa00, inset 0 0 15px #ffaa00; }
-            50% { border: 4px solid #00e5ff; box-shadow: 0 0 25px #00e5ff, inset 0 0 15px #00e5ff; }
-            75% { border: 4px solid #3dff00; box-shadow: 0 0 25px #3dff00, inset 0 0 15px #3dff00; }
-            100% { border: 4px solid #ff0055; box-shadow: 0 0 25px #ff0055, inset 0 0 15px #ff0055; }
+        @keyframes ringGlow {
+            0% { border: 4px solid #ff5500; box-shadow: 0 0 22px #ff5500, inset 0 0 12px #ff5500; }
+            33% { border: 4px solid #adff2f; box-shadow: 0 0 22px #adff2f, inset 0 0 12px #adff2f; }
+            66% { border: 4px solid #da70d6; box-shadow: 0 0 22px #da70d6, inset 0 0 12px #da70d6; }
+            100% { border: 4px solid #ff5500; box-shadow: 0 0 22px #ff5500, inset 0 0 12px #ff5500; }
         }
 
         .golden-inner-wave {
@@ -210,14 +218,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
-        /* ACTION BUTTONS WITH INDIVIDUAL COLOR PULSE */
+        /* INDEPENDENT BUTTON PULSE STYLES */
         .btn-chat { background: rgba(88, 28, 135, 0.9); animation: btnPulse1 2s infinite alternate; }
         .btn-mic { background: rgba(180, 83, 9, 0.95); animation: btnPulse2 2.5s infinite alternate; }
         .btn-reset { background: rgba(15, 118, 110, 0.9); animation: btnPulse3 2.2s infinite alternate; }
 
-        @keyframes btnPulse1 { 0% { border: 1.5px solid #a855f7; box-shadow: 0 0 10px #a855f7; } 100% { border: 1.5px solid #ec4899; box-shadow: 0 0 15px #ec4899; } }
-        @keyframes btnPulse2 { 0% { border: 1.5px solid #f59e0b; box-shadow: 0 0 10px #f59e0b; } 100% { border: 1.5px solid #ef4444; box-shadow: 0 0 15px #ef4444; } }
-        @keyframes btnPulse3 { 0% { border: 1.5px solid #14b8a6; box-shadow: 0 0 10px #14b8a6; } 100% { border: 1.5px solid #3b82f6; box-shadow: 0 0 15px #3b82f6; } }
+        @keyframes btnPulse1 { 0% { border: 1.5px solid #a855f7; box-shadow: 0 0 8px #a855f7; } 100% { border: 1.5px solid #ec4899; box-shadow: 0 0 12px #ec4899; } }
+        @keyframes btnPulse2 { 0% { border: 1.5px solid #f59e0b; box-shadow: 0 0 8px #f59e0b; } 100% { border: 1.5px solid #ef4444; box-shadow: 0 0 12px #ef4444; } }
+        @keyframes btnPulse3 { 0% { border: 1.5px solid #14b8a6; box-shadow: 0 0 8px #14b8a6; } 100% { border: 1.5px solid #3b82f6; box-shadow: 0 0 12px #3b82f6; } }
 
         .action-btn {
             width: 40px;
@@ -240,29 +248,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* HEADER DYNAMIC LIGHTING BORDER */
-        .header-lighting-box { animation: headerGlow 2s infinite linear; }
+        /* HEADER BOX WITH INDEPENDENT COLOR ANIMATION */
+        .header-lighting-box { animation: headerGlow 2.8s infinite linear; }
         @keyframes headerGlow {
-            0% { border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
-            50% { border-color: #ff007f; box-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
-            100% { border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+            0% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
+            33% { border-color: #ff1493; box-shadow: 0 0 8px rgba(255, 20, 147, 0.4); }
+            66% { border-color: #00ffff; box-shadow: 0 0 8px rgba(0, 255, 255, 0.4); }
+            100% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
         }
 
-        /* CHART CONTAINER WITH RECTANGULAR LIGHTING BORDER ANIMATION */
+        /* CHART CONTAINER WITH STABLE LAYOUT & INDEPENDENT BORDER ANIMATION */
         .chart-box-wrapper {
             height: 360px !important;
             max-height: 360px !important;
             margin-top: 8px !important;
             margin-bottom: 2px !important;
-            animation: chartBorderAnim 2s infinite linear;
+            animation: chartGlow 2.6s infinite linear;
             position: relative;
         }
 
-        @keyframes chartBorderAnim {
-            0% { border: 2px solid #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-            33% { border: 2px solid #00ffcc; box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); }
-            66% { border: 2px solid #ff00ff; box-shadow: 0 0 15px rgba(255, 0, 255, 0.5); }
-            100% { border: 2px solid #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
+        @keyframes chartGlow {
+            0% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
+            33% { border: 2px solid #00fa9a; box-shadow: 0 0 12px rgba(0, 250, 154, 0.4); }
+            66% { border: 2px solid #ff4500; box-shadow: 0 0 12px rgba(255, 69, 0, 0.4); }
+            100% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
         }
 
         #tv-home-container {
@@ -279,15 +288,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             height: calc(100% + 42px) !important;
         }
 
-        /* ELECTRIC SCANNING OVERLAY OVER LIVE CHART */
+        /* STABLE ELECTRIC SCAN LINE (NO CHART SHAKING) */
         .electric-scan-line {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: linear-gradient(90deg, transparent, #00f0ff, #ffffff, #00f0ff, transparent);
-            box-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff, 0 0 45px #ffffff;
+            box-shadow: 0 0 12px #00f0ff, 0 0 25px #00f0ff;
             z-index: 999;
             opacity: 0;
             pointer-events: none;
@@ -304,19 +313,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { top: 0%; }
         }
 
-        .chart-electric-flash {
-            animation: electricFlash 0.3s infinite alternate;
-        }
-
-        @keyframes electricFlash {
-            0% { filter: brightness(1) contrast(1); }
-            100% { filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(0,240,255,0.6)); }
-        }
-
-        /* UNIQUE DYNAMIC RGB NEON BORDER FOR BOTTOM NAV BAR */
+        /* BOTTOM NAV BAR WITH UNIQUE INDEPENDENT COLOR ANIMATION */
         .bottom-nav { 
             position: fixed; 
-            bottom: 12px; 
+            bottom: 10px; 
             left: 50%; 
             transform: translateX(-50%); 
             width: calc(100% - 20px); 
@@ -326,14 +326,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 999px; 
             padding: 8px 16px; 
             z-index: 9999; 
-            animation: navBorderRGB 1.8s infinite linear;
+            animation: navGlow 2.1s infinite linear;
         }
 
-        @keyframes navBorderRGB {
-            0% { border: 2px solid #3dff00; box-shadow: 0 0 15px rgba(61, 255, 0, 0.6); }
-            33% { border: 2px solid #ffaa00; box-shadow: 0 0 15px rgba(255, 170, 0, 0.6); }
-            66% { border: 2px solid #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
-            100% { border: 2px solid #3dff00; box-shadow: 0 0 15px rgba(61, 255, 0, 0.6); }
+        @keyframes navGlow {
+            0% { border: 2px solid #ff69b4; box-shadow: 0 0 12px rgba(255, 105, 180, 0.5); }
+            33% { border: 2px solid #00ffff; box-shadow: 0 0 12px rgba(0, 255, 255, 0.5); }
+            66% { border: 2px solid #ffd700; box-shadow: 0 0 12px rgba(255, 215, 0, 0.5); }
+            100% { border: 2px solid #ff69b4; box-shadow: 0 0 12px rgba(255, 105, 180, 0.5); }
         }
 
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
@@ -346,7 +346,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- DEEP RED VOICE RING & DYNAMIC BUTTONS -->
+            <!-- VOICE RING & ACTION BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
@@ -371,7 +371,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- HEADER WITH DYNAMIC LIGHTING BORDER -->
+            <!-- HEADER BOX -->
             <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
                 <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -379,7 +379,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- LIVE CHART CONTAINER WITH ELECTRIC SCANNING ANIMATION -->
+            <!-- LIVE CHART CONTAINER WITH STABLE ELECTRIC SCANNER -->
             <div id="main-chart-card" class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1 gap-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-red-950/90 text-[10px] p-1.5 rounded-lg border border-red-600/60 text-amber-100 font-extrabold">
@@ -401,7 +401,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 <div style="position: relative;" class="w-full flex-1 overflow-hidden">
                     <div id="tv-home-container" class="w-full rounded-xl border border-red-900/60"></div>
-                    <!-- ELECTRIC SCAN LINE LAYER -->
+                    <!-- ELECTRIC SCAN LINE LAYER (STABLE, NO SHAKE) -->
                     <div id="electric-scanner" class="electric-scan-line"></div>
                 </div>
             </div>
@@ -497,7 +497,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- BOTTOM NAV BAR WITH UNIQUE DYNAMIC RGB NEON BORDER -->
+        <!-- BOTTOM NAV BAR -->
         <div class="bottom-nav flex justify-between items-center">
             <button onclick="navTo('screen-home')" class="text-red-400 p-1.5"><svg class="icon-svg text-red-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
@@ -559,32 +559,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
-        /* 5-SECOND ELECTRIC MARKET SCANNING ANIMATION */
+        /* 5-SECOND STABLE ELECTRIC MARKET SCANNING */
         async function startElectricMarketScan() {
             const scanBtn = document.getElementById('scan-btn');
             const electricScanner = document.getElementById('electric-scanner');
-            const chartCard = document.getElementById('main-chart-card');
             const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
 
-            // UI Animation States On
+            // UI Animation States On (No chart shaking)
             scanBtn.disabled = true;
             scanBtn.innerText = "⚡ SCANNING...";
             scanBtn.classList.add('animate-pulse');
             electricScanner.classList.add('electric-scan-active');
-            chartCard.classList.add('chart-electric-flash');
             
             document.getElementById('ai-status-text').innerText = "⚡ REAL-TIME MARKET ELECTRIC SCANNING...";
             speakText("মার্কেট স্ক্যানিং করা হচ্ছে, অনুগ্রহ করে পাঁচ সেকেন্ড অপেক্ষা করুন।");
 
             // 5 Seconds Scanning Animation Delay
             setTimeout(async () => {
-                // Fetch Signal after Scan
                 const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
                 const data = await res.json();
 
                 // Reset Animation States
                 electricScanner.classList.remove('electric-scan-active');
-                chartCard.classList.remove('chart-electric-flash');
                 scanBtn.disabled = false;
                 scanBtn.innerText = "⚡ MARKET SCAN";
                 scanBtn.classList.remove('animate-pulse');
