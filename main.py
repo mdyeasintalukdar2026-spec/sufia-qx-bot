@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (FIXED CHART HEIGHT & CLEAN LAYOUT)
+# FRONTEND UI ENGINE (100% CLEAN TRADINGVIEW CHART)
 # ==========================================
 
 HTML_TEMPLATE = """
@@ -176,8 +176,8 @@ HTML_TEMPLATE = """
         }
 
         .golden-ring {
-            width: 130px;
-            height: 130px;
+            width: 125px;
+            height: 125px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
             border: 3.5px solid #f59e0b;
@@ -195,8 +195,8 @@ HTML_TEMPLATE = """
         }
 
         .golden-inner-wave {
-            width: 100px;
-            height: 45px;
+            width: 95px;
+            height: 42px;
             background: linear-gradient(180deg, rgba(245, 158, 11, 0.7), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -209,8 +209,8 @@ HTML_TEMPLATE = """
         }
 
         .action-btn {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: rgba(45, 26, 3, 0.85);
             border: 1px solid rgba(245, 158, 11, 0.5);
@@ -226,14 +226,27 @@ HTML_TEMPLATE = """
         .golden-font { font-family: 'Cinzel', serif; letter-spacing: 1px; }
 
         .glass-card {
-            background: rgba(20, 12, 3, 0.9);
+            background: rgba(20, 12, 3, 0.95);
             border: 1px solid rgba(217, 119, 6, 0.4);
             backdrop-filter: blur(12px);
             border-radius: 16px;
         }
 
+        /* TRADINGVIEW 100% CLEAN CLIPPING (REMOVES HEADER & VOLUME CLUTTER) */
+        #tv-home-container {
+            position: relative;
+            overflow: hidden;
+        }
+        #tv-home-container iframe {
+            position: absolute !important;
+            top: -42px !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: calc(100% + 42px) !important;
+        }
+
         .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 6px; overflow-y: auto; }
         .screen.active { display: flex; }
         .icon-svg { width: 18px; height: 18px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
@@ -241,7 +254,7 @@ HTML_TEMPLATE = """
 <body>
     <div class="mobile-container">
         
-        <!-- SCREEN 1: TOT AI MASTER STUDIO (OPTIMIZED LAYOUT) -->
+        <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
             <!-- TOP COMPACT GOLDEN RING VOICE AREA -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
@@ -264,8 +277,8 @@ HTML_TEMPLATE = """
                     </div>
                 </div>
 
-                <div class="mt-1.5 text-center">
-                    <h2 id="ai-status-text" class="golden-font text-xs font-black text-amber-400 tracking-wider">TOT AI MASTER IS LISTENING...</h2>
+                <div class="mt-1 text-center">
+                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-amber-400 tracking-wider">TOT AI MASTER IS LISTENING...</h2>
                 </div>
             </div>
 
@@ -277,7 +290,7 @@ HTML_TEMPLATE = """
                 </span>
             </div>
 
-            <!-- LOWER REAL CHART DISPLAY (EXPANDED TO FILL FULL SPACE) -->
+            <!-- LOWER REAL CHART DISPLAY (100% CLEAN CANDLES) -->
             <div class="glass-card p-1.5 rounded-2xl shadow-2xl flex-1 border border-amber-500/40 flex flex-col mb-1">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
@@ -293,7 +306,7 @@ HTML_TEMPLATE = """
                     </button>
                 </div>
 
-                <div id="tv-home-container" class="flex-1 w-full rounded-xl overflow-hidden border border-amber-900/60"></div>
+                <div id="tv-home-container" class="flex-1 w-full rounded-xl border border-amber-900/60"></div>
             </div>
         </div>
 
@@ -456,6 +469,7 @@ HTML_TEMPLATE = """
                 "enable_publishing": false,
                 "hide_side_toolbar": true,
                 "hide_top_toolbar": true,
+                "hide_legend": true,
                 "container_id": "tv-home-container"
             });
         }
