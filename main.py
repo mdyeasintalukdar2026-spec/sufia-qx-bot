@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (EXTENDED DOWNWARD & ADJUSTED VOICE AREA)
+# FRONTEND UI ENGINE (ACCURATE ADJUSTMENTS BASED ON LATEST MARKING)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -168,13 +168,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 10px 52px 10px;
+            padding: 6px 10px 58px 10px;
             overflow: hidden;
             border: 2px solid #d97706;
             box-shadow: inset 0 0 15px rgba(217, 119, 6, 0.4);
         }
 
-        /* SLIGHTLY LARGER & SHIFTED DOWN VOICE RING */
+        /* GOLDEN VOICE RING */
         .golden-ring {
             width: 145px;
             height: 145px;
@@ -209,10 +209,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
-        /* ACTION BUTTONS MOVED FURTHER RIGHT */
+        /* 1-2% SHIFTED RIGHT & SLIGHTLY LARGER ACTION BUTTONS */
         .action-btn {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(45, 26, 3, 0.9);
             border: 1px solid rgba(245, 158, 11, 0.6);
@@ -234,7 +234,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* LIVE CHART CONTAINER EXTENDED DOWN TO BOTTOM MARK LINE */
+        /* CHART CONTAINER HEIGHT MATCHED EXACTLY AS SCREENSHOT */
         .chart-box-wrapper {
             height: 360px !important;
             max-height: 360px !important;
@@ -256,10 +256,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             height: calc(100% + 42px) !important;
         }
 
-        .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
+        /* BOTTOM NAV BAR SHIFTED SLIGHTLY UPWARDS & 3-4% LARGER OPTIONS */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 12px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: calc(100% - 20px); 
+            max-width: 400px; 
+            background: rgba(15, 8, 2, 0.98); 
+            border: 1.5px solid rgba(217, 119, 6, 0.65); 
+            backdrop-filter: blur(20px); 
+            border-radius: 999px; 
+            padding: 8px 16px; 
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.95); 
+            z-index: 9999; 
+        }
+
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
         .screen.active { display: flex; }
-        .icon-svg { width: 18px; height: 18px; fill: currentColor; display: inline-block; vertical-align: middle; }
+        .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
 </head>
 <body>
@@ -267,23 +283,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- VOICE RING & MOVED RIGHT BUTTONS -->
+            <!-- VOICE RING & ADJUSTED RIGHT BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <!-- BUTTONS MOVED FURTHER TO RIGHT -->
-                    <div class="absolute right-[-38px] top-2 flex flex-col gap-2.5">
+                    <!-- BUTTONS MOVED 1-2% FURTHER RIGHT & SLIGHTLY LARGER -->
+                    <div class="absolute right-[-42px] top-2 flex flex-col gap-2.5">
                         <button onclick="toggleChatModal()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
                         <button onclick="startVoiceRecognition()" class="action-btn !bg-amber-100 !text-black">
-                            <svg class="icon-svg w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+                            <svg class="icon-svg w-5 h-5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4.5 h-4.5" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-5 h-5" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
@@ -300,7 +316,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- EXTENDED CHART SECTION DOWN TO LOWER MARK LINE -->
+            <!-- LIVE CHART CONTAINER -->
             <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper border border-amber-500/40 flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
@@ -412,15 +428,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- BOTTOM NAV BAR -->
+        <!-- BOTTOM NAV BAR (SHIFTED SLIGHTLY UP & 3-4% LARGER OPTIONS) -->
         <div class="bottom-nav flex justify-between items-center">
-            <button onclick="navTo('screen-home')" class="text-amber-400 p-1.5"><svg class="icon-svg text-amber-400" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
-            <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
-            <button onclick="navTo('screen-home')" class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 text-black flex items-center justify-center font-bold shadow-lg">
-                <svg class="icon-svg text-black w-5 h-5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+            <button onclick="navTo('screen-home')" class="text-amber-400 p-1.5"><svg class="icon-svg text-amber-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
+            <button onclick="navTo('screen-home')" class="w-11 h-11 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 text-black flex items-center justify-center font-bold shadow-lg">
+                <svg class="icon-svg text-black w-5.5 h-5.5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
             </button>
-            <button onclick="navTo('screen-signal')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg></button>
-            <button onclick="toggleChatModal()" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+            <button onclick="navTo('screen-signal')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg></button>
+            <button onclick="toggleChatModal()" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
         </div>
 
     </div>
