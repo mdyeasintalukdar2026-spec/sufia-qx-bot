@@ -133,11 +133,10 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (NO VOLUME BARS - 100% CLEAN CHART)
+# FRONTEND UI ENGINE (100% CLEAN & FIXED STRING)
 # ==========================================
 
-HTML_TEMPLATE = """
-<!DOCTYPE html>
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -232,7 +231,6 @@ HTML_TEMPLATE = """
             border-radius: 16px;
         }
 
-        /* REMOVES TOP HEADER, BOTTOM VOLUME BARS & LOGO */
         #tv-home-container {
             position: relative;
             overflow: hidden;
@@ -256,14 +254,12 @@ HTML_TEMPLATE = """
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- TOP COMPACT GOLDEN RING VOICE AREA -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <!-- RIGHT CONTROL BUTTONS -->
                     <div class="absolute right-[-24px] top-1 flex flex-col gap-2">
                         <button onclick="toggleChatModal()" class="action-btn">
                             <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
@@ -272,7 +268,7 @@ HTML_TEMPLATE = """
                             <svg class="icon-svg w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
@@ -282,7 +278,6 @@ HTML_TEMPLATE = """
                 </div>
             </div>
 
-            <!-- MID BAR: QUOTEX MARKET LIVE STATUS -->
             <div class="flex justify-between items-center bg-amber-950/40 px-3 py-1 rounded-lg border border-amber-600/30">
                 <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -290,7 +285,6 @@ HTML_TEMPLATE = """
                 </span>
             </div>
 
-            <!-- LOWER REAL CHART DISPLAY (PURE CANDLES ONLY) -->
             <div class="glass-card p-1.5 rounded-2xl shadow-2xl flex-1 border border-amber-500/40 flex flex-col mb-1">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
@@ -528,4 +522,18 @@ HTML_TEMPLATE = """
         window.onload = () => { updateHomeChart(); };
     </script>
 </body>
-</html>
+</html>"""
+
+@app.route('/')
+def home():
+    return render_template_string(HTML_TEMPLATE)
+
+@app.route('/api/signal')
+def api_signal():
+    symbol = request.args.get('symbol', 'EUR/USD')
+    timeframe = request.args.get('timeframe', '1m')
+    return jsonify(master_signal_generator(symbol, timeframe))
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
