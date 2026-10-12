@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (DYNAMIC LIGHTING & REAL-TIME CANDLE TIMER)
+# FRONTEND UI ENGINE (ELECTRIC SCANNING ANIMATION & DYNAMIC NAV BORDER)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -210,19 +210,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
-        /* 5% SHIFTED RIGHT & UNIQUE DYNAMIC COLOR-SHIFTING ACTION BUTTONS */
-        .btn-chat {
-            background: rgba(88, 28, 135, 0.9);
-            animation: btnPulse1 2s infinite alternate;
-        }
-        .btn-mic {
-            background: rgba(180, 83, 9, 0.95);
-            animation: btnPulse2 2.5s infinite alternate;
-        }
-        .btn-reset {
-            background: rgba(15, 118, 110, 0.9);
-            animation: btnPulse3 2.2s infinite alternate;
-        }
+        /* ACTION BUTTONS WITH INDIVIDUAL COLOR PULSE */
+        .btn-chat { background: rgba(88, 28, 135, 0.9); animation: btnPulse1 2s infinite alternate; }
+        .btn-mic { background: rgba(180, 83, 9, 0.95); animation: btnPulse2 2.5s infinite alternate; }
+        .btn-reset { background: rgba(15, 118, 110, 0.9); animation: btnPulse3 2.2s infinite alternate; }
 
         @keyframes btnPulse1 { 0% { border: 1.5px solid #a855f7; box-shadow: 0 0 10px #a855f7; } 100% { border: 1.5px solid #ec4899; box-shadow: 0 0 15px #ec4899; } }
         @keyframes btnPulse2 { 0% { border: 1.5px solid #f59e0b; box-shadow: 0 0 10px #f59e0b; } 100% { border: 1.5px solid #ef4444; box-shadow: 0 0 15px #ef4444; } }
@@ -250,9 +241,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         /* HEADER DYNAMIC LIGHTING BORDER */
-        .header-lighting-box {
-            animation: headerGlow 2s infinite linear;
-        }
+        .header-lighting-box { animation: headerGlow 2s infinite linear; }
         @keyframes headerGlow {
             0% { border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
             50% { border-color: #ff007f; box-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
@@ -266,6 +255,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin-top: 8px !important;
             margin-bottom: 2px !important;
             animation: chartBorderAnim 2s infinite linear;
+            position: relative;
         }
 
         @keyframes chartBorderAnim {
@@ -289,7 +279,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             height: calc(100% + 42px) !important;
         }
 
-        /* BOTTOM NAV BAR */
+        /* ELECTRIC SCANNING OVERLAY OVER LIVE CHART */
+        .electric-scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, transparent, #00f0ff, #ffffff, #00f0ff, transparent);
+            box-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff, 0 0 45px #ffffff;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .electric-scan-active {
+            opacity: 1;
+            animation: electricScan 1.2s infinite ease-in-out;
+        }
+
+        @keyframes electricScan {
+            0% { top: 0%; }
+            50% { top: 92%; }
+            100% { top: 0%; }
+        }
+
+        .chart-electric-flash {
+            animation: electricFlash 0.3s infinite alternate;
+        }
+
+        @keyframes electricFlash {
+            0% { filter: brightness(1) contrast(1); }
+            100% { filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(0,240,255,0.6)); }
+        }
+
+        /* UNIQUE DYNAMIC RGB NEON BORDER FOR BOTTOM NAV BAR */
         .bottom-nav { 
             position: fixed; 
             bottom: 12px; 
@@ -298,12 +322,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             width: calc(100% - 20px); 
             max-width: 400px; 
             background: rgba(15, 4, 4, 0.98); 
-            border: 1.5px solid rgba(239, 68, 68, 0.7); 
             backdrop-filter: blur(20px); 
             border-radius: 999px; 
             padding: 8px 16px; 
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.95); 
             z-index: 9999; 
+            animation: navBorderRGB 1.8s infinite linear;
+        }
+
+        @keyframes navBorderRGB {
+            0% { border: 2px solid #3dff00; box-shadow: 0 0 15px rgba(61, 255, 0, 0.6); }
+            33% { border: 2px solid #ffaa00; box-shadow: 0 0 15px rgba(255, 170, 0, 0.6); }
+            66% { border: 2px solid #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+            100% { border: 2px solid #3dff00; box-shadow: 0 0 15px rgba(61, 255, 0, 0.6); }
         }
 
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
@@ -316,14 +346,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- DEEP RED VOICE RING & 5% SHIFTED RIGHT DYNAMIC BUTTONS -->
+            <!-- DEEP RED VOICE RING & DYNAMIC BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <!-- BUTTONS MOVED 5% FURTHER RIGHT & INDIVIDUAL COLOR PULSE -->
                     <div class="absolute right-[-48px] top-2 flex flex-col gap-2.5">
                         <button onclick="toggleChatModal()" class="action-btn btn-chat">
                             <svg class="icon-svg text-purple-200 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
@@ -350,10 +379,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- LIVE CHART CONTAINER WITH DYNAMIC NEON RECTANGULAR BORDER -->
-            <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper flex flex-col">
+            <!-- LIVE CHART CONTAINER WITH ELECTRIC SCANNING ANIMATION -->
+            <div id="main-chart-card" class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1 gap-1">
-                    <!-- PAIR SELECT DROPDOWN -->
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-red-950/90 text-[10px] p-1.5 rounded-lg border border-red-600/60 text-amber-100 font-extrabold">
                         <option value="FX:EURUSD">EUR/USD</option>
                         <option value="FX:GBPUSD">GBP/USD</option>
@@ -362,19 +390,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <option value="FX:USDCAD">USD/CAD</option>
                     </select>
 
-                    <!-- REAL-TIME RUNNING CANDLE COUNTDOWN TIMER -->
                     <div class="bg-black/80 border border-amber-500/60 rounded-lg px-2 py-1 text-center shadow-inner">
                         <span id="candle-timer" class="text-[10px] font-black text-amber-300 tracking-wider font-mono">⌛ 00:00s</span>
                     </div>
 
-                    <!-- 50% REDUCED SCAN BUTTON SHIFTED RIGHT -->
-                    <button onclick="getInstantPrediction()" class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-transform">
+                    <button id="scan-btn" onclick="startElectricMarketScan()" class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-all">
                         ⚡ MARKET SCAN
                     </button>
                 </div>
 
                 <div style="position: relative;" class="w-full flex-1 overflow-hidden">
                     <div id="tv-home-container" class="w-full rounded-xl border border-red-900/60"></div>
+                    <!-- ELECTRIC SCAN LINE LAYER -->
+                    <div id="electric-scanner" class="electric-scan-line"></div>
                 </div>
             </div>
         </div>
@@ -469,7 +497,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- BOTTOM NAV BAR -->
+        <!-- BOTTOM NAV BAR WITH UNIQUE DYNAMIC RGB NEON BORDER -->
         <div class="bottom-nav flex justify-between items-center">
             <button onclick="navTo('screen-home')" class="text-red-400 p-1.5"><svg class="icon-svg text-red-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
@@ -531,15 +559,40 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
-        async function getInstantPrediction() {
+        /* 5-SECOND ELECTRIC MARKET SCANNING ANIMATION */
+        async function startElectricMarketScan() {
+            const scanBtn = document.getElementById('scan-btn');
+            const electricScanner = document.getElementById('electric-scanner');
+            const chartCard = document.getElementById('main-chart-card');
             const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
-            document.getElementById('ai-status-text').innerText = "ANALYZING LIVE MARKET...";
+
+            // UI Animation States On
+            scanBtn.disabled = true;
+            scanBtn.innerText = "⚡ SCANNING...";
+            scanBtn.classList.add('animate-pulse');
+            electricScanner.classList.add('electric-scan-active');
+            chartCard.classList.add('chart-electric-flash');
             
-            const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
-            const data = await res.json();
-            
-            document.getElementById('ai-status-text').innerText = data.signal;
-            speakText(data.voice_msg);
+            document.getElementById('ai-status-text').innerText = "⚡ REAL-TIME MARKET ELECTRIC SCANNING...";
+            speakText("মার্কেট স্ক্যানিং করা হচ্ছে, অনুগ্রহ করে পাঁচ সেকেন্ড অপেক্ষা করুন।");
+
+            // 5 Seconds Scanning Animation Delay
+            setTimeout(async () => {
+                // Fetch Signal after Scan
+                const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
+                const data = await res.json();
+
+                // Reset Animation States
+                electricScanner.classList.remove('electric-scan-active');
+                chartCard.classList.remove('chart-electric-flash');
+                scanBtn.disabled = false;
+                scanBtn.innerText = "⚡ MARKET SCAN";
+                scanBtn.classList.remove('animate-pulse');
+
+                // Output Result
+                document.getElementById('ai-status-text').innerText = data.signal;
+                speakText(data.voice_msg);
+            }, 5000);
         }
 
         function updateHomeChart() {
@@ -578,15 +631,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 recognition.onresult = async function(event) {
                     const speechResult = event.results[0][0].transcript.toLowerCase();
-                    const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
 
                     if(speechResult.includes("trade") || speechResult.includes("scan") || speechResult.includes("ট্রেড") || speechResult.includes("স্ক্যান") || speechResult.includes("নেক্সট")) {
-                        speakText("লাইভ মার্কেট ডাটা এনালাইসিস করা হচ্ছে...");
-                        const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
-                        const data = await res.json();
-                        speakText(data.voice_msg);
+                        startElectricMarketScan();
                     } else {
-                        speakText("আমি আপনার কথা বুঝতে পেরেছি। বলুন কিভাবে সাহায্য করতে পারি অথবা বলুন ট্রেড প্রেডিক্ট করুন।");
+                        speakText("আমি আপনার কথা বুঝতে পেরেছি। বলুন কিভাবে সাহায্য করতে পারি অথবা বলুন মার্কেট স্ক্যান করুন।");
                     }
                 };
             } else {
