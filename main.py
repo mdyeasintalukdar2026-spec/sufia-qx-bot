@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (100% CLEAN TRADINGVIEW CHART)
+# FRONTEND UI ENGINE (NO VOLUME BARS - 100% CLEAN CHART)
 # ==========================================
 
 HTML_TEMPLATE = """
@@ -232,17 +232,17 @@ HTML_TEMPLATE = """
             border-radius: 16px;
         }
 
-        /* TRADINGVIEW 100% CLEAN CLIPPING (REMOVES HEADER & VOLUME CLUTTER) */
+        /* REMOVES TOP HEADER, BOTTOM VOLUME BARS & LOGO */
         #tv-home-container {
             position: relative;
             overflow: hidden;
         }
         #tv-home-container iframe {
             position: absolute !important;
-            top: -42px !important;
+            top: -38px !important;
             left: 0 !important;
             width: 100% !important;
-            height: calc(100% + 42px) !important;
+            height: calc(100% + 55px) !important;
         }
 
         .bottom-nav { position: fixed; bottom: 5px; left: 50%; transform: translateX(-50%); width: calc(100% - 20px); max-width: 400px; background: rgba(15, 8, 2, 0.98); border: 1.5px solid rgba(217, 119, 6, 0.6); backdrop-filter: blur(20px); border-radius: 999px; padding: 6px 14px; box-shadow: 0 -5px 25px rgba(0,0,0,0.95); z-index: 9999; }
@@ -272,7 +272,7 @@ HTML_TEMPLATE = """
                             <svg class="icon-svg w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn">
-                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-amber-300 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
@@ -290,7 +290,7 @@ HTML_TEMPLATE = """
                 </span>
             </div>
 
-            <!-- LOWER REAL CHART DISPLAY (100% CLEAN CANDLES) -->
+            <!-- LOWER REAL CHART DISPLAY (PURE CANDLES ONLY) -->
             <div class="glass-card p-1.5 rounded-2xl shadow-2xl flex-1 border border-amber-500/40 flex flex-col mb-1">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
@@ -470,6 +470,10 @@ HTML_TEMPLATE = """
                 "hide_side_toolbar": true,
                 "hide_top_toolbar": true,
                 "hide_legend": true,
+                "disabled_features": [
+                    "volume_force_overlay",
+                    "create_volume_indicator_by_default"
+                ],
                 "container_id": "tv-home-container"
             });
         }
@@ -525,18 +529,3 @@ HTML_TEMPLATE = """
     </script>
 </body>
 </html>
-"""
-
-@app.route('/')
-def home():
-    return render_template_string(HTML_TEMPLATE)
-
-@app.route('/api/signal')
-def api_signal():
-    symbol = request.args.get('symbol', 'EUR/USD')
-    timeframe = request.args.get('timeframe', '1m')
-    return jsonify(master_signal_generator(symbol, timeframe))
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
