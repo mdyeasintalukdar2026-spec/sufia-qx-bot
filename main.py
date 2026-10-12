@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (100% CLEAN & FIXED STRING)
+# FRONTEND UI ENGINE (COMPACT CHART HEIGHT & 100% CLEAN)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -175,8 +175,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-ring {
-            width: 125px;
-            height: 125px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             background: radial-gradient(circle, #3d2203 0%, #080502 75%);
             border: 3.5px solid #f59e0b;
@@ -194,8 +194,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-inner-wave {
-            width: 95px;
-            height: 42px;
+            width: 85px;
+            height: 38px;
             background: linear-gradient(180deg, rgba(245, 158, 11, 0.7), rgba(180, 83, 9, 0.15));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -208,8 +208,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .action-btn {
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             background: rgba(45, 26, 3, 0.85);
             border: 1px solid rgba(245, 158, 11, 0.5);
@@ -231,9 +231,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
+        /* FIXED HEIGHT FOR CHART CONTAINER EXACTLY AS MARKED BETWEEN RED LINES */
+        .chart-box-wrapper {
+            height: 230px !important;
+            max-height: 230px !important;
+        }
+
         #tv-home-container {
             position: relative;
             overflow: hidden;
+            height: 170px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -285,7 +292,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <div class="glass-card p-1.5 rounded-2xl shadow-2xl flex-1 border border-amber-500/40 flex flex-col mb-1">
+            <div class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper border border-amber-500/40 flex flex-col mb-1">
                 <div class="flex justify-between items-center mb-1 px-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-amber-950/90 text-[11px] p-1.5 rounded-lg border border-amber-600/60 text-amber-100 font-extrabold">
                         <option value="FX:EURUSD">EUR/USD</option>
@@ -300,7 +307,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </button>
                 </div>
 
-                <div id="tv-home-container" class="flex-1 w-full rounded-xl border border-amber-900/60"></div>
+                <div id="tv-home-container" class="w-full rounded-xl border border-amber-900/60"></div>
             </div>
         </div>
 
