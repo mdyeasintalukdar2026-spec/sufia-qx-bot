@@ -73,8 +73,8 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
                 "signal": "CALL (BUY) - NEXT CANDLE UP",
                 "win_rate": "92%", "accuracy": "95%", "confirm": "93%",
                 "reason": "Twelve Data RSI Oversold Bounce & Smart Money Order Block Confluence.",
-                "voice_msg": "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল কল বা বাই অপশনে যাবে।",
-                "chat_reply": "মার্কেট এখন ওভারসোল্ড জোনে আছে এবং বাইয়ার্স প্রেসার বৃদ্ধি পাচ্ছে। তাই আগামী ক্যান্ডেল আপ (CALL) হবে।"
+                "voice_msg": "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।",
+                "chat_reply": "মার্কেট এখন ওভারসোল্ড জোনে আছে এবং বাইয়ার্স প্রেসার বৃদ্ধি পাচ্ছে। তাই পরবর্তী ক্যান্ডেল আপ (CALL) হবে।"
             }
         else:
             return {
@@ -82,8 +82,8 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
                 "signal": "PUT (SELL) - NEXT CANDLE DOWN",
                 "win_rate": "91%", "accuracy": "94%", "confirm": "92%",
                 "reason": "Twelve Data RSI Overbought Rejection & Supply Rejection Zone.",
-                "voice_msg": "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল পুট বা সেল অপশনে যাবে।",
-                "chat_reply": "মার্কেট এখন ওভারবট জোনে পৌঁছেছে এবং সেলার্স রিজেকশন দেখাচ্ছে। তাই আগামী ক্যান্ডেল ডাউন (PUT) হবে।"
+                "voice_msg": "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।",
+                "chat_reply": "মার্কেট এখন ওভারবট জোনে পৌঁছেছে এবং সেলার্স রিজেকশন দেখাচ্ছে। তাই পরবর্তী ক্যান্ডেল ডাউন (PUT) হবে।"
             }
 
     closes = market_data["closes"]
@@ -95,26 +95,26 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     if rsi < 35 and prev_rsi < rsi:
         signal = "CALL (BUY) - NEXT CANDLE UP"
         reason = f"Twelve Data Engine: RSI ({rsi:.1f}) Oversold bounce detected at Price {latest_close}."
-        voice_msg = "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল কল বা বাই অপশনে যাবে।"
+        voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।"
         chat_reply = f"আরএসআই লেভেল {rsi:.1f} এ ওভারসোল্ড রিভার্সাল কনফার্ম হয়েছে। পরবর্তী ক্যান্ডেল বাই (CALL) যাবে।"
         acc = 95
     elif rsi > 65 and prev_rsi > rsi:
         signal = "PUT (SELL) - NEXT CANDLE DOWN"
         reason = f"Twelve Data Engine: RSI ({rsi:.1f}) Overbought drop detected at Price {latest_close}."
-        voice_msg = "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল পুট বা সেল অপশনে যাবে।"
+        voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।"
         chat_reply = f"আরএসআই লেভেল {rsi:.1f} এ ওভারবট রিজেকশন কনফার্ম হয়েছে। পরবর্তী ক্যান্ডেল সেল (PUT) যাবে।"
         acc = 94
     else:
         if latest_close >= prev_close:
             signal = "CALL (BUY) - NEXT CANDLE UP"
             reason = f"Momentum Confluence: Bullish candle continuation (RSI: {rsi:.1f})."
-            voice_msg = "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল কল বা বাই অপশনে যাবে।"
+            voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।"
             chat_reply = "বুলিশ মোমেন্টাম এবং বাইং প্রেসার চলমান। নেক্সট ক্যান্ডেল আপ (CALL) হওয়ার সম্ভাবনা বেশি।"
             acc = 91
         else:
             signal = "PUT (SELL) - NEXT CANDLE DOWN"
             reason = f"Momentum Confluence: Bearish candle continuation (RSI: {rsi:.1f})."
-            voice_msg = "লাইভ মার্কেট এনালাইসিস সম্পন্ন। আগামী ক্যান্ডেল পুট বা সেল অপশনে যাবে।"
+            voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।"
             chat_reply = "বেয়ারিশ মোমেন্টাম এবং সেলিং প্রেসার চলমান। নেক্সট ক্যান্ডেল ডাউন (PUT) হওয়ার সম্ভাবনা বেশি।"
             acc = 90
 
@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (STABLE CHART & INDEPENDENT SHIFTING BORDERS)
+# FRONTEND UI ENGINE (PERFECT TIMELINE SHIFT & SMOOTH ELECTRIC SCAN)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -160,7 +160,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
-        /* OUTER CONTAINER WITH INDEPENDENT COLOR SHIFTING ANIMATION */
         .mobile-container {
             width: 100%;
             max-width: 420px;
@@ -183,7 +182,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border: 2px solid #ff00ea; }
         }
 
-        /* VOICE RING WITH INDEPENDENT UNIQUE COLOR CYCLE */
         .golden-ring {
             width: 145px;
             height: 145px;
@@ -218,7 +216,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { transform: translateY(-3px) scaleY(1.1); }
         }
 
-        /* INDEPENDENT BUTTON PULSE STYLES */
         .btn-chat { background: rgba(88, 28, 135, 0.9); animation: btnPulse1 2s infinite alternate; }
         .btn-mic { background: rgba(180, 83, 9, 0.95); animation: btnPulse2 2.5s infinite alternate; }
         .btn-reset { background: rgba(15, 118, 110, 0.9); animation: btnPulse3 2.2s infinite alternate; }
@@ -248,7 +245,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 16px;
         }
 
-        /* HEADER BOX WITH INDEPENDENT COLOR ANIMATION */
         .header-lighting-box { animation: headerGlow 2.8s infinite linear; }
         @keyframes headerGlow {
             0% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
@@ -257,7 +253,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
         }
 
-        /* CHART CONTAINER WITH STABLE LAYOUT & INDEPENDENT BORDER ANIMATION */
         .chart-box-wrapper {
             height: 360px !important;
             max-height: 360px !important;
@@ -274,6 +269,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
         }
 
+        /* PERFECT TIMELINE ALIGNMENT SHIFTED RIGHT */
         #tv-home-container {
             position: relative;
             overflow: hidden;
@@ -283,18 +279,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         #tv-home-container iframe {
             position: absolute !important;
             top: -38px !important;
-            left: 0 !important;
-            width: 100% !important;
+            left: 18px !important;
+            width: calc(100% - 18px) !important;
             height: calc(100% + 42px) !important;
         }
 
-        /* STABLE ELECTRIC SCAN LINE (NO CHART SHAKING) */
+        /* SMOOTH 4-5 SECOND ELECTRIC SCANNING LASER */
         .electric-scan-line {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
+            height: 5px;
             background: linear-gradient(90deg, transparent, #00f0ff, #ffffff, #00f0ff, transparent);
             box-shadow: 0 0 12px #00f0ff, 0 0 25px #00f0ff;
             z-index: 999;
@@ -304,16 +300,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .electric-scan-active {
             opacity: 1;
-            animation: electricScan 1.2s infinite ease-in-out;
+            animation: smoothElectricScan 1.6s infinite ease-in-out;
         }
 
-        @keyframes electricScan {
-            0% { top: 0%; }
+        @keyframes smoothElectricScan {
+            0% { top: 2%; }
             50% { top: 92%; }
-            100% { top: 0%; }
+            100% { top: 2%; }
         }
 
-        /* BOTTOM NAV BAR WITH UNIQUE INDEPENDENT COLOR ANIMATION */
         .bottom-nav { 
             position: fixed; 
             bottom: 10px; 
@@ -346,7 +341,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         
         <!-- SCREEN 1: TOT AI MASTER STUDIO -->
         <div id="screen-home" class="screen active">
-            <!-- VOICE RING & ACTION BUTTONS -->
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
                     <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
@@ -367,11 +361,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
 
                 <div class="mt-1 text-center">
-                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-red-400 tracking-wider">TOT AI MASTER IS LISTENING...</h2>
+                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
                 </div>
             </div>
 
-            <!-- HEADER BOX -->
             <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
                 <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -379,7 +372,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- LIVE CHART CONTAINER WITH STABLE ELECTRIC SCANNER -->
             <div id="main-chart-card" class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1 gap-1">
                     <select id="home-pair-select" onchange="updateHomeChart()" class="bg-red-950/90 text-[10px] p-1.5 rounded-lg border border-red-600/60 text-amber-100 font-extrabold">
@@ -401,7 +393,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 <div style="position: relative;" class="w-full flex-1 overflow-hidden">
                     <div id="tv-home-container" class="w-full rounded-xl border border-red-900/60"></div>
-                    <!-- ELECTRIC SCAN LINE LAYER (STABLE, NO SHAKE) -->
                     <div id="electric-scanner" class="electric-scan-line"></div>
                 </div>
             </div>
@@ -522,7 +513,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         function triggerGallery() { document.getElementById('chart-file-input').click(); }
         function toggleChatModal() { document.getElementById('chat-modal').classList.toggle('hidden'); }
 
-        /* REAL-TIME CANDLE TIMER FUNCTION */
         function startCandleTimer() {
             setInterval(() => {
                 const now = new Date();
@@ -541,14 +531,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 1000);
         }
 
+        /* NO SPEECH REPEAT VOICE RESPONSE */
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'bn-BD';
-                document.getElementById('ai-status-text').innerText = "TOT AI MASTER IS SPEAKING...";
+                document.getElementById('ai-status-text').innerText = text;
                 utterance.onend = () => {
-                    document.getElementById('ai-status-text').innerText = "TOT AI MASTER IS LISTENING...";
+                    document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
                 };
                 window.speechSynthesis.speak(utterance);
             }
@@ -559,33 +550,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
-        /* 5-SECOND STABLE ELECTRIC MARKET SCANNING */
+        /* 5-SECOND SMOOTH ELECTRIC SCANNING */
         async function startElectricMarketScan() {
             const scanBtn = document.getElementById('scan-btn');
             const electricScanner = document.getElementById('electric-scanner');
             const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
 
-            // UI Animation States On (No chart shaking)
             scanBtn.disabled = true;
             scanBtn.innerText = "⚡ SCANNING...";
             scanBtn.classList.add('animate-pulse');
             electricScanner.classList.add('electric-scan-active');
             
-            document.getElementById('ai-status-text').innerText = "⚡ REAL-TIME MARKET ELECTRIC SCANNING...";
-            speakText("মার্কেট স্ক্যানিং করা হচ্ছে, অনুগ্রহ করে পাঁচ সেকেন্ড অপেক্ষা করুন।");
+            document.getElementById('ai-status-text').innerText = "⚡ REAL-TIME MARKET SCANNING...";
+            speakText("মার্কেট স্ক্যানিং করা হচ্ছে, অনুগ্রহ করে ৫ সেকেন্ড অপেক্ষা করুন।");
 
-            // 5 Seconds Scanning Animation Delay
             setTimeout(async () => {
                 const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
                 const data = await res.json();
 
-                // Reset Animation States
                 electricScanner.classList.remove('electric-scan-active');
                 scanBtn.disabled = false;
                 scanBtn.innerText = "⚡ MARKET SCAN";
                 scanBtn.classList.remove('animate-pulse');
 
-                // Output Result
                 document.getElementById('ai-status-text').innerText = data.signal;
                 speakText(data.voice_msg);
             }, 5000);
@@ -622,7 +609,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'bn-BD';
                 
-                document.getElementById('ai-status-text').innerText = "LISTENING TO YOUR VOICE...";
+                document.getElementById('ai-status-text').innerText = "LISTENING...";
                 recognition.start();
 
                 recognition.onresult = async function(event) {
@@ -631,7 +618,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if(speechResult.includes("trade") || speechResult.includes("scan") || speechResult.includes("ট্রেড") || speechResult.includes("স্ক্যান") || speechResult.includes("নেক্সট")) {
                         startElectricMarketScan();
                     } else {
-                        speakText("আমি আপনার কথা বুঝতে পেরেছি। বলুন কিভাবে সাহায্য করতে পারি অথবা বলুন মার্কেট স্ক্যান করুন।");
+                        speakText("আমি আপনাকে কিভাবে সাহায্য করতে পারি? বলুন মার্কেট স্ক্যান করতে অথবা নতুন পেয়ার সিলেক্ট করুন।");
                     }
                 };
             } else {
