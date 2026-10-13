@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (UPDATED MANUAL SIGNAL LAYOUT)
+# FRONTEND UI ENGINE (PERFECT FITMENT & UNIQUE MULTI-COLOR NEON MODULES)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -329,15 +329,31 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
+        /* 3-4% ENLARGED PRO MODULE BOXES WITH INDEPENDENT NEON COLOR CYCLES */
         .pro-module-box {
             background: #020914;
-            border: 1.5px solid #00e5ff;
-            border-radius: 10px;
-            padding: 6px 8px;
+            border-radius: 11px;
+            padding: 9.5px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
+
+        .mod-anim-1 { animation: mGlow1 1.8s infinite linear; }
+        .mod-anim-2 { animation: mGlow2 2.1s infinite linear; }
+        .mod-anim-3 { animation: mGlow3 1.9s infinite linear; }
+        .mod-anim-4 { animation: mGlow4 2.3s infinite linear; }
+        .mod-anim-5 { animation: mGlow5 2.0s infinite linear; }
+        .mod-anim-6 { animation: mGlow6 2.4s infinite linear; }
+        .mod-anim-7 { animation: mGlow7 2.2s infinite linear; }
+
+        @keyframes mGlow1 { 0% { border: 1.5px solid #00f0ff; box-shadow: 0 0 8px rgba(0,240,255,0.4); } 50% { border: 1.5px solid #ff007f; box-shadow: 0 0 8px rgba(255,0,127,0.4); } 100% { border: 1.5px solid #00f0ff; } }
+        @keyframes mGlow2 { 0% { border: 1.5px solid #39ff14; box-shadow: 0 0 8px rgba(57,255,20,0.4); } 50% { border: 1.5px solid #ffaa00; box-shadow: 0 0 8px rgba(255,170,0,0.4); } 100% { border: 1.5px solid #39ff14; } }
+        @keyframes mGlow3 { 0% { border: 1.5px solid #ff00ea; box-shadow: 0 0 8px rgba(255,0,234,0.4); } 50% { border: 1.5px solid #00ffff; box-shadow: 0 0 8px rgba(0,255,255,0.4); } 100% { border: 1.5px solid #ff00ea; } }
+        @keyframes mGlow4 { 0% { border: 1.5px solid #ffff00; box-shadow: 0 0 8px rgba(255,255,0,0.4); } 50% { border: 1.5px solid #9d00ff; box-shadow: 0 0 8px rgba(157,0,255,0.4); } 100% { border: 1.5px solid #ffff00; } }
+        @keyframes mGlow5 { 0% { border: 1.5px solid #ff3300; box-shadow: 0 0 8px rgba(255,51,0,0.4); } 50% { border: 1.5px solid #00ffaa; box-shadow: 0 0 8px rgba(0,255,170,0.4); } 100% { border: 1.5px solid #ff3300; } }
+        @keyframes mGlow6 { 0% { border: 1.5px solid #0099ff; box-shadow: 0 0 8px rgba(0,153,255,0.4); } 50% { border: 1.5px solid #ff0055; box-shadow: 0 0 8px rgba(255,0,85,0.4); } 100% { border: 1.5px solid #0099ff; } }
+        @keyframes mGlow7 { 0% { border: 1.5px solid #7dff00; box-shadow: 0 0 8px rgba(125,255,0,0.4); } 50% { border: 1.5px solid #e600ff; box-shadow: 0 0 8px rgba(230,0,255,0.4); } 100% { border: 1.5px solid #7dff00; } }
 
         .dashed-circle-loader {
             width: 42px;
@@ -471,109 +487,112 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (CLEANED: TOP HEADER & UPLOAD BAR REMOVED, SPACED UP) -->
-        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
-            
-            <!-- LIVE CLOCK BANNER -->
-            <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
-                <span>BD: <span id="bd-time">00:55:03</span></span>
-                <span class="text-gray-500">|</span>
-                <span>QX UTC: <span id="utc-time">18:55:03</span></span>
-            </div>
-
-            <!-- DROPDOWNS ROW -->
-            <div class="grid grid-cols-3 gap-1.5 mb-1.5">
-                <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
-                    <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
-                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
-                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
-                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
-                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
-                    <option value="USD/INR (OTC)">USD/INR (OTC)</option>
-                </select>
-
-                <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
-                    <option value="10S">10S</option>
-                    <option value="1M">1M</option>
-                    <option value="5M">5M</option>
-                </select>
-            </div>
-
-            <!-- ANALYZE BUTTON (BRIGHT NEON SEAGREEN) -->
-            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide mb-1.5 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
-                ⚡ ANALYZE MARKET & GET SIGNAL
-            </button>
-
-            <!-- MAIN SIGNAL DISPLAY CARD -->
-            <div class="pro-neon-card p-2.5 text-center mb-1.5">
-                <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-1">
-                    CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
-                </span>
-                
-                <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">USD/BDT (OTC) • 10S ALGO MARKET</p>
-
-                <div class="dashed-circle-loader">
-                    <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (PERFECT 3-4% ENLARGED & SHIFTED DOWN TO TOUCH BOTTOM) -->
+        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-12 flex flex-col justify-between">
+            <div>
+                <!-- LIVE CLOCK BANNER -->
+                <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
+                    <span>BD: <span id="bd-time">00:55:03</span></span>
+                    <span class="text-gray-500">|</span>
+                    <span>QX UTC: <span id="utc-time">18:55:03</span></span>
                 </div>
 
-                <h1 id="manual-sig-dir" class="text-sm font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
-                
-                <p class="text-[8px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
-                <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
-            </div>
+                <!-- DROPDOWNS ROW -->
+                <div class="grid grid-cols-3 gap-1.5 mb-1.5">
+                    <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                        <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
+                        <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                        <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                        <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
+                        <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
+                        <option value="USD/INR (OTC)">USD/INR (OTC)</option>
+                    </select>
 
-            <!-- LAST TRADE HISTORY BANNER -->
-            <div class="pro-neon-card p-1.5 mb-1.5 flex justify-between items-center text-[9px] font-bold">
-                <div>
-                    <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
-                    <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
+                    <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                        <option value="10S">10S</option>
+                        <option value="1M">1M</option>
+                        <option value="5M">5M</option>
+                    </select>
                 </div>
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-0.5 rounded-lg">
-                    ITM WIN 🎯
-                </span>
-            </div>
 
-            <!-- 6 PRO ANALYSIS MODULES (DYNAMIC SCANNING RULES) -->
-            <div class="grid grid-cols-2 gap-1 mb-1.5 text-[8px] font-bold">
-                <div class="pro-module-box">
-                    <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
-                    <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                <!-- ANALYZE BUTTON -->
+                <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide mb-1.5 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
+                    ⚡ ANALYZE MARKET & GET SIGNAL
+                </button>
+
+                <!-- MAIN SIGNAL DISPLAY CARD -->
+                <div class="pro-neon-card p-2.5 text-center mb-1.5">
+                    <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-1">
+                        CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
+                    </span>
+                    
+                    <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">USD/BDT (OTC) • 10S ALGO MARKET</p>
+
+                    <div class="dashed-circle-loader">
+                        <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
+                    </div>
+
+                    <h1 id="manual-sig-dir" class="text-sm font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
+                    
+                    <p class="text-[8px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
+                    <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
                 </div>
-                <div class="pro-module-box">
-                    <span class="text-gray-300">🎯 OB / FVG / LIQ</span>
-                    <span id="mod-2" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
-                </div>
-                <div class="pro-module-box">
-                    <span class="text-gray-300">⚡ STOCH RSI & VWAP</span>
-                    <span id="mod-3" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
-                </div>
-                <div class="pro-module-box">
-                    <span class="text-gray-300">🌐 NEWS & LATENCY</span>
-                    <span id="mod-4" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
-                </div>
-                <div class="pro-module-box">
-                    <span class="text-gray-300">🛡️ ATR & SPREAD</span>
-                    <span id="mod-5" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
-                </div>
-                <div class="pro-module-box">
-                    <span class="text-gray-300">⚖️ RISK & RECOVERY</span>
-                    <span id="mod-6" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+
+                <!-- LAST TRADE HISTORY BANNER -->
+                <div class="pro-neon-card p-1.5 mb-2 flex justify-between items-center text-[9px] font-bold">
+                    <div>
+                        <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
+                        <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
+                    </div>
+                    <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-0.5 rounded-lg">
+                        ITM WIN 🎯
+                    </span>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR -->
-            <div class="pro-neon-card p-1.5 grid grid-cols-3 text-center text-[8px] font-bold">
-                <div>
-                    <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
-                    <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
+            <!-- 9 ENLARGED MODULES & FOOTER WITH INDEPENDENT NEON COLOR CYCLES (PERFECTLY SHIFTED DOWN) -->
+            <div class="space-y-1.5">
+                <div class="grid grid-cols-2 gap-1.5 text-[8.5px] font-bold">
+                    <div class="pro-module-box mod-anim-1">
+                        <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
+                        <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
+                    <div class="pro-module-box mod-anim-2">
+                        <span class="text-gray-300">🎯 OB / FVG / LIQ</span>
+                        <span id="mod-2" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
+                    <div class="pro-module-box mod-anim-3">
+                        <span class="text-gray-300">⚡ STOCH RSI & VWAP</span>
+                        <span id="mod-3" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
+                    <div class="pro-module-box mod-anim-4">
+                        <span class="text-gray-300">🌐 NEWS & LATENCY</span>
+                        <span id="mod-4" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
+                    <div class="pro-module-box mod-anim-5">
+                        <span class="text-gray-300">🛡️ ATR & SPREAD</span>
+                        <span id="mod-5" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
+                    <div class="pro-module-box mod-anim-6">
+                        <span class="text-gray-300">⚖️ RISK & RECOVERY</span>
+                        <span id="mod-6" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-gray-400 block text-[7px]">CONFIDENCE</span>
-                    <span class="text-cyan-300 font-black">HIGH</span>
-                </div>
-                <div>
-                    <span class="text-gray-400 block text-[7px]">INTEGRITY</span>
-                    <span class="text-purple-300 font-black">99.9%</span>
+
+                <!-- FOOTER INFOGRAPHIC BAR (3-4% LARGER & ANIMATED) -->
+                <div class="pro-neon-card p-2.5 grid grid-cols-3 text-center text-[8.5px] font-bold mod-anim-7">
+                    <div>
+                        <span class="text-gray-400 block text-[7.5px]">WIN-RATE</span>
+                        <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[7.5px]">CONFIDENCE</span>
+                        <span class="text-cyan-300 font-black">HIGH</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[7.5px]">INTEGRITY</span>
+                        <span class="text-purple-300 font-black">99.9%</span>
+                    </div>
                 </div>
             </div>
 
