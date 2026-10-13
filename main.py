@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (OPTIMIZED BOTTOM GAP EXPANSION)
+# FRONTEND UI ENGINE (FIXED CLICK & NAVIGATION BUGS)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -169,7 +169,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 8px 58px 8px;
+            padding: 6px 8px 65px 8px;
             overflow: hidden;
             border: 2px solid #eab308;
             box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
@@ -177,16 +177,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-ring {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background: radial-gradient(circle, #5a0505 0%, #0a0101 80%);
             position: relative;
-            margin-top: 4px;
+            margin-top: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
             animation: ringGlow 2.3s infinite linear;
+            cursor: pointer;
+            z-index: 10;
         }
 
         @keyframes ringGlow {
@@ -197,8 +199,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-inner-wave {
-            width: 110px;
-            height: 48px;
+            width: 100px;
+            height: 42px;
             background: linear-gradient(180deg, rgba(239, 68, 68, 0.85), rgba(153, 27, 27, 0.2));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -219,8 +221,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         @keyframes btnPulse3 { 0% { border: 1.5px solid #14b8a6; box-shadow: 0 0 8px #14b8a6; } 100% { border: 1.5px solid #3b82f6; box-shadow: 0 0 12px #3b82f6; } }
 
         .action-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -228,6 +230,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #ffffff;
             box-shadow: 0 3px 12px rgba(0,0,0,0.6);
             transition: all 0.2s ease;
+            cursor: pointer;
+            z-index: 10;
         }
 
         .action-btn:active { transform: scale(0.9); }
@@ -248,10 +252,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .chart-box-wrapper {
-            height: 360px !important;
-            max-height: 360px !important;
-            margin-top: 8px !important;
-            margin-bottom: 2px !important;
+            height: 320px !important;
+            max-height: 320px !important;
+            margin-top: 4px !important;
             animation: chartGlow 2.6s infinite linear;
             position: relative;
         }
@@ -266,8 +269,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 300px !important;
-            margin-top: 4px !important;
+            height: 260px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -282,9 +284,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, #00f0ff, #ffffff, #00f0ff, transparent);
-            box-shadow: 0 0 12px #00f0ff, 0 0 25px #00f0ff;
+            box-shadow: 0 0 12px #00f0ff;
             z-index: 999;
             opacity: 0;
             pointer-events: none;
@@ -302,8 +304,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .bottom-nav { 
-            position: fixed; 
-            bottom: 8px; 
+            position: absolute; 
+            bottom: 6px; 
             left: 50%; 
             transform: translateX(-50%); 
             width: calc(100% - 16px); 
@@ -312,7 +314,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             backdrop-filter: blur(20px); 
             border-radius: 999px; 
             padding: 7px 14px; 
-            z-index: 9999; 
+            z-index: 99999; 
             animation: navGlow 2.2s infinite linear;
         }
 
@@ -329,7 +331,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* ENLARGED BOTTOM MODULES (~3-4% LARGER PADDING & HEIGHT TO FILL GAP TO MARKER) */
         .pro-module-box {
             background: #020914;
             border: 1.5px solid #00e5ff;
@@ -341,8 +342,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .dashed-circle-loader {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 2px dashed #00e5ff;
             display: flex;
@@ -351,9 +352,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin: 2px auto;
         }
 
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
+        /* FIXED SCREEN DISPLAY & SCROLLING */
+        .screen { 
+            display: none; 
+            width: 100%; 
+            height: calc(100vh - 75px); 
+            flex-direction: column; 
+            gap: 5px; 
+            overflow-y: auto; 
+            padding: 4px 4px 20px 4px;
+            z-index: 2;
+        }
         .screen.active { display: flex; }
+        
         .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
+        
+        button, select, input { cursor: pointer; }
     </style>
 </head>
 <body>
@@ -363,32 +377,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <div id="screen-home" class="screen active">
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
-                    <div class="golden-ring cursor-pointer" onclick="startVoiceRecognition()">
+                    <div class="golden-ring" onclick="startVoiceRecognition()">
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <div class="absolute right-[-48px] top-2 flex flex-col gap-2.5">
-                        <button onclick="toggleChatModal()" class="action-btn btn-chat">
-                            <svg class="icon-svg text-purple-200 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                    <div class="absolute right-[-44px] top-1 flex flex-col gap-2">
+                        <button onclick="toggleChatModal()" class="action-btn btn-chat" type="button">
+                            <svg class="icon-svg text-purple-200 w-4 h-4" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
-                        <button onclick="startVoiceRecognition()" class="action-btn btn-mic">
-                            <svg class="icon-svg text-amber-100 w-5 h-5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+                        <button onclick="startVoiceRecognition()" class="action-btn btn-mic" type="button">
+                            <svg class="icon-svg text-amber-100 w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
-                        <button onclick="resetVoiceState()" class="action-btn btn-reset">
-                            <svg class="icon-svg text-teal-100 w-5 h-5" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
+                        <button onclick="resetVoiceState()" class="action-btn btn-reset" type="button">
+                            <svg class="icon-svg text-teal-100 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
 
                 <div class="mt-1 text-center">
-                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
+                    <h2 id="ai-status-text" class="golden-font text-[10px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
                 </div>
             </div>
 
             <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
-                <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
+                <span class="golden-font text-[10px] font-black text-amber-200">Quotex Live Market</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> QX BINARY
                 </span>
             </div>
 
@@ -400,13 +414,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <option value="FX:USDJPY">USD/JPY</option>
                         <option value="FX:AUDUSD">AUD/USD</option>
                         <option value="FX:USDCAD">USD/CAD</option>
+                        <option value="FX:EURJPY">EUR/JPY</option>
+                        <option value="FX:GBPJPY">GBP/JPY</option>
                     </select>
 
                     <div class="bg-black/80 border border-amber-500/60 rounded-lg px-2 py-1 text-center shadow-inner">
                         <span id="candle-timer" class="text-[10px] font-black text-amber-300 tracking-wider font-mono">⌛ 00:00s</span>
                     </div>
 
-                    <button id="scan-btn" onclick="startElectricMarketScan()" class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <button id="scan-btn" onclick="startElectricMarketScan()" class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-all" type="button">
                         ⚡ MARKET SCAN
                     </button>
                 </div>
@@ -419,9 +435,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
 
         <!-- SCREEN 2: QX REAL CHART UPLOAD -->
-        <div id="screen-auto" class="screen pt-1">
-            <div class="flex justify-between items-center mb-1 px-2">
-                <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold">‹ Back</button>
+        <div id="screen-auto" class="screen">
+            <div class="flex justify-between items-center mb-1 px-2 pt-1">
+                <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
                 <h1 class="text-xs font-black text-cyan-200">QX Real Chart Scanner</h1>
             </div>
 
@@ -437,7 +453,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <input type="file" id="chart-file-input" accept="image/*" class="hidden" onchange="handleChartUpload(event)">
 
                 <div id="upload-idle-ui" class="pt-1">
-                    <button onclick="triggerGallery()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-sm py-3 rounded-2xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] transition-transform">
+                    <button onclick="triggerGallery()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-sm py-3 rounded-2xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] transition-transform" type="button">
                         📷 UPLOAD SCREENSHOT (AI VISION SCAN)
                     </button>
                 </div>
@@ -465,25 +481,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         </div>
                     </div>
 
-                    <button onclick="resetChartUploadUI()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-xs py-2.5 rounded-xl w-full shadow-lg">
+                    <button onclick="resetChartUploadUI()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-xs py-2.5 rounded-xl w-full shadow-lg" type="button">
                         🔄 UPLOAD NEXT CHART
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (BOTTOM 9 OPTIONS ENLARGED ~3-4% TO FILL GAP) -->
-        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
+        <div id="screen-signal" class="screen">
             
-            <!-- LIVE CLOCK BANNER -->
-            <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
+            <div class="pro-neon-card py-1 px-3 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
                 <span>BD: <span id="bd-time">00:55:03</span></span>
                 <span class="text-gray-500">|</span>
                 <span>QX UTC: <span id="utc-time">18:55:03</span></span>
             </div>
 
-            <!-- DROPDOWNS ROW -->
-            <div class="grid grid-cols-3 gap-1.5 mb-1.5">
+            <div class="grid grid-cols-3 gap-1.5">
                 <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
                     <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
                     <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
@@ -500,42 +514,39 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </select>
             </div>
 
-            <!-- ANALYZE BUTTON -->
-            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide mb-1.5 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
+            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all" type="button">
                 ⚡ ANALYZE MARKET & GET SIGNAL
             </button>
 
-            <!-- MAIN SIGNAL DISPLAY CARD -->
-            <div class="pro-neon-card p-2.5 text-center mb-1.5">
-                <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-1">
+            <div class="pro-neon-card p-2 text-center">
+                <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-0.5">
                     CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
                 </span>
                 
-                <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">USD/BDT (OTC) • 10S ALGO MARKET</p>
+                <p id="pair-time-title" class="text-[10px] font-black text-white">USD/BDT (OTC) • 10S ALGO MARKET</p>
 
                 <div class="dashed-circle-loader">
                     <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
                 </div>
 
-                <h1 id="manual-sig-dir" class="text-sm font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
+                <h1 id="manual-sig-dir" class="text-xs font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
                 
-                <p class="text-[8px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
-                <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
+                <p class="text-[7px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
+                <p class="text-[6px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <!-- LAST TRADE HISTORY BANNER (ENLARGED) -->
-            <div class="pro-neon-card p-2 mb-1.5 flex justify-between items-center text-[9.5px] font-bold">
+            <div class="pro-neon-card p-1.5 flex justify-between items-center text-[8.5px] font-bold">
                 <div>
-                    <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
+                    <span class="text-gray-400 uppercase text-[6.5px] block">LAST TRADE HISTORY</span>
                     <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
                 </div>
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2.5 py-0.5 rounded-lg">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[7.5px] px-2 py-0.5 rounded-lg">
                     ITM WIN 🎯
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES (ENLARGED ~3-4%) -->
-            <div class="grid grid-cols-2 gap-1.5 mb-1.5 text-[8.5px] font-bold">
+            <!-- 6 PRO ANALYSIS MODULES -->
+            <div class="grid grid-cols-2 gap-1.5 text-[8.5px] font-bold">
                 <div class="pro-module-box">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
@@ -562,7 +573,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR (ENLARGED) -->
+            <!-- FOOTER INFOGRAPHIC BAR -->
             <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8.5px] font-bold">
                 <div>
                     <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
@@ -584,7 +595,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <div id="chat-modal" class="hidden absolute inset-0 bg-black/95 z-50 p-4 flex flex-col justify-between backdrop-blur-xl">
             <div class="flex justify-between items-center border-b border-cyan-500/40 pb-2">
                 <h3 class="golden-font text-xs text-cyan-400 font-black">YASIN TR BOT CHAT</h3>
-                <button onclick="toggleChatModal()" class="text-cyan-400 font-black text-sm">✕</button>
+                <button onclick="toggleChatModal()" class="text-cyan-400 font-black text-sm" type="button">✕</button>
             </div>
 
             <div id="chat-logs" class="flex-1 overflow-y-auto space-y-2 py-3 text-[11px]">
@@ -595,30 +606,46 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             <div class="flex gap-2 pt-2 border-t border-cyan-500/40">
                 <input type="text" id="chat-input" placeholder="আপনার বার্তা লিখুন..." class="flex-1 bg-purple-950/80 p-2.5 rounded-xl border border-cyan-700/60 text-white text-xs">
-                <button onclick="sendChatMessage()" class="bg-cyan-500 text-black font-black px-4 rounded-xl text-xs">Send</button>
+                <button onclick="sendChatMessage()" class="bg-cyan-500 text-black font-black px-4 rounded-xl text-xs" type="button">Send</button>
             </div>
         </div>
 
-        <!-- BOTTOM NAV BAR -->
+        <!-- BOTTOM NAV BAR (FIXED CLICKS & RESPONSIVENESS) -->
         <div class="bottom-nav flex justify-between items-center">
-            <button onclick="navTo('screen-home')" class="text-red-400 p-1.5"><svg class="icon-svg text-red-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
-            <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
-            <button onclick="navTo('screen-home')" class="w-11 h-11 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-black flex items-center justify-center font-bold shadow-lg">
+            <button onclick="navTo('screen-home')" class="text-red-400 p-1.5" type="button">
+                <svg class="icon-svg text-red-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </button>
+            <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5" type="button">
+                <svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
+            </button>
+            <button onclick="navTo('screen-home')" class="w-11 h-11 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-black flex items-center justify-center font-bold shadow-lg" type="button">
                 <svg class="icon-svg text-black w-5.5 h-5.5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
             </button>
-            <button onclick="navTo('screen-signal')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg></button>
-            <button onclick="toggleChatModal()" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+            <button onclick="navTo('screen-signal')" class="text-gray-400 p-1.5" type="button">
+                <svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 17.08z"/></svg>
+            </button>
+            <button onclick="toggleChatModal()" class="text-gray-400 p-1.5" type="button">
+                <svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            </button>
         </div>
 
     </div>
 
     <script>
         function navTo(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+                s.style.display = 'none';
+            });
             const activeScreen = document.getElementById(screenId);
-            activeScreen.classList.add('active');
-            activeScreen.scrollTop = 0;
-            if(screenId === 'screen-home') updateHomeChart();
+            if (activeScreen) {
+                activeScreen.classList.add('active');
+                activeScreen.style.display = 'flex';
+                activeScreen.scrollTop = 0;
+            }
+            if(screenId === 'screen-home') {
+                setTimeout(updateHomeChart, 100);
+            }
         }
 
         function triggerGallery() { document.getElementById('chart-file-input').click(); }
@@ -634,10 +661,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const bdHours = String(now.getHours()).padStart(2, '0');
                 const bdMins = String(now.getMinutes()).padStart(2, '0');
                 const bdSecs = String(now.getSeconds()).padStart(2, '0');
-                document.getElementById('bd-time').innerText = `${bdHours}:${bdMins}:${bdSecs}`;
+                if(document.getElementById('bd-time')) document.getElementById('bd-time').innerText = `${bdHours}:${bdMins}:${bdSecs}`;
                 
                 const utcHours = String(now.getUTCHours()).padStart(2, '0');
-                document.getElementById('utc-time').innerText = `${utcHours}:${bdMins}:${bdSecs}`;
+                if(document.getElementById('utc-time')) document.getElementById('utc-time').innerText = `${utcHours}:${bdMins}:${bdSecs}`;
 
                 if(timerElem) {
                     timerElem.innerText = `⌛ 00:${formattedSeconds}s`;
@@ -656,9 +683,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'bn-BD';
-                document.getElementById('ai-status-text').innerText = text;
+                if(document.getElementById('ai-status-text')) document.getElementById('ai-status-text').innerText = text;
                 utterance.onend = () => {
-                    document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
+                    if(document.getElementById('ai-status-text')) document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
                 };
                 window.speechSynthesis.speak(utterance);
             }
@@ -666,7 +693,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function resetVoiceState() {
             window.speechSynthesis.cancel();
-            document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
+            if(document.getElementById('ai-status-text')) document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
         async function startElectricMarketScan() {
@@ -674,24 +701,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const electricScanner = document.getElementById('electric-scanner');
             const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
 
-            scanBtn.disabled = true;
-            scanBtn.innerText = "⚡ SCANNING...";
-            scanBtn.classList.add('animate-pulse');
-            electricScanner.classList.add('electric-scan-active');
+            if(scanBtn) {
+                scanBtn.disabled = true;
+                scanBtn.innerText = "⚡ SCANNING...";
+                scanBtn.classList.add('animate-pulse');
+            }
+            if(electricScanner) electricScanner.classList.add('electric-scan-active');
             
-            document.getElementById('ai-status-text').innerText = "⚡ QX OTC LIVE MARKET SCANNING...";
+            if(document.getElementById('ai-status-text')) document.getElementById('ai-status-text').innerText = "⚡ QX OTC LIVE MARKET SCANNING...";
             speakText("মার্কেট স্ক্যানিং করা হচ্ছে, অনুগ্রহ করে ৫ সেকেন্ড অপেক্ষা করুন।");
 
             setTimeout(async () => {
                 const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
                 const data = await res.json();
 
-                electricScanner.classList.remove('electric-scan-active');
-                scanBtn.disabled = false;
-                scanBtn.innerText = "⚡ MARKET SCAN";
-                scanBtn.classList.remove('animate-pulse');
+                if(electricScanner) electricScanner.classList.remove('electric-scan-active');
+                if(scanBtn) {
+                    scanBtn.disabled = false;
+                    scanBtn.innerText = "⚡ MARKET SCAN";
+                    scanBtn.classList.remove('animate-pulse');
+                }
 
-                document.getElementById('ai-status-text').innerText = data.signal;
+                if(document.getElementById('ai-status-text')) document.getElementById('ai-status-text').innerText = data.signal;
                 speakText(data.voice_msg);
             }, 5000);
         }
@@ -716,7 +747,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('chart-file-input').value = '';
         }
 
-        /* MANUAL PRO SCANNER HANDLER WITH DYNAMIC RULES */
         function startManualScanPro() {
             const pair = document.getElementById('manual-pair').value;
             const timeframe = document.getElementById('manual-timeframe').value;
@@ -759,7 +789,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function updateHomeChart() {
             const selectedSymbol = document.getElementById('home-pair-select').value;
-            document.getElementById('tv-home-container').innerHTML = '';
+            const container = document.getElementById('tv-home-container');
+            if(!container) return;
+            container.innerHTML = '';
             new TradingView.widget({
                 "autosize": true,
                 "symbol": selectedSymbol,
@@ -784,7 +816,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function startVoiceRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                The SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'bn-BD';
                 
@@ -826,7 +858,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         window.onload = () => { 
-            updateHomeChart(); 
+            navTo('screen-home');
             startCandleTimer();
         };
     </script>
