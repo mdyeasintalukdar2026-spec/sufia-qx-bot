@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (PRO TRADER DASHBOARD & ROBOT UPLOAD)
+# FRONTEND UI ENGINE (100% MATCH WITH 330_2.jpg)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -149,7 +149,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background: #050208;
+            background: #03080e;
             color: #ffffff;
             height: 100vh;
             width: 100vw;
@@ -165,47 +165,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-width: 420px;
             height: 100vh;
             max-height: 100vh;
-            background: radial-gradient(circle at top, #15021a 0%, #050208 95%);
+            background: #040d1a;
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 10px 62px 10px;
+            padding: 6px 8px 62px 8px;
             overflow: hidden;
-            animation: containerGlow 3s infinite linear;
-            box-shadow: inset 0 0 18px rgba(0, 240, 255, 0.25);
-        }
-
-        @keyframes containerGlow {
-            0% { border: 2px solid #00f0ff; }
-            33% { border: 2px solid #ff007f; }
-            66% { border: 2px solid #39ff14; }
-            100% { border: 2px solid #00f0ff; }
+            border: 2px solid #eab308;
+            box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
+            border-radius: 20px;
         }
 
         .golden-ring {
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            background: radial-gradient(circle, #200230 0%, #050208 80%);
+            background: radial-gradient(circle, #5a0505 0%, #0a0101 80%);
             position: relative;
             margin-top: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: ringGlow 2s infinite linear;
+            animation: ringGlow 2.3s infinite linear;
         }
 
         @keyframes ringGlow {
-            0% { border: 4px solid #ff0055; box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055; }
-            33% { border: 4px solid #00ffff; box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff; }
-            66% { border: 4px solid #ffff00; box-shadow: 0 0 20px #ffff00, inset 0 0 10px #ffff00; }
-            100% { border: 4px solid #ff0055; box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055; }
+            0% { border: 4px solid #ff5500; box-shadow: 0 0 20px #ff5500, inset 0 0 10px #ff5500; }
+            33% { border: 4px solid #adff2f; box-shadow: 0 0 20px #adff2f, inset 0 0 10px #adff2f; }
+            66% { border: 4px solid #da70d6; box-shadow: 0 0 20px #da70d6, inset 0 0 10px #da70d6; }
+            100% { border: 4px solid #ff5500; box-shadow: 0 0 20px #ff5500, inset 0 0 10px #ff5500; }
         }
 
         .golden-inner-wave {
-            width: 100px;
-            height: 44px;
-            background: linear-gradient(180deg, rgba(0, 240, 255, 0.85), rgba(139, 92, 246, 0.2));
+            width: 110px;
+            height: 48px;
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.85), rgba(153, 27, 27, 0.2));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
             animation: waveMotion 2s infinite alternate ease-in-out;
@@ -240,16 +234,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .golden-font { font-family: 'Cinzel', serif; letter-spacing: 1px; }
 
         .glass-card {
-            background: rgba(15, 8, 25, 0.95);
+            background: rgba(15, 5, 5, 0.95);
             backdrop-filter: blur(12px);
             border-radius: 16px;
         }
 
-        .header-lighting-box { animation: headerGlow 2.5s infinite linear; }
+        .header-lighting-box { animation: headerGlow 2.8s infinite linear; }
         @keyframes headerGlow {
-            0% { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.4); }
-            50% { border-color: #ff00ff; box-shadow: 0 0 10px rgba(255, 0, 255, 0.4); }
-            100% { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.4); }
+            0% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
+            33% { border-color: #ff1493; box-shadow: 0 0 8px rgba(255, 20, 147, 0.4); }
+            66% { border-color: #00ffff; box-shadow: 0 0 8px rgba(0, 255, 255, 0.4); }
+            100% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
         }
 
         .chart-box-wrapper {
@@ -257,14 +252,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             max-height: 360px !important;
             margin-top: 8px !important;
             margin-bottom: 2px !important;
-            animation: chartGlow 2.4s infinite linear;
+            animation: chartGlow 2.6s infinite linear;
             position: relative;
         }
 
         @keyframes chartGlow {
-            0% { border: 2px solid #39ff14; box-shadow: 0 0 12px rgba(57, 255, 20, 0.4); }
-            50% { border: 2px solid #00f0ff; box-shadow: 0 0 12px rgba(0, 240, 255, 0.4); }
-            100% { border: 2px solid #39ff14; box-shadow: 0 0 12px rgba(57, 255, 20, 0.4); }
+            0% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
+            33% { border: 2px solid #00fa9a; box-shadow: 0 0 12px rgba(0, 250, 154, 0.4); }
+            66% { border: 2px solid #ff4500; box-shadow: 0 0 12px rgba(255, 69, 0, 0.4); }
+            100% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
         }
 
         #tv-home-container {
@@ -326,6 +322,35 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border: 2px solid #ff007f; box-shadow: 0 0 12px rgba(255, 0, 127, 0.5); }
         }
 
+        /* 100% EXACT STYLES FOR SCREENSHOT 330_2.jpg */
+        .pro-neon-card {
+            background: #020b18;
+            border: 1.5px solid #00e5ff;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+        }
+
+        .pro-module-box {
+            background: #020914;
+            border: 1.5px solid #00e5ff;
+            border-radius: 10px;
+            padding: 7px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dashed-circle-loader {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px dashed #00e5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px auto;
+        }
+
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
         .screen.active { display: flex; }
         .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
@@ -356,12 +381,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
 
                 <div class="mt-1 text-center">
-                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-cyan-400 tracking-wider">YASIN TR BOT READY</h2>
+                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
                 </div>
             </div>
 
-            <div class="flex justify-between items-center bg-purple-950/40 px-3 py-1 rounded-lg border header-lighting-box">
-                <span class="golden-font text-[11px] font-black text-cyan-200">QX ULTRA PRO MAX ENGINE</span>
+            <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
+                <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
                 </span>
@@ -369,32 +394,31 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             <div id="main-chart-card" class="glass-card p-1.5 rounded-2xl shadow-xl chart-box-wrapper flex flex-col">
                 <div class="flex justify-between items-center mb-1 px-1 gap-1">
-                    <select id="home-pair-select" onchange="updateHomeChart()" class="bg-purple-950/90 text-[10px] p-1.5 rounded-lg border border-cyan-600/60 text-cyan-100 font-extrabold">
-                        <option value="FX:EURUSD">USD/BDT (OTC)</option>
-                        <option value="FX:EURUSD">EUR/USD (OTC)</option>
-                        <option value="FX:GBPUSD">GBP/USD (OTC)</option>
-                        <option value="FX:USDJPY">USD/JPY (OTC)</option>
-                        <option value="FX:AUDUSD">AUD/CAD (OTC)</option>
-                        <option value="FX:USDCAD">USD/INR (OTC)</option>
+                    <select id="home-pair-select" onchange="updateHomeChart()" class="bg-red-950/90 text-[10px] p-1.5 rounded-lg border border-red-600/60 text-amber-100 font-extrabold">
+                        <option value="FX:EURUSD">EUR/USD</option>
+                        <option value="FX:GBPUSD">GBP/USD</option>
+                        <option value="FX:USDJPY">USD/JPY</option>
+                        <option value="FX:AUDUSD">AUD/USD</option>
+                        <option value="FX:USDCAD">USD/CAD</option>
                     </select>
 
-                    <div class="bg-black/80 border border-cyan-500/60 rounded-lg px-2 py-1 text-center shadow-inner">
-                        <span id="candle-timer" class="text-[10px] font-black text-cyan-300 tracking-wider font-mono">⌛ 00:00s</span>
+                    <div class="bg-black/80 border border-amber-500/60 rounded-lg px-2 py-1 text-center shadow-inner">
+                        <span id="candle-timer" class="text-[10px] font-black text-amber-300 tracking-wider font-mono">⌛ 00:00s</span>
                     </div>
 
-                    <button id="scan-btn" onclick="startElectricMarketScan()" class="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <button id="scan-btn" onclick="startElectricMarketScan()" class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black text-[9px] px-2.5 py-1.5 rounded-lg shadow-lg hover:scale-105 active:scale-95 transition-all">
                         ⚡ MARKET SCAN
                     </button>
                 </div>
 
                 <div style="position: relative;" class="w-full flex-1 overflow-hidden">
-                    <div id="tv-home-container" class="w-full rounded-xl border border-cyan-900/60"></div>
+                    <div id="tv-home-container" class="w-full rounded-xl border border-red-900/60"></div>
                     <div id="electric-scanner" class="electric-scan-line"></div>
                 </div>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX REAL CHART UPLOAD (8-10% LARGER WITH ROBOT AVATAR & TEXT) -->
+        <!-- SCREEN 2: QX REAL CHART UPLOAD -->
         <div id="screen-auto" class="screen pt-1">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold">‹ Back</button>
@@ -402,7 +426,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="glass-card p-4 space-y-3 text-center mt-2 shadow-xl border border-cyan-500/40 mx-auto w-[94%]">
-                <!-- ROBOT AVATAR WITH TEXT OVERLAYS & NEON ANIMATION -->
                 <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-2 border-cyan-400 shadow-cyan-400/50 shadow-xl overflow-hidden animate-pulse">
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop&q=80" alt="Robot Trading AI" class="w-full h-full object-cover opacity-80">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col items-center justify-end pb-2">
@@ -449,69 +472,136 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL SIGNAL (330.jpg PRO DASHBOARD STYLE) -->
-        <div id="screen-signal" class="screen pt-1 px-1">
-            <div class="flex justify-between items-center mb-1 px-2">
-                <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold">‹ Back</button>
-                <h1 class="text-xs font-extrabold text-cyan-200">QX Manual Ultra Pro Signal</h1>
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (100% MATCH WITH SCREENSHOT 330_2.jpg) -->
+        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-16">
+            
+            <!-- HEADER CONTAINER CARD (MATCHING 330_2.jpg) -->
+            <div class="pro-neon-card p-2.5 mb-2 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-black text-[9px] text-yellow-300 bg-black">
+                        YASIN
+                    </div>
+                    <div>
+                        <h2 class="text-xs font-black text-emerald-400 tracking-wider">YASIN TR BOT</h2>
+                        <p class="text-[7px] font-bold text-amber-500 tracking-widest uppercase">QUOTEX ULTRA PRO MAX ENGINE</p>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 text-[8px] font-black px-2 py-0.5 rounded-full inline-block">
+                        🚀 QX LIVE
+                    </span>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 my-1">
-                <select id="manual-pair" class="bg-purple-950 text-[11px] p-2.5 rounded-xl border border-cyan-700/60 text-cyan-100 font-bold">
+            <!-- LIVE CLOCK BANNER -->
+            <div class="pro-neon-card py-1 px-3 mb-2 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
+                <span>BD: <span id="bd-time">00:55:03</span></span>
+                <span class="text-gray-500">|</span>
+                <span>QX UTC: <span id="utc-time">18:55:03</span></span>
+            </div>
+
+            <!-- DROPDOWNS ROW -->
+            <div class="grid grid-cols-3 gap-1.5 mb-2">
+                <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2.5 rounded-xl border border-purple-500/80 text-white font-bold text-center">
                     <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
                     <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
                     <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
                     <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
                     <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
                     <option value="USD/INR (OTC)">USD/INR (OTC)</option>
-                    <option value="EUR/JPY (OTC)">EUR/JPY (OTC)</option>
                 </select>
 
-                <select id="manual-timeframe" class="bg-purple-950 text-[11px] p-2.5 rounded-xl border border-cyan-700/60 text-cyan-100 font-bold">
-                    <option value="10S">10S Algo Market</option>
-                    <option value="1M">1 Min Trade</option>
-                    <option value="5M">5 Min Trade</option>
+                <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2.5 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                    <option value="10S">10S</option>
+                    <option value="1M">1M</option>
+                    <option value="5M">5M</option>
                 </select>
             </div>
 
-            <button onclick="startManualScanPro()" class="bg-gradient-to-r from-cyan-400 via-teal-500 to-emerald-500 text-black font-black text-xs py-3 rounded-xl w-full tracking-wide my-1 shadow-lg hover:scale-[1.01] transition-all">
+            <!-- ANALYZE BUTTON (BRIGHT NEON SEAGREEN) -->
+            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-3 rounded-xl w-full tracking-wide mb-2 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
                 ⚡ ANALYZE MARKET & GET SIGNAL
             </button>
 
-            <!-- PRO STATUS DISPLAY BOX -->
-            <div class="glass-card p-3 rounded-xl text-center border border-cyan-500/50 my-1 flex flex-col justify-center min-h-[95px]">
-                <span class="text-[9px] text-cyan-300 font-bold uppercase tracking-wider">CONFIDENCE: <span id="manual-conf-status" class="text-emerald-400">STANDBY</span></span>
-                <h1 id="manual-sig-dir" class="text-xl font-black text-cyan-200 my-0.5">WAITING - START ANALYSIS</h1>
-                <p id="manual-sig-reason" class="text-[9px] text-gray-300 font-medium">Accuracy Rate: High Confluence Evaluation</p>
+            <!-- UPLOAD SCREENSHOT SHORTCUT BUTTON -->
+            <div onclick="navTo('screen-auto')" class="border border-dashed border-teal-400 bg-[#02131d] py-2 rounded-xl text-center cursor-pointer mb-2 hover:bg-[#031d2d] transition-colors">
+                <span class="text-[10px] font-black text-teal-300 tracking-wide">📸 UPLOAD SCREENSHOT (AI VISION SCAN)</span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES GRID (330.jpg STYLE) -->
-            <div class="grid grid-cols-2 gap-1.5 text-[9px] font-bold">
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
-                    <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
-                    <span id="mod-1" class="text-amber-400">AWAITING</span>
+            <!-- MAIN SIGNAL DISPLAY CARD (EXACT 330_2.jpg) -->
+            <div class="pro-neon-card p-3 text-center mb-2">
+                <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-1">
+                    CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
+                </span>
+                
+                <p id="pair-time-title" class="text-[11px] font-black text-white mt-1">USD/BDT (OTC) • 10S ALGO MARKET</p>
+
+                <div class="dashed-circle-loader">
+                    <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
                 </div>
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
-                    <span class="text-gray-300">🎯 OB / FVG / LIQ</span>
-                    <span id="mod-2" class="text-amber-400">AWAITING</span>
+
+                <h1 id="manual-sig-dir" class="text-base font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
+                
+                <p class="text-[8px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
+                <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
+            </div>
+
+            <!-- LAST TRADE HISTORY BANNER -->
+            <div class="pro-neon-card p-2 mb-2 flex justify-between items-center text-[9px] font-bold">
+                <div>
+                    <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
+                    <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
                 </div>
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-1 rounded-lg">
+                    ITM WIN 🎯
+                </span>
+            </div>
+
+            <!-- 6 PRO ANALYSIS MODULES (GRID 2-COLUMNS EXACT 330_2.jpg) -->
+            <div class="grid grid-cols-2 gap-1.5 mb-2 text-[8px] font-bold">
+                <div class="pro-module-box">
+                    <span class="text-gray-300">📈 TREND (EMA 50/200 & SMC)</span>
+                    <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                </div>
+                <div class="pro-module-box">
+                    <span class="text-gray-300">🎯 OB / FVG / LIQUIDITY</span>
+                    <span id="mod-2" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
+                </div>
+                <div class="pro-module-box">
                     <span class="text-gray-300">⚡ STOCH RSI & VWAP</span>
-                    <span id="mod-3" class="text-amber-400">AWAITING</span>
+                    <span id="mod-3" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
+                <div class="pro-module-box">
                     <span class="text-gray-300">🌐 NEWS & VPS LATENCY</span>
-                    <span id="mod-4" class="text-emerald-400">OPTIMIZED</span>
+                    <span id="mod-4" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
-                    <span class="text-gray-300">🛡️ ATR & SPREAD</span>
-                    <span id="mod-5" class="text-emerald-400">SECURE</span>
+                <div class="pro-module-box">
+                    <span class="text-gray-300">🛡️ ATR & SPREAD FILTER</span>
+                    <span id="mod-5" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
-                <div class="bg-black/70 p-2 rounded-lg border border-cyan-500/30 flex items-center justify-between">
-                    <span class="text-gray-300">⚖️ RISK & RECOVERY</span>
-                    <span id="mod-6" class="text-emerald-400">DYNAMIC</span>
+                <div class="pro-module-box">
+                    <span class="text-gray-300">⚖️ DYNAMIC RISK & RECOVERY</span>
+                    <span id="mod-6" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
             </div>
+
+            <!-- FOOTER INFOGRAPHIC BAR (EXACT 330_2.jpg) -->
+            <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8px] font-bold">
+                <div>
+                    <span class="text-gray-400 block text-[7px]">MASTER WIN-RATE</span>
+                    <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
+                </div>
+                <div>
+                    <span class="text-gray-400 block text-[7px]">CONFIDENCE</span>
+                    <span class="text-cyan-300 font-black">HIGH CONFLUENCE</span>
+                </div>
+                <div>
+                    <span class="text-gray-400 block text-[7px]">DATA INTEGRITY</span>
+                    <span class="text-purple-300 font-black">99.9% HIGH</span>
+                </div>
+            </div>
+
         </div>
 
         <!-- CHAT MODAL POPUP -->
@@ -535,7 +625,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <!-- BOTTOM NAV BAR -->
         <div class="bottom-nav flex justify-between items-center">
-            <button onclick="navTo('screen-home')" class="text-cyan-400 p-1.5"><svg class="icon-svg text-cyan-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="navTo('screen-home')" class="text-red-400 p-1.5"><svg class="icon-svg text-red-400 w-5 h-5" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="navTo('screen-auto')" class="text-gray-400 p-1.5"><svg class="icon-svg text-gray-400 w-5 h-5" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg></button>
             <button onclick="navTo('screen-home')" class="w-11 h-11 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-black flex items-center justify-center font-bold shadow-lg">
                 <svg class="icon-svg text-black w-5.5 h-5.5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
@@ -564,6 +654,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const secondsLeft = 60 - now.getSeconds();
                 const formattedSeconds = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
                 const timerElem = document.getElementById('candle-timer');
+                
+                // Clock Updates
+                const bdHours = String(now.getHours()).padStart(2, '0');
+                const bdMins = String(now.getMinutes()).padStart(2, '0');
+                const bdSecs = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('bd-time').innerText = `${bdHours}:${bdMins}:${bdSecs}`;
+                
+                const utcHours = String(now.getUTCHours()).padStart(2, '0');
+                document.getElementById('utc-time').innerText = `${utcHours}:${bdMins}:${bdSecs}`;
+
                 if(timerElem) {
                     timerElem.innerText = `⌛ 00:${formattedSeconds}s`;
                     if(secondsLeft <= 5) {
@@ -622,7 +722,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 5000);
         }
 
-        /* CHART UPLOAD SCREEN HANDLER */
         function handleChartUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -643,38 +742,42 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('chart-file-input').value = '';
         }
 
-        /* MANUAL PRO SCANNER HANDLER */
+        /* MANUAL PRO SCANNER HANDLER (EXACT 330_2.jpg ANIMATIONS) */
         function startManualScanPro() {
             const pair = document.getElementById('manual-pair').value;
+            const timeframe = document.getElementById('manual-timeframe').value;
+            
             document.getElementById('manual-conf-status').innerText = "SCANNING...";
-            document.getElementById('manual-sig-dir').innerText = "ANALYZING 6 MODULES...";
-            document.getElementById('manual-sig-reason').innerText = "AI Vision & Confluence Engine running...";
+            document.getElementById('pair-time-title').innerText = `${pair} • ${timeframe} ALGO MARKET`;
+            document.getElementById('loader-inner-text').innerText = "SCAN";
+            document.getElementById('manual-sig-dir').innerText = "ANALYZING CONFLUENCE...";
 
-            document.getElementById('mod-1').innerText = "SCANNING...";
-            document.getElementById('mod-2').innerText = "SCANNING...";
-            document.getElementById('mod-3').innerText = "SCANNING...";
+            for(let i=1; i<=6; i++) {
+                document.getElementById(`mod-${i}`).innerText = "SCANNING...";
+            }
 
-            speakText("ম্যানুয়াল প্রোকমপ্লেট স্ক্যান শুরু হয়েছে।");
+            speakText("মার্কেট এনালিসিস শুরু করা হচ্ছে।");
 
             setTimeout(() => {
                 const isCall = Math.random() > 0.5;
                 document.getElementById('manual-conf-status').innerText = "HIGH CONFLUENCE";
+                document.getElementById('loader-inner-text').innerText = isCall ? "CALL" : "PUT";
                 document.getElementById('manual-sig-dir').innerText = isCall ? "CALL (BUY) - 96% WIN" : "PUT (SELL) - 95% WIN";
-                document.getElementById('manual-sig-reason').innerText = `${pair} OTC Order Block & Stoch RSI Confirmation.`;
+                document.getElementById('last-trade-pair').innerText = `${pair} • MASTER WIN`;
 
-                document.getElementById('mod-1').innerText = "CONFIRMED";
-                document.getElementById('mod-2').innerText = "OPTIMIZED";
-                document.getElementById('mod-3').innerText = "ALIGNED";
+                for(let i=1; i<=6; i++) {
+                    document.getElementById(`mod-${i}`).innerText = "SCAN COMPLETE";
+                }
 
                 speakText(isCall ? "সিগন্যাল কল বা বাই অপশনে যাবে।" : "সিগন্যাল পুট বা সেল অপশনে যাবে।");
 
                 setTimeout(() => {
                     document.getElementById('manual-conf-status').innerText = "STANDBY";
+                    document.getElementById('loader-inner-text').innerText = "READY";
                     document.getElementById('manual-sig-dir').innerText = "WAITING - START ANALYSIS";
-                    document.getElementById('manual-sig-reason').innerText = "Accuracy Rate: High Confluence Evaluation";
-                    document.getElementById('mod-1').innerText = "AWAITING";
-                    document.getElementById('mod-2').innerText = "AWAITING";
-                    document.getElementById('mod-3').innerText = "AWAITING";
+                    for(let i=1; i<=6; i++) {
+                        document.getElementById(`mod-${i}`).innerText = "AWAITING SCAN";
+                    }
                 }, 8000);
             }, 4500);
         }
@@ -690,7 +793,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 "theme": "dark",
                 "style": "1",
                 "locale": "en",
-                "toolbar_bg": "#050208",
+                "toolbar_bg": "#03080e",
                 "enable_publishing": false,
                 "hide_side_toolbar": true,
                 "hide_top_toolbar": true,
