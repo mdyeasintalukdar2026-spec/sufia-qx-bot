@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (STANDING ROBOT & ANIMATED SIGNAL TEXT)
+# FRONTEND UI ENGINE (SCARY STANDING CYBORG ROBOT & FAST DYNAMIC ANIMATED BUTTON)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,7 +333,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* 1-SECOND DYNAMIC COLOR GLOW ANIMATIONS */
+        /* ULTRA-FAST DYNAMIC COLOR GLOW ANIMATIONS FOR UPLOAD BUTTON */
+        .fast-color-glow-btn {
+            animation: fastColorGlow 0.8s infinite linear;
+        }
+
+        @keyframes fastColorGlow {
+            0% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 15px #00f5a0; color: #000000; }
+            25% { background-color: #ff007f; border-color: #ff5500; box-shadow: 0 0 20px #ff007f; color: #ffffff; }
+            50% { background-color: #00e5ff; border-color: #ffe600; box-shadow: 0 0 15px #00e5ff; color: #000000; }
+            75% { background-color: #9d00ff; border-color: #00ffcc; box-shadow: 0 0 20px #9d00ff; color: #ffffff; }
+            100% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 15px #00f5a0; color: #000000; }
+        }
+
         .dynamic-color-border-1 { animation: colorShift1 1s infinite linear; }
         .dynamic-color-border-2 { animation: colorShift2 1s infinite linear; }
         .dynamic-color-border-3 { animation: colorShift3 1s infinite linear; }
@@ -478,28 +490,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX REAL CHART UPLOAD (STANDING ROBOT & ANIMATED SIGNAL TEXT BOX) -->
+        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (SCARY STANDING ROBOT & ANIMATED BUTTON) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
-                <h1 class="text-xs font-black text-cyan-200">QX Real Chart Scanner</h1>
+                <h1 class="text-xs font-black text-cyan-200 uppercase tracking-wide">QX OTC LIVE CHART SCANNER</h1>
             </div>
 
             <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
-                <!-- TOP CIRCULAR AVATAR (STANDING CYBORG ROBOT - CLICK TO TRIGGER GALLERY) -->
-                <div onclick="triggerGallery()" class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1 cursor-pointer hover:scale-105 transition-all" title="Click to Upload Chart">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80" alt="Standing Robot Avatar" class="w-full h-full object-cover filter brightness-110 contrast-125">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col items-center justify-end pb-1.5">
-                        <span class="text-[8px] font-black text-cyan-300 uppercase tracking-widest golden-font flex items-center gap-1">📁 UPLOAD ➔</span>
-                        <span class="text-[7.5px] font-extrabold text-white">TAP TO SCAN</span>
+                <!-- TOP CIRCULAR AVATAR (SCARY STANDING CYBORG ROBOT - CLICK DISABLED AS REQUESTED) -->
+                <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1 pointer-events-none">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80" alt="Scary Standing Cyborg Robot" class="w-full h-full object-cover filter brightness-110 contrast-125">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col items-center justify-end pb-1.5">
+                        <span class="text-[7.5px] font-black text-cyan-300 uppercase tracking-widest golden-font text-center leading-tight px-1">
+                            QX OTC LIVE CHART SCANNER
+                        </span>
                     </div>
                 </div>
 
                 <input type="file" id="chart-file-input" accept="image/*" class="hidden" onchange="handleChartUpload(event)">
 
+                <!-- DYNAMIC COLOR-SHIFTING UPLOAD BUTTON (ONLY CLICKABLE OPTION) -->
                 <div id="upload-idle-ui">
-                    <button onclick="triggerGallery()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-xs py-2.5 rounded-xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.01] active:scale-95 transition-all" type="button">
-                        📷 UPLOAD SCREENSHOT (AI VISION SCAN)
+                    <button onclick="triggerGallery()" class="fast-color-glow-btn font-black text-xs py-2.5 rounded-xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-95 transition-all border-2" type="button">
+                        📷 QX OTC LIVE CHART SCANNER
                     </button>
                 </div>
 
@@ -511,17 +525,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- DYNAMIC UP / DOWN ANIMATED TEXT & SIGNAL CONTAINER -->
+            <!-- DYNAMIC UP / DOWN ANIMATED TEXT SIGNAL CONTAINER -->
             <div id="dynamic-signal-container" class="hidden w-[96%] mx-auto mt-2 space-y-2 fade-in-animation">
                 <div class="w-full rounded-2xl overflow-hidden border-4 border-cyan-400 shadow-[0_0_25px_rgba(0,240,255,0.5)] bg-black/90 relative dynamic-color-border-2 p-5 flex flex-col items-center justify-center text-center min-h-[140px]">
                     
-                    <!-- ANIMATED SIGNAL DISPLAY HEADER -->
                     <div id="animated-signal-box" class="space-y-1.5 animate-bounce">
                         <h1 id="signal-giant-title" class="text-xl md:text-2xl font-black tracking-wider uppercase golden-font text-emerald-400 drop-shadow-[0_0_10px_rgba(0,255,128,0.8)]">
                             CALL (BUY) 🚀
                         </h1>
                         <p id="signal-short-sub" class="text-[10px] font-bold text-cyan-200 tracking-wide">
-                            NEXT CANDLE UP • 98% CONFIDENCE
+                            NEXT CANDLE UP • 98% HIGH CONFIDENCE
                         </p>
                     </div>
 
@@ -950,7 +963,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             chatLogs.innerHTML += `<div class="bg-purple-500/20 p-2.5 rounded-xl border border-cyan-500/40 text-cyan-100 text-right font-bold">${text}</div>`;
             input.value = '';
 
-            const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "", "");
+            const selectedPair = document.getElementById('home-pair-select').value.replace("FX:", "");
             const res = await fetch(`/api/signal?symbol=${encodeURIComponent(selectedPair)}&timeframe=1m&_=${Date.now()}`);
             const data = await res.json();
 
