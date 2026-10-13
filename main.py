@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (BUG-FREE & PERFECT LAYOUT)
+# FRONTEND UI ENGINE (OPTIMIZED BOTTOM GAP EXPANSION)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -329,11 +329,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
+        /* ENLARGED BOTTOM MODULES (~3-4% LARGER PADDING & HEIGHT TO FILL GAP TO MARKER) */
         .pro-module-box {
             background: #020914;
             border: 1.5px solid #00e5ff;
-            border-radius: 10px;
-            padding: 6px 8px;
+            border-radius: 11px;
+            padding: 9.5px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -471,7 +472,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (BOTTOM 9 OPTIONS ENLARGED ~3-4% TO FILL GAP) -->
         <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             
             <!-- LIVE CLOCK BANNER -->
@@ -522,19 +523,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <!-- LAST TRADE HISTORY BANNER -->
-            <div class="pro-neon-card p-1.5 mb-1.5 flex justify-between items-center text-[9px] font-bold">
+            <!-- LAST TRADE HISTORY BANNER (ENLARGED) -->
+            <div class="pro-neon-card p-2 mb-1.5 flex justify-between items-center text-[9.5px] font-bold">
                 <div>
                     <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
                     <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
                 </div>
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-0.5 rounded-lg">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2.5 py-0.5 rounded-lg">
                     ITM WIN 🎯
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES -->
-            <div class="grid grid-cols-2 gap-1 mb-1.5 text-[8px] font-bold">
+            <!-- 6 PRO ANALYSIS MODULES (ENLARGED ~3-4%) -->
+            <div class="grid grid-cols-2 gap-1.5 mb-1.5 text-[8.5px] font-bold">
                 <div class="pro-module-box">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
@@ -561,8 +562,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR -->
-            <div class="pro-neon-card p-1.5 grid grid-cols-3 text-center text-[8px] font-bold">
+            <!-- FOOTER INFOGRAPHIC BAR (ENLARGED) -->
+            <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8.5px] font-bold">
                 <div>
                     <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
                     <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
@@ -711,7 +712,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function resetChartUploadUI() {
             document.getElementById('signal-result-ui').classList.add('hidden');
-            document.getElementById('upload-idle-ui').classList.add('hidden');
+            document.getElementById('upload-idle-ui').classList.remove('hidden');
             document.getElementById('chart-file-input').value = '';
         }
 
@@ -783,7 +784,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function startVoiceRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                The SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'bn-BD';
                 
