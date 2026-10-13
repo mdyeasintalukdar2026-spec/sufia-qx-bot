@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (PERFECT TIMELINE SHIFT & SMOOTH ELECTRIC SCAN)
+# FRONTEND UI ENGINE (PERFECT FULL-WIDTH CHART FITMENT)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -269,7 +269,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
         }
 
-        /* PERFECT TIMELINE ALIGNMENT SHIFTED RIGHT */
+        /* FULL WIDTH PERFECT ALIGNMENT (LEFT GAP FIXED) */
         #tv-home-container {
             position: relative;
             overflow: hidden;
@@ -279,12 +279,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         #tv-home-container iframe {
             position: absolute !important;
             top: -38px !important;
-            left: 18px !important;
-            width: calc(100% - 18px) !important;
+            left: 0 !important;
+            width: 100% !important;
             height: calc(100% + 42px) !important;
         }
 
-        /* SMOOTH 4-5 SECOND ELECTRIC SCANNING LASER */
         .electric-scan-line {
             position: absolute;
             top: 0;
@@ -531,7 +530,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 1000);
         }
 
-        /* NO SPEECH REPEAT VOICE RESPONSE */
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -550,7 +548,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
-        /* 5-SECOND SMOOTH ELECTRIC SCANNING */
         async function startElectricMarketScan() {
             const scanBtn = document.getElementById('scan-btn');
             const electricScanner = document.getElementById('electric-scanner');
