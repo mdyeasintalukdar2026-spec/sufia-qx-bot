@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (FIXED SCREEN SEPARATION & PERFECT GAP BALANCING)
+# FRONTEND UI ENGINE (FIXED LAYOUT CONTAINERS)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -169,7 +169,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 8px 65px 8px;
+            padding: 8px 8px 65px 8px;
             overflow: hidden;
             border: 2px solid #eab308;
             box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
@@ -177,12 +177,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-ring {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background: radial-gradient(circle, #5a0505 0%, #0a0101 80%);
             position: relative;
-            margin-top: 4px;
+            margin-top: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -197,8 +197,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .golden-inner-wave {
-            width: 110px;
-            height: 48px;
+            width: 100px;
+            height: 42px;
             background: linear-gradient(180deg, rgba(239, 68, 68, 0.85), rgba(153, 27, 27, 0.2));
             border-radius: 50% 50% 0 0;
             filter: blur(2px);
@@ -219,8 +219,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         @keyframes btnPulse3 { 0% { border: 1.5px solid #14b8a6; box-shadow: 0 0 8px #14b8a6; } 100% { border: 1.5px solid #3b82f6; box-shadow: 0 0 12px #3b82f6; } }
 
         .action-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -248,9 +248,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .chart-box-wrapper {
-            height: 360px !important;
-            max-height: 360px !important;
-            margin-top: 8px !important;
+            height: 330px !important;
+            max-height: 330px !important;
+            margin-top: 6px !important;
             margin-bottom: 2px !important;
             animation: chartGlow 2.6s infinite linear;
             position: relative;
@@ -266,8 +266,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 300px !important;
-            margin-top: 4px !important;
+            height: 275px !important;
+            margin-top: 2px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -282,9 +282,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, #00f0ff, #ffffff, #00f0ff, transparent);
-            box-shadow: 0 0 12px #00f0ff, 0 0 25px #00f0ff;
+            box-shadow: 0 0 12px #00f0ff;
             z-index: 999;
             opacity: 0;
             pointer-events: none;
@@ -331,8 +331,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .pro-module-box {
             background: #020914;
-            border-radius: 11px;
-            padding: 9px 10px;
+            border-radius: 10px;
+            padding: 8px 9px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -346,17 +346,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .mod-anim-6 { animation: mGlow6 2.4s infinite linear; }
         .mod-anim-7 { animation: mGlow7 2.2s infinite linear; }
 
-        @keyframes mGlow1 { 0% { border: 1.5px solid #00f0ff; box-shadow: 0 0 8px rgba(0,240,255,0.4); } 50% { border: 1.5px solid #ff007f; box-shadow: 0 0 8px rgba(255,0,127,0.4); } 100% { border: 1.5px solid #00f0ff; } }
-        @keyframes mGlow2 { 0% { border: 1.5px solid #39ff14; box-shadow: 0 0 8px rgba(57,255,20,0.4); } 50% { border: 1.5px solid #ffaa00; box-shadow: 0 0 8px rgba(255,170,0,0.4); } 100% { border: 1.5px solid #39ff14; } }
-        @keyframes mGlow3 { 0% { border: 1.5px solid #ff00ea; box-shadow: 0 0 8px rgba(255,0,234,0.4); } 50% { border: 1.5px solid #00ffff; box-shadow: 0 0 8px rgba(0,255,255,0.4); } 100% { border: 1.5px solid #ff00ea; } }
-        @keyframes mGlow4 { 0% { border: 1.5px solid #ffff00; box-shadow: 0 0 8px rgba(255,255,0,0.4); } 50% { border: 1.5px solid #9d00ff; box-shadow: 0 0 8px rgba(157,0,255,0.4); } 100% { border: 1.5px solid #ffff00; } }
-        @keyframes mGlow5 { 0% { border: 1.5px solid #ff3300; box-shadow: 0 0 8px rgba(255,51,0,0.4); } 50% { border: 1.5px solid #00ffaa; box-shadow: 0 0 8px rgba(0,255,170,0.4); } 100% { border: 1.5px solid #ff3300; } }
-        @keyframes mGlow6 { 0% { border: 1.5px solid #0099ff; box-shadow: 0 0 8px rgba(0,153,255,0.4); } 50% { border: 1.5px solid #ff0055; box-shadow: 0 0 8px rgba(255,0,85,0.4); } 100% { border: 1.5px solid #0099ff; } }
-        @keyframes mGlow7 { 0% { border: 1.5px solid #7dff00; box-shadow: 0 0 8px rgba(125,255,0,0.4); } 50% { border: 1.5px solid #e600ff; box-shadow: 0 0 8px rgba(230,0,255,0.4); } 100% { border: 1.5px solid #7dff00; } }
+        @keyframes mGlow1 { 0% { border: 1.5px solid #00f0ff; box-shadow: 0 0 6px rgba(0,240,255,0.4); } 50% { border: 1.5px solid #ff007f; box-shadow: 0 0 6px rgba(255,0,127,0.4); } 100% { border: 1.5px solid #00f0ff; } }
+        @keyframes mGlow2 { 0% { border: 1.5px solid #39ff14; box-shadow: 0 0 6px rgba(57,255,20,0.4); } 50% { border: 1.5px solid #ffaa00; box-shadow: 0 0 6px rgba(255,170,0,0.4); } 100% { border: 1.5px solid #39ff14; } }
+        @keyframes mGlow3 { 0% { border: 1.5px solid #ff00ea; box-shadow: 0 0 6px rgba(255,0,234,0.4); } 50% { border: 1.5px solid #00ffff; box-shadow: 0 0 6px rgba(0,255,255,0.4); } 100% { border: 1.5px solid #ff00ea; } }
+        @keyframes mGlow4 { 0% { border: 1.5px solid #ffff00; box-shadow: 0 0 6px rgba(255,255,0,0.4); } 50% { border: 1.5px solid #9d00ff; box-shadow: 0 0 6px rgba(157,0,255,0.4); } 100% { border: 1.5px solid #ffff00; } }
+        @keyframes mGlow5 { 0% { border: 1.5px solid #ff3300; box-shadow: 0 0 6px rgba(255,51,0,0.4); } 50% { border: 1.5px solid #00ffaa; box-shadow: 0 0 6px rgba(0,255,170,0.4); } 100% { border: 1.5px solid #ff3300; } }
+        @keyframes mGlow6 { 0% { border: 1.5px solid #0099ff; box-shadow: 0 0 6px rgba(0,153,255,0.4); } 50% { border: 1.5px solid #ff0055; box-shadow: 0 0 6px rgba(255,0,85,0.4); } 100% { border: 1.5px solid #0099ff; } }
+        @keyframes mGlow7 { 0% { border: 1.5px solid #7dff00; box-shadow: 0 0 6px rgba(125,255,0,0.4); } 50% { border: 1.5px solid #e600ff; box-shadow: 0 0 6px rgba(230,0,255,0.4); } 100% { border: 1.5px solid #7dff00; } }
 
         .dashed-circle-loader {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 2px dashed #00e5ff;
             display: flex;
@@ -365,7 +365,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin: 2px auto;
         }
 
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
+        /* STRICT SCREEN SEPARATION TO PREVENT OVERLAPS */
+        .screen { 
+            display: none; 
+            width: 100%; 
+            height: calc(100vh - 75px); 
+            flex-direction: column; 
+            gap: 4px; 
+            overflow-y: auto; 
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            right: 8px;
+            padding-right: 4px;
+        }
         .screen.active { display: flex; }
         .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
@@ -381,26 +394,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <div class="golden-inner-wave"></div>
                     </div>
                     
-                    <div class="absolute right-[-48px] top-2 flex flex-col gap-2.5">
+                    <div class="absolute right-[-44px] top-1 flex flex-col gap-2">
                         <button onclick="toggleChatModal()" class="action-btn btn-chat">
-                            <svg class="icon-svg text-purple-200 w-5 h-5" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                            <svg class="icon-svg text-purple-200 w-4 h-4" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                         </button>
                         <button onclick="startVoiceRecognition()" class="action-btn btn-mic">
-                            <svg class="icon-svg text-amber-100 w-5 h-5" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+                            <svg class="icon-svg text-amber-100 w-4 h-4" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
                         </button>
                         <button onclick="resetVoiceState()" class="action-btn btn-reset">
-                            <svg class="icon-svg text-teal-100 w-5 h-5" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
+                            <svg class="icon-svg text-teal-100 w-4 h-4" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 19 17.59 13.41 12z"/></svg>
                         </button>
                     </div>
                 </div>
 
                 <div class="mt-1 text-center">
-                    <h2 id="ai-status-text" class="golden-font text-[11px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
+                    <h2 id="ai-status-text" class="golden-font text-[10px] font-black text-red-400 tracking-wider">TOT AI MASTER READY</h2>
                 </div>
             </div>
 
             <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
-                <span class="golden-font text-[11px] font-black text-amber-200">Quotex Market Live</span>
+                <span class="golden-font text-[10px] font-black text-amber-200">Quotex Market Live</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
                 </span>
@@ -433,8 +446,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
 
         <!-- SCREEN 2: QX REAL CHART UPLOAD -->
-        <div id="screen-auto" class="screen pt-1">
-            <div class="flex justify-between items-center mb-1 px-2">
+        <div id="screen-auto" class="screen">
+            <div class="flex justify-between items-center mb-1 px-2 pt-1">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold">‹ Back</button>
                 <h1 class="text-xs font-black text-cyan-200">QX Real Chart Scanner</h1>
             </div>
@@ -486,10 +499,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (PERFECT PROPORTIONALLY DISTRIBUTED GAP & ZERO OVERLAP) -->
-        <div id="screen-signal" class="screen pt-1 flex flex-col justify-between h-full pb-1">
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (PROPORTIONALLY BALANCED & NON-OVERLAPPING) -->
+        <div id="screen-signal" class="screen pt-1 flex flex-col justify-between">
             
-            <!-- TOP CLOCK & SELECTORS -->
             <div class="space-y-1.5">
                 <div class="pro-neon-card py-1 px-3 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
                     <span>BD: <span id="bd-time">00:55:03</span></span>
@@ -519,7 +531,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </button>
             </div>
 
-            <!-- MAIN SIGNAL DISPLAY CARD -->
             <div class="pro-neon-card p-2 text-center my-1">
                 <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-0.5">
                     CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
@@ -533,11 +544,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 <h1 id="manual-sig-dir" class="text-xs font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
                 
-                <p class="text-[7.5px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
-                <p class="text-[6.5px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
+                <p class="text-[7px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
+                <p class="text-[6px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <!-- LAST TRADE HISTORY -->
             <div class="pro-neon-card p-1.5 flex justify-between items-center text-[8.5px] font-bold mb-1">
                 <div>
                     <span class="text-gray-400 uppercase text-[6.5px] block">LAST TRADE HISTORY</span>
@@ -548,7 +558,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- 6 MODULES GRID WITH BALANCED GAP & ANIMATIONS -->
             <div class="grid grid-cols-2 gap-1.5 text-[8px] font-bold mb-1">
                 <div class="pro-module-box mod-anim-1">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
@@ -576,7 +585,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR (SAFE GAP FROM BOTTOM NAV) -->
             <div class="pro-neon-card p-1.5 grid grid-cols-3 text-center text-[8px] font-bold mod-anim-7">
                 <div>
                     <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
@@ -730,7 +738,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('chart-file-input').value = '';
         }
 
-        /* MANUAL PRO SCANNER HANDLER WITH DYNAMIC RULES */
         function startManualScanPro() {
             const pair = document.getElementById('manual-pair').value;
             const timeframe = document.getElementById('manual-timeframe').value;
