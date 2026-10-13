@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (BLACK BG AVATAR & SLOW-MOTION SMOOTH ANIMATED BUTTON)
+# FRONTEND UI ENGINE (1 TO 100% SCANNING & SLOW ANIMATED BUTTON)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,7 +333,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* SLOW-MOTION SMOOTH DYNAMIC COLOR GLOW ANIMATIONS FOR UPLOAD BUTTON (4 SECONDS CYCLE) */
         .slow-color-glow-btn {
             animation: slowColorGlow 4s infinite ease-in-out;
         }
@@ -490,7 +489,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (BLACK BG AVATAR & SLOW ANIMATED BUTTON) -->
+        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (1-100% SCANNING ANIMATION) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
@@ -498,7 +497,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
-                <!-- TOP CIRCULAR AVATAR (PURE BLACK BACKGROUND WITH BOLD THICK TEXT, NO IMAGE) -->
+                <!-- TOP CIRCULAR AVATAR (PURE BLACK BACKGROUND WITH BOLD TEXT) -->
                 <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1 p-2 text-center pointer-events-none">
                     <span class="text-[10px] font-black text-white uppercase tracking-wider leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                         QX OTC LIVE CHART SCANNER
@@ -514,10 +513,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </button>
                 </div>
 
-                <div id="scanning-ui" class="hidden py-3 space-y-2">
-                    <h3 class="text-xs font-black text-cyan-300 animate-pulse">⚡ AI Vision Scanning & Confluence Analysis...</h3>
-                    <div class="w-full bg-black/60 h-2 rounded-full overflow-hidden border border-cyan-500/40">
-                        <div class="bg-cyan-400 h-full w-3/4 animate-pulse"></div>
+                <!-- 1% TO 100% DYNAMIC SCANNING ANIMATION UI -->
+                <div id="scanning-ui" class="hidden py-2 space-y-1.5">
+                    <h3 id="scanning-status-text" class="text-[10px] font-black text-cyan-300 animate-pulse tracking-wide">
+                        ⚡ QX OTC LIVE CHART SCANNING... 1%
+                    </h3>
+                    <div class="w-full bg-black/80 h-2.5 rounded-full overflow-hidden border border-cyan-500/50 p-0.5">
+                        <div id="scanning-progress-bar" class="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full rounded-full transition-all duration-75" style="width: 1%;"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] text-cyan-400 font-mono font-bold px-1">
+                        <span>AI CONFLUENCE ENGINE</span>
+                        <span id="scanning-pct-text">1%</span>
                     </div>
                 </div>
             </div>
@@ -800,57 +806,74 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             if (!file) return;
 
             document.getElementById('upload-idle-ui').classList.add('hidden');
-            document.getElementById('scanning-ui').classList.remove('hidden');
+            const scanningUi = document.getElementById('scanning-ui');
+            scanningUi.classList.remove('hidden');
 
-            setTimeout(() => {
-                document.getElementById('scanning-ui').classList.add('hidden');
-                document.getElementById('upload-idle-ui').classList.remove('hidden');
+            const progressBar = document.getElementById('scanning-progress-bar');
+            const statusText = document.getElementById('scanning-status-text');
+            const pctText = document.getElementById('scanning-pct-text');
 
-                const isCall = Math.random() > 0.5;
-                const dynamicContainer = document.getElementById('dynamic-signal-container');
-                const giantTitle = document.getElementById('signal-giant-title');
-                const shortSub = document.getElementById('signal-short-sub');
-                const ruleDetailText = document.getElementById('rule-detail-text');
-                const winRateElem = document.getElementById('signal-win-rate');
-                const accTextElem = document.getElementById('dynamic-acc-text');
+            let currentPct = 1;
+            progressBar.style.width = '1%';
+            pctText.innerText = '1%';
+            statusText.innerText = '⚡ QX OTC LIVE CHART SCANNING... 1%';
 
-                // DYNAMIC ANIMATED SIGNAL TEXT UPDATE (CALL / PUT)
-                if(isCall) {
-                    giantTitle.innerHTML = "CALL (BUY) 🚀";
-                    giantTitle.className = "text-xl md:text-2xl font-black tracking-wider uppercase golden-font text-emerald-400 drop-shadow-[0_0_10px_rgba(0,255,128,0.8)]";
-                    shortSub.innerText = "NEXT CANDLE UP • 98% HIGH CONFIDENCE";
-                    ruleDetailText.innerHTML = "• <b>UP RULE (Call):</b> Bullish SMC Liquidity Sweep, Fair Value Gap (FVG) Fill & Strong Buyers Momentum detected.";
-                    winRateElem.innerText = "97.2% HIGH CONFIDENCE";
-                    accTextElem.innerText = "98.4% HIGH";
-                    speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
+            // Smooth counting from 1% to 100% over ~4 seconds (40ms * 100 steps = 4000ms)
+            const scanTimer = setInterval(() => {
+                currentPct++;
+                if (currentPct <= 100) {
+                    progressBar.style.width = currentPct + '%';
+                    pctText.innerText = currentPct + '%';
+                    statusText.innerText = `⚡ QX OTC LIVE CHART SCANNING... ${currentPct}%`;
                 } else {
-                    giantTitle.innerHTML = "PUT (SELL) 📉";
-                    giantTitle.className = "text-xl md:text-2xl font-black tracking-wider uppercase golden-font text-red-400 drop-shadow-[0_0_10px_rgba(255,50,50,0.8)]";
-                    shortSub.innerText = "NEXT CANDLE DOWN • 97% HIGH CONFIDENCE";
-                    ruleDetailText.innerHTML = "• <b>DOWN RULE (Put):</b> Bearish Supply Rejection, Order Block Resistance & Stoch RSI Overbought Drop detected.";
-                    winRateElem.innerText = "95.8% HIGH CONFIDENCE";
-                    accTextElem.innerText = "96.9% HIGH";
-                    speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।");
-                }
+                    clearInterval(scanTimer);
+                    scanningUi.classList.add('hidden');
+                    document.getElementById('upload-idle-ui').classList.remove('hidden');
 
-                dynamicContainer.classList.remove('hidden');
-                
-                let timeLeft = 10;
-                document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
-                
-                if(autoRemoveInterval) clearInterval(autoRemoveInterval);
+                    const isCall = Math.random() > 0.5;
+                    const dynamicContainer = document.getElementById('dynamic-signal-container');
+                    const giantTitle = document.getElementById('signal-giant-title');
+                    const shortSub = document.getElementById('signal-short-sub');
+                    const ruleDetailText = document.getElementById('rule-detail-text');
+                    const winRateElem = document.getElementById('signal-win-rate');
+                    const accTextElem = document.getElementById('dynamic-acc-text');
 
-                autoRemoveInterval = setInterval(() => {
-                    timeLeft--;
-                    document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
-                    if(timeLeft <= 0) {
-                        clearInterval(autoRemoveInterval);
-                        dynamicContainer.classList.add('hidden');
-                        document.getElementById('chart-file-input').value = '';
+                    if(isCall) {
+                        giantTitle.innerHTML = "CALL (BUY) 🚀";
+                        giantTitle.className = "text-xl md:text-2xl font-black tracking-wider uppercase golden-font text-emerald-400 drop-shadow-[0_0_10px_rgba(0,255,128,0.8)]";
+                        shortSub.innerText = "NEXT CANDLE UP • 98% HIGH CONFIDENCE";
+                        ruleDetailText.innerHTML = "• <b>UP RULE (Call):</b> Bullish SMC Liquidity Sweep, Fair Value Gap (FVG) Fill & Strong Buyers Momentum detected.";
+                        winRateElem.innerText = "97.2% HIGH CONFIDENCE";
+                        accTextElem.innerText = "98.4% HIGH";
+                        speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
+                    } else {
+                        giantTitle.innerHTML = "PUT (SELL) 📉";
+                        giantTitle.className = "text-xl md:text-2xl font-black tracking-wider uppercase golden-font text-red-400 drop-shadow-[0_0_10px_rgba(255,50,50,0.8)]";
+                        shortSub.innerText = "NEXT CANDLE DOWN • 97% HIGH CONFIDENCE";
+                        ruleDetailText.innerHTML = "• <b>DOWN RULE (Put):</b> Bearish Supply Rejection, Order Block Resistance & Stoch RSI Overbought Drop detected.";
+                        winRateElem.innerText = "95.8% HIGH CONFIDENCE";
+                        accTextElem.innerText = "96.9% HIGH";
+                        speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।");
                     }
-                }, 1000);
 
-            }, 4500);
+                    dynamicContainer.classList.remove('hidden');
+                    
+                    let timeLeft = 10;
+                    document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
+                    
+                    if(autoRemoveInterval) clearInterval(autoRemoveInterval);
+
+                    autoRemoveInterval = setInterval(() => {
+                        timeLeft--;
+                        document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
+                        if(timeLeft <= 0) {
+                            clearInterval(autoRemoveInterval);
+                            dynamicContainer.classList.add('hidden');
+                            document.getElementById('chart-file-input').value = '';
+                        }
+                    }, 1000);
+                }
+            }, 40);
         }
 
         function startManualScanPro() {
