@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (100% MATCH WITH 330_2.jpg)
+# FRONTEND UI ENGINE (UPDATED MANUAL SIGNAL LAYOUT)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -169,7 +169,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 6px 8px 62px 8px;
+            padding: 6px 8px 58px 8px;
             overflow: hidden;
             border: 2px solid #eab308;
             box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
@@ -303,15 +303,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         .bottom-nav { 
             position: fixed; 
-            bottom: 10px; 
+            bottom: 8px; 
             left: 50%; 
             transform: translateX(-50%); 
-            width: calc(100% - 20px); 
+            width: calc(100% - 16px); 
             max-width: 400px; 
             background: rgba(10, 4, 18, 0.98); 
             backdrop-filter: blur(20px); 
             border-radius: 999px; 
-            padding: 8px 16px; 
+            padding: 7px 14px; 
             z-index: 9999; 
             animation: navGlow 2.2s infinite linear;
         }
@@ -322,7 +322,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border: 2px solid #ff007f; box-shadow: 0 0 12px rgba(255, 0, 127, 0.5); }
         }
 
-        /* 100% EXACT STYLES FOR SCREENSHOT 330_2.jpg */
         .pro-neon-card {
             background: #020b18;
             border: 1.5px solid #00e5ff;
@@ -334,21 +333,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: #020914;
             border: 1.5px solid #00e5ff;
             border-radius: 10px;
-            padding: 7px 10px;
+            padding: 6px 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .dashed-circle-loader {
-            width: 48px;
-            height: 48px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             border: 2px dashed #00e5ff;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 4px auto;
+            margin: 2px auto;
         }
 
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; gap: 4px; overflow-y: auto; }
@@ -472,38 +471,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (100% MATCH WITH SCREENSHOT 330_2.jpg) -->
-        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-16">
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (CLEANED: TOP HEADER & UPLOAD BAR REMOVED, SPACED UP) -->
+        <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             
-            <!-- HEADER CONTAINER CARD (MATCHING 330_2.jpg) -->
-            <div class="pro-neon-card p-2.5 mb-2 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full border border-yellow-400 flex items-center justify-center font-black text-[9px] text-yellow-300 bg-black">
-                        YASIN
-                    </div>
-                    <div>
-                        <h2 class="text-xs font-black text-emerald-400 tracking-wider">YASIN TR BOT</h2>
-                        <p class="text-[7px] font-bold text-amber-500 tracking-widest uppercase">QUOTEX ULTRA PRO MAX ENGINE</p>
-                    </div>
-                </div>
-
-                <div class="text-right">
-                    <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 text-[8px] font-black px-2 py-0.5 rounded-full inline-block">
-                        🚀 QX LIVE
-                    </span>
-                </div>
-            </div>
-
             <!-- LIVE CLOCK BANNER -->
-            <div class="pro-neon-card py-1 px-3 mb-2 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
+            <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
                 <span>BD: <span id="bd-time">00:55:03</span></span>
                 <span class="text-gray-500">|</span>
                 <span>QX UTC: <span id="utc-time">18:55:03</span></span>
             </div>
 
             <!-- DROPDOWNS ROW -->
-            <div class="grid grid-cols-3 gap-1.5 mb-2">
-                <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2.5 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+            <div class="grid grid-cols-3 gap-1.5 mb-1.5">
+                <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
                     <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
                     <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
                     <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
@@ -512,7 +492,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <option value="USD/INR (OTC)">USD/INR (OTC)</option>
                 </select>
 
-                <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2.5 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
                     <option value="10S">10S</option>
                     <option value="1M">1M</option>
                     <option value="5M">5M</option>
@@ -520,52 +500,47 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <!-- ANALYZE BUTTON (BRIGHT NEON SEAGREEN) -->
-            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-3 rounded-xl w-full tracking-wide mb-2 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
+            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide mb-1.5 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
                 ⚡ ANALYZE MARKET & GET SIGNAL
             </button>
 
-            <!-- UPLOAD SCREENSHOT SHORTCUT BUTTON -->
-            <div onclick="navTo('screen-auto')" class="border border-dashed border-teal-400 bg-[#02131d] py-2 rounded-xl text-center cursor-pointer mb-2 hover:bg-[#031d2d] transition-colors">
-                <span class="text-[10px] font-black text-teal-300 tracking-wide">📸 UPLOAD SCREENSHOT (AI VISION SCAN)</span>
-            </div>
-
-            <!-- MAIN SIGNAL DISPLAY CARD (EXACT 330_2.jpg) -->
-            <div class="pro-neon-card p-3 text-center mb-2">
+            <!-- MAIN SIGNAL DISPLAY CARD -->
+            <div class="pro-neon-card p-2.5 text-center mb-1.5">
                 <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-1">
                     CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
                 </span>
                 
-                <p id="pair-time-title" class="text-[11px] font-black text-white mt-1">USD/BDT (OTC) • 10S ALGO MARKET</p>
+                <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">USD/BDT (OTC) • 10S ALGO MARKET</p>
 
                 <div class="dashed-circle-loader">
                     <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
                 </div>
 
-                <h1 id="manual-sig-dir" class="text-base font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
+                <h1 id="manual-sig-dir" class="text-sm font-black text-white tracking-wider my-0.5">WAITING - START ANALYSIS</h1>
                 
                 <p class="text-[8px] text-gray-400 font-bold uppercase">ACCURACY RATE: HIGH CONFLUENCE EVALUATION</p>
                 <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
             <!-- LAST TRADE HISTORY BANNER -->
-            <div class="pro-neon-card p-2 mb-2 flex justify-between items-center text-[9px] font-bold">
+            <div class="pro-neon-card p-1.5 mb-1.5 flex justify-between items-center text-[9px] font-bold">
                 <div>
                     <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
                     <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
                 </div>
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-1 rounded-lg">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-0.5 rounded-lg">
                     ITM WIN 🎯
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES (GRID 2-COLUMNS EXACT 330_2.jpg) -->
-            <div class="grid grid-cols-2 gap-1.5 mb-2 text-[8px] font-bold">
+            <!-- 6 PRO ANALYSIS MODULES (DYNAMIC SCANNING RULES) -->
+            <div class="grid grid-cols-2 gap-1 mb-1.5 text-[8px] font-bold">
                 <div class="pro-module-box">
-                    <span class="text-gray-300">📈 TREND (EMA 50/200 & SMC)</span>
+                    <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
                 <div class="pro-module-box">
-                    <span class="text-gray-300">🎯 OB / FVG / LIQUIDITY</span>
+                    <span class="text-gray-300">🎯 OB / FVG / LIQ</span>
                     <span id="mod-2" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
                 <div class="pro-module-box">
@@ -573,32 +548,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <span id="mod-3" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
                 <div class="pro-module-box">
-                    <span class="text-gray-300">🌐 NEWS & VPS LATENCY</span>
+                    <span class="text-gray-300">🌐 NEWS & LATENCY</span>
                     <span id="mod-4" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
                 <div class="pro-module-box">
-                    <span class="text-gray-300">🛡️ ATR & SPREAD FILTER</span>
+                    <span class="text-gray-300">🛡️ ATR & SPREAD</span>
                     <span id="mod-5" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
                 <div class="pro-module-box">
-                    <span class="text-gray-300">⚖️ DYNAMIC RISK & RECOVERY</span>
+                    <span class="text-gray-300">⚖️ RISK & RECOVERY</span>
                     <span id="mod-6" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR (EXACT 330_2.jpg) -->
-            <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8px] font-bold">
+            <!-- FOOTER INFOGRAPHIC BAR -->
+            <div class="pro-neon-card p-1.5 grid grid-cols-3 text-center text-[8px] font-bold">
                 <div>
-                    <span class="text-gray-400 block text-[7px]">MASTER WIN-RATE</span>
+                    <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
                     <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
                 </div>
                 <div>
                     <span class="text-gray-400 block text-[7px]">CONFIDENCE</span>
-                    <span class="text-cyan-300 font-black">HIGH CONFLUENCE</span>
+                    <span class="text-cyan-300 font-black">HIGH</span>
                 </div>
                 <div>
-                    <span class="text-gray-400 block text-[7px]">DATA INTEGRITY</span>
-                    <span class="text-purple-300 font-black">99.9% HIGH</span>
+                    <span class="text-gray-400 block text-[7px]">INTEGRITY</span>
+                    <span class="text-purple-300 font-black">99.9%</span>
                 </div>
             </div>
 
@@ -655,7 +630,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const formattedSeconds = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
                 const timerElem = document.getElementById('candle-timer');
                 
-                // Clock Updates
                 const bdHours = String(now.getHours()).padStart(2, '0');
                 const bdMins = String(now.getMinutes()).padStart(2, '0');
                 const bdSecs = String(now.getSeconds()).padStart(2, '0');
@@ -676,7 +650,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 1000);
         }
 
-        /* NO SPEECH REPEAT VOICE RESPONSE */
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -684,7 +657,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 utterance.lang = 'bn-BD';
                 document.getElementById('ai-status-text').innerText = text;
                 utterance.onend = () => {
-                    document.getElementById('ai-status-text').innerText = "YASIN TR BOT READY";
+                    document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
                 };
                 window.speechSynthesis.speak(utterance);
             }
@@ -692,7 +665,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function resetVoiceState() {
             window.speechSynthesis.cancel();
-            document.getElementById('ai-status-text').innerText = "YASIN TR BOT READY";
+            document.getElementById('ai-status-text').innerText = "TOT AI MASTER READY";
         }
 
         async function startElectricMarketScan() {
@@ -742,7 +715,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('chart-file-input').value = '';
         }
 
-        /* MANUAL PRO SCANNER HANDLER (EXACT 330_2.jpg ANIMATIONS) */
+        /* MANUAL PRO SCANNER HANDLER WITH DYNAMIC RULES */
         function startManualScanPro() {
             const pair = document.getElementById('manual-pair').value;
             const timeframe = document.getElementById('manual-timeframe').value;
@@ -750,13 +723,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('manual-conf-status').innerText = "SCANNING...";
             document.getElementById('pair-time-title').innerText = `${pair} • ${timeframe} ALGO MARKET`;
             document.getElementById('loader-inner-text').innerText = "SCAN";
-            document.getElementById('manual-sig-dir').innerText = "ANALYZING CONFLUENCE...";
+            document.getElementById('manual-sig-dir').innerText = "ANALYZING RULES...";
 
+            const ruleTexts = ["BULLISH SMC", "FVG FILLED", "STOCH OVERSOLD", "VPS 12ms", "ATR SAFE", "RISK OPTIMAL"];
             for(let i=1; i<=6; i++) {
                 document.getElementById(`mod-${i}`).innerText = "SCANNING...";
             }
 
-            speakText("মার্কেট এনালিসিস শুরু করা হচ্ছে।");
+            speakText("মার্কেট কনফ্লুয়েন্স রুলস এনালাইসিস চলছে।");
 
             setTimeout(() => {
                 const isCall = Math.random() > 0.5;
@@ -766,7 +740,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 document.getElementById('last-trade-pair').innerText = `${pair} • MASTER WIN`;
 
                 for(let i=1; i<=6; i++) {
-                    document.getElementById(`mod-${i}`).innerText = "SCAN COMPLETE";
+                    document.getElementById(`mod-${i}`).innerText = ruleTexts[i-1];
                 }
 
                 speakText(isCall ? "সিগন্যাল কল বা বাই অপশনে যাবে।" : "সিগন্যাল পুট বা সেল অপশনে যাবে।");
@@ -779,7 +753,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         document.getElementById(`mod-${i}`).innerText = "AWAITING SCAN";
                     }
                 }, 8000);
-            }, 4500);
+            }, 4000);
         }
 
         function updateHomeChart() {
