@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (HIGH-DEF IMAGES & 1S COLOR ANIMATIONS)
+# FRONTEND UI ENGINE (BEST HD ROBOT IMAGES & 1S COLOR ANIMATIONS)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,7 +333,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* 1-SECOND MULTI-COLOR DYNAMIC GLOW ANIMATIONS */
+        /* 1-SECOND DYNAMIC COLOR GLOW ANIMATIONS */
         .dynamic-color-border-1 { animation: colorShift1 1s infinite linear; }
         .dynamic-color-border-2 { animation: colorShift2 1s infinite linear; }
         .dynamic-color-border-3 { animation: colorShift3 1s infinite linear; }
@@ -478,7 +478,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX REAL CHART UPLOAD (UPDATED USER IMAGES & 1S COLOR SHIFTING) -->
+        <!-- SCREEN 2: QX REAL CHART UPLOAD (SELECTED BEST ULTRA HD ROBOT IMAGES) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
@@ -486,9 +486,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
-                <!-- TOP CIRCULAR AVATAR WITH USER LINK 1 (Z6w9RPCG) & 1S COLOR SHIFTING ANIMATION -->
+                <!-- TOP CIRCULAR AVATAR (HIGH-TECH STANDING CYBORG ROBOT) -->
                 <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80" alt="QX Live Chart Avatar" class="w-full h-full object-cover filter brightness-110 contrast-125">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80" alt="QX Live Standing Robot" class="w-full h-full object-cover filter brightness-110 contrast-125">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-1">
                         <span class="text-[8px] font-black text-cyan-300 uppercase tracking-widest golden-font">QX OTC</span>
                         <span class="text-[9px] font-black text-white tracking-wider">LIVE SCANNER</span>
@@ -511,7 +511,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- DYNAMIC UP / DOWN BANNER CONTAINER (USING USER LINKS zHsXkDZJ & WNkncVcn WITH 1S COLOR SHIFTING) -->
+            <!-- DYNAMIC UP / DOWN BANNER CONTAINER (BEST HD NEON TRADING BOTS) -->
             <div id="dynamic-signal-container" class="hidden w-[96%] mx-auto mt-2 space-y-2 fade-in-animation">
                 <div class="w-full rounded-2xl overflow-hidden border-4 border-cyan-400 shadow-[0_0_25px_rgba(0,240,255,0.5)] bg-black relative dynamic-color-border-2">
                     <img id="signal-robot-img" src="" alt="Robot Signal Banner" class="w-full h-36 object-cover filter brightness-110 contrast-110">
@@ -793,15 +793,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const winRateElem = document.getElementById('signal-win-rate');
                 const accTextElem = document.getElementById('dynamic-acc-text');
 
-                // USING USER LINKS zHsXkDZJ (UP) AND WNkncVcn (DOWN) WITH HD FALLBACKS
+                // BEST HIGH DEFINITION NEON TRADING ROBOTS (GREEN CALL / RED PUT)
                 if(isCall) {
-                    robotImg.src = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&auto=format&fit=crop&q=80"; // UP BANNER
+                    robotImg.src = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1000&auto=format&fit=crop&q=80"; // GREEN BULLISH MATRIX
                     ruleDetailText.innerHTML = "• <b>UP RULE (Call):</b> Bullish SMC Liquidity Sweep, Fair Value Gap (FVG) Fill & Strong Buyers Momentum detected.";
                     winRateElem.innerText = "97.2% HIGH CONFIDENCE";
                     accTextElem.innerText = "98.4% HIGH";
                     speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
                 } else {
-                    robotImg.src = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"; // DOWN BANNER
+                    robotImg.src = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80"; // RED BEARISH CYBER
                     ruleDetailText.innerHTML = "• <b>DOWN RULE (Put):</b> Bearish Supply Rejection, Order Block Resistance & Stoch RSI Overbought Drop detected.";
                     winRateElem.innerText = "95.8% HIGH CONFIDENCE";
                     accTextElem.innerText = "96.9% HIGH";
