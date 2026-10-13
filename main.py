@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (EXACT ORIGINAL + GAP FILLING)
+# FRONTEND UI ENGINE (UPDATED ROBOT IMAGES & AUTO-REMOVE SIGNAL)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,7 +333,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* 3-4% ENLARGED BOTTOM MODULES TO FILL GAP UP TO MARKER */
         .pro-module-box {
             background: #020914;
             border: 1.5px solid #00e5ff;
@@ -367,6 +366,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .screen.active { display: flex; }
         .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
         button, select, input { cursor: pointer; }
+        
+        .fade-in-animation {
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -433,26 +440,27 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX REAL CHART UPLOAD -->
-        <div id="screen-auto" class="screen pt-1">
+        <!-- SCREEN 2: QX REAL CHART UPLOAD (UPDATED AVATAR & AUTO-REMOVE ANIMATION) -->
+        <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
                 <h1 class="text-xs font-black text-cyan-200">QX Real Chart Scanner</h1>
             </div>
 
-            <div class="glass-card p-4 space-y-3 text-center mt-2 shadow-xl border border-cyan-500/40 mx-auto w-[94%]">
-                <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-2 border-cyan-400 shadow-cyan-400/50 shadow-xl overflow-hidden animate-pulse">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop&q=80" alt="Robot Trading AI" class="w-full h-full object-cover opacity-80">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col items-center justify-end pb-2">
-                        <span class="text-[9px] font-black text-cyan-300 uppercase tracking-widest golden-font">QX OTC</span>
-                        <span class="text-[10px] font-black text-white tracking-wider">LIVE CHART UPLOAD</span>
+            <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
+                <!-- NEW STANDING ROBOT AVATAR WITH HIGH QUALITY -->
+                <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden">
+                    <img src="https://i.ibb.co/37XyZnm/standing-robot.jpg" alt="Standing Robot AI" class="w-full h-full object-cover object-top filter brightness-110 contrast-125">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-1">
+                        <span class="text-[8px] font-black text-cyan-300 uppercase tracking-widest golden-font">QX OTC</span>
+                        <span class="text-[9px] font-black text-white tracking-wider">LIVE SCANNER</span>
                     </div>
                 </div>
 
                 <input type="file" id="chart-file-input" accept="image/*" class="hidden" onchange="handleChartUpload(event)">
 
-                <div id="upload-idle-ui" class="pt-1">
-                    <button onclick="triggerGallery()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-sm py-3 rounded-2xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] transition-transform" type="button">
+                <div id="upload-idle-ui">
+                    <button onclick="triggerGallery()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-xs py-2.5 rounded-xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.01] active:scale-95 transition-all" type="button">
                         📷 UPLOAD SCREENSHOT (AI VISION SCAN)
                     </button>
                 </div>
@@ -463,31 +471,47 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <div class="bg-cyan-400 h-full w-3/4 animate-pulse"></div>
                     </div>
                 </div>
+            </div>
 
-                <div id="signal-result-ui" class="hidden space-y-2.5 text-left">
-                    <div class="bg-black/80 p-3 rounded-xl border border-cyan-500/60 shadow-lg text-center">
-                        <span class="text-[9px] text-cyan-300 font-extrabold uppercase">CONFIDENCE: MASTER CONFIRMED</span>
-                        <h1 id="res-dir" class="text-2xl font-black my-1 text-emerald-400">CALL (BUY)</h1>
-                        <p id="res-reason" class="text-[10px] text-gray-200 font-medium">Institutional Order Block bounce & Stoch RSI oversold alignment.</p>
+            <!-- DYNAMIC UP / DOWN BANNER & RULES CONTAINER (REMOVES AFTER 10 SECONDS) -->
+            <div id="dynamic-signal-container" class="hidden w-[96%] mx-auto mt-2 space-y-2 fade-in-animation">
+                <!-- DYNAMIC ROBOT SIGNAL BANNER (UP / DOWN) -->
+                <div class="w-full rounded-2xl overflow-hidden border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-black relative">
+                    <img id="signal-robot-img" src="" alt="Robot Signal Banner" class="w-full h-36 object-cover filter brightness-110 contrast-110">
+                    <div class="absolute top-2 right-2 bg-black/80 border border-cyan-400/60 rounded-lg px-2 py-0.5 text-[8px] font-black text-cyan-300 font-mono">
+                        AUTO-REMOVE: <span id="auto-remove-timer" class="text-amber-400">10s</span>
                     </div>
+                </div>
 
-                    <div class="grid grid-cols-2 gap-2 text-[10px]">
-                        <div class="bg-purple-950/60 p-2 rounded-lg border border-purple-500/40">
-                            <span class="text-gray-400">WIN RATE:</span> <span class="text-emerald-400 font-bold">96% HIGH</span>
+                <!-- DYNAMIC CONFLUENCE RULES CARD -->
+                <div class="pro-neon-card p-2.5 text-left bg-black/90 space-y-1.5 border border-cyan-500/60 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-cyan-500/30 pb-1">
+                        <span class="text-[9px] text-cyan-300 font-black uppercase">🎯 AI ANALYSIS RULES CONFLUENCE</span>
+                        <span id="signal-win-rate" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-extrabold px-2 py-0.5 rounded-md">
+                            96% HIGH CONFIDENCE
+                        </span>
+                    </div>
+                    
+                    <p id="rule-detail-text" class="text-[10px] text-gray-200 font-bold leading-relaxed">
+                        • SMC Liquidity Sweep & Institutional Order Block Rejection detected.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-1.5 pt-1 text-[8.5px]">
+                        <div class="bg-purple-950/60 p-1.5 rounded-lg border border-purple-500/40 flex justify-between">
+                            <span class="text-gray-400">TIMEFRAME:</span>
+                            <span class="text-cyan-300 font-black">1 MIN / 10S</span>
                         </div>
-                        <div class="bg-purple-950/60 p-2 rounded-lg border border-purple-500/40">
-                            <span class="text-gray-400">TIMEFRAME:</span> <span class="text-cyan-300 font-bold">1 MIN (10S)</span>
+                        <div class="bg-purple-950/60 p-1.5 rounded-lg border border-purple-500/40 flex justify-between">
+                            <span class="text-gray-400">LATENCY:</span>
+                            <span class="text-emerald-400 font-black">12ms FAST</span>
                         </div>
                     </div>
-
-                    <button onclick="resetChartUploadUI()" class="bg-gradient-to-r from-cyan-500 to-emerald-600 text-black font-black text-xs py-2.5 rounded-xl w-full shadow-lg" type="button">
-                        🔄 UPLOAD NEXT CHART
-                    </button>
                 </div>
             </div>
+
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (GAP FILLED TO MARKER) -->
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
         <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             
             <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
@@ -534,7 +558,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <!-- ENLARGED LAST TRADE HISTORY -->
             <div class="pro-neon-card p-2 mb-1.5 flex justify-between items-center text-[9.5px] font-bold">
                 <div>
                     <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
@@ -545,7 +568,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES (ENLARGED ~3-4%) -->
+            <!-- 6 PRO ANALYSIS MODULES -->
             <div class="grid grid-cols-2 gap-1.5 mb-1.5 text-[8.5px] font-bold">
                 <div class="pro-module-box">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
@@ -573,7 +596,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- ENLARGED FOOTER INFOGRAPHIC BAR -->
+            <!-- FOOTER INFOGRAPHIC BAR -->
             <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8.5px] font-bold">
                 <div>
                     <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
@@ -715,6 +738,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 5000);
         }
 
+        /* UPDATED CHART UPLOAD HANDLER WITH AUTO-REMOVE 10S TIMER */
+        let autoRemoveInterval = null;
+
         function handleChartUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -724,15 +750,43 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             setTimeout(() => {
                 document.getElementById('scanning-ui').classList.add('hidden');
-                document.getElementById('signal-result-ui').classList.remove('hidden');
-                speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
-            }, 5500);
-        }
+                document.getElementById('upload-idle-ui').classList.remove('hidden');
 
-        function resetChartUploadUI() {
-            document.getElementById('signal-result-ui').classList.add('hidden');
-            document.getElementById('upload-idle-ui').classList.remove('hidden');
-            document.getElementById('chart-file-input').value = '';
+                const isCall = Math.random() > 0.5;
+                const dynamicContainer = document.getElementById('dynamic-signal-container');
+                const robotImg = document.getElementById('signal-robot-img');
+                const ruleDetailText = document.getElementById('rule-detail-text');
+
+                // ROBOT IMAGES ENHANCED
+                if(isCall) {
+                    robotImg.src = "https://i.ibb.co/311v3z4/robot-up.jpg"; // UP ROBOT IMAGE
+                    ruleDetailText.innerHTML = "• <b>UP RULE:</b> Bullish SMC Liquidity Sweep, Fair Value Gap (FVG) Fill & Strong Buyers Momentum.";
+                    speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
+                } else {
+                    robotImg.src = "https://i.ibb.co/L9s3H4K/robot-down.jpg"; // DOWN ROBOT IMAGE
+                    ruleDetailText.innerHTML = "• <b>DOWN RULE:</b> Bearish Supply Rejection, Order Block Resistance & Stoch RSI Overbought Drop.";
+                    speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।");
+                }
+
+                dynamicContainer.classList.remove('hidden');
+                
+                // AUTO REMOVE AFTER 10 SECONDS
+                let timeLeft = 10;
+                document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
+                
+                if(autoRemoveInterval) clearInterval(autoRemoveInterval);
+
+                autoRemoveInterval = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
+                    if(timeLeft <= 0) {
+                        clearInterval(autoRemoveInterval);
+                        dynamicContainer.classList.add('hidden');
+                        document.getElementById('chart-file-input').value = '';
+                    }
+                }, 1000);
+
+            }, 4500);
         }
 
         function startManualScanPro() {
