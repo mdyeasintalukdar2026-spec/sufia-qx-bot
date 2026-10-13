@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (SCARY STANDING CYBORG ROBOT & FAST DYNAMIC ANIMATED BUTTON)
+# FRONTEND UI ENGINE (BLACK BG AVATAR & SLOW-MOTION SMOOTH ANIMATED BUTTON)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,25 +333,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
-        /* ULTRA-FAST DYNAMIC COLOR GLOW ANIMATIONS FOR UPLOAD BUTTON */
-        .fast-color-glow-btn {
-            animation: fastColorGlow 0.8s infinite linear;
+        /* SLOW-MOTION SMOOTH DYNAMIC COLOR GLOW ANIMATIONS FOR UPLOAD BUTTON (4 SECONDS CYCLE) */
+        .slow-color-glow-btn {
+            animation: slowColorGlow 4s infinite ease-in-out;
         }
 
-        @keyframes fastColorGlow {
-            0% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 15px #00f5a0; color: #000000; }
-            25% { background-color: #ff007f; border-color: #ff5500; box-shadow: 0 0 20px #ff007f; color: #ffffff; }
-            50% { background-color: #00e5ff; border-color: #ffe600; box-shadow: 0 0 15px #00e5ff; color: #000000; }
-            75% { background-color: #9d00ff; border-color: #00ffcc; box-shadow: 0 0 20px #9d00ff; color: #ffffff; }
-            100% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 15px #00f5a0; color: #000000; }
+        @keyframes slowColorGlow {
+            0% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 12px #00f5a0; color: #000000; }
+            25% { background-color: #ff007f; border-color: #ff5500; box-shadow: 0 0 15px #ff007f; color: #ffffff; }
+            50% { background-color: #00e5ff; border-color: #ffe600; box-shadow: 0 0 12px #00e5ff; color: #000000; }
+            75% { background-color: #9d00ff; border-color: #00ffcc; box-shadow: 0 0 15px #9d00ff; color: #ffffff; }
+            100% { background-color: #00f5a0; border-color: #00ffff; box-shadow: 0 0 12px #00f5a0; color: #000000; }
         }
 
-        .dynamic-color-border-1 { animation: colorShift1 1s infinite linear; }
-        .dynamic-color-border-2 { animation: colorShift2 1s infinite linear; }
-        .dynamic-color-border-3 { animation: colorShift3 1s infinite linear; }
-        .dynamic-color-border-4 { animation: colorShift4 1s infinite linear; }
-        .dynamic-color-border-5 { animation: colorShift5 1s infinite linear; }
-        .dynamic-color-border-6 { animation: colorShift6 1s infinite linear; }
+        .dynamic-color-border-1 { animation: colorShift1 2s infinite linear; }
+        .dynamic-color-border-2 { animation: colorShift2 2s infinite linear; }
+        .dynamic-color-border-3 { animation: colorShift3 2s infinite linear; }
+        .dynamic-color-border-4 { animation: colorShift4 2s infinite linear; }
+        .dynamic-color-border-5 { animation: colorShift5 2s infinite linear; }
+        .dynamic-color-border-6 { animation: colorShift6 2s infinite linear; }
 
         @keyframes colorShift1 {
             0% { border-color: #00f5a0; box-shadow: 0 0 10px #00f5a0; }
@@ -490,7 +490,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (SCARY STANDING ROBOT & ANIMATED BUTTON) -->
+        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (BLACK BG AVATAR & SLOW ANIMATED BUTTON) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
@@ -498,21 +498,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
-                <!-- TOP CIRCULAR AVATAR (SCARY STANDING CYBORG ROBOT - CLICK DISABLED AS REQUESTED) -->
-                <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1 pointer-events-none">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80" alt="Scary Standing Cyborg Robot" class="w-full h-full object-cover filter brightness-110 contrast-125">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col items-center justify-end pb-1.5">
-                        <span class="text-[7.5px] font-black text-cyan-300 uppercase tracking-widest golden-font text-center leading-tight px-1">
-                            QX OTC LIVE CHART SCANNER
-                        </span>
-                    </div>
+                <!-- TOP CIRCULAR AVATAR (PURE BLACK BACKGROUND WITH BOLD THICK TEXT, NO IMAGE) -->
+                <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden dynamic-color-border-1 p-2 text-center pointer-events-none">
+                    <span class="text-[10px] font-black text-white uppercase tracking-wider leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                        QX OTC LIVE CHART SCANNER
+                    </span>
                 </div>
 
                 <input type="file" id="chart-file-input" accept="image/*" class="hidden" onchange="handleChartUpload(event)">
 
-                <!-- DYNAMIC COLOR-SHIFTING UPLOAD BUTTON (ONLY CLICKABLE OPTION) -->
+                <!-- SLOW-MOTION SMOOTH COLOR-SHIFTING UPLOAD BUTTON -->
                 <div id="upload-idle-ui">
-                    <button onclick="triggerGallery()" class="fast-color-glow-btn font-black text-xs py-2.5 rounded-xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-95 transition-all border-2" type="button">
+                    <button onclick="triggerGallery()" class="slow-color-glow-btn font-black text-xs py-2.5 rounded-xl w-full flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-95 transition-all border-2" type="button">
                         📷 QX OTC LIVE CHART SCANNER
                     </button>
                 </div>
