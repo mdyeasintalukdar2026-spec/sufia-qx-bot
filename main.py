@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (FIXED LAYOUT CONTAINERS)
+# FRONTEND UI ENGINE (PROPER PAGE ISOLATION)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -164,17 +164,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             width: 100%;
             max-width: 420px;
             height: 100vh;
-            max-height: 100vh;
             background: #040d1a;
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 8px 8px 65px 8px;
             overflow: hidden;
             border: 2px solid #eab308;
             box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
             border-radius: 20px;
         }
+
+        /* STRICT PAGE CONTAINER FIX */
+        .screen { 
+            display: none; 
+            width: 100%; 
+            height: calc(100vh - 65px); 
+            flex-direction: column; 
+            gap: 6px; 
+            overflow-y: auto; 
+            padding: 8px;
+            padding-bottom: 20px;
+        }
+        .screen.active { display: flex; }
 
         .golden-ring {
             width: 130px;
@@ -230,7 +241,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             transition: all 0.2s ease;
         }
 
-        .action-btn:active { transform: scale(0.9); }
         .golden-font { font-family: 'Cinzel', serif; letter-spacing: 1px; }
 
         .glass-card {
@@ -248,10 +258,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .chart-box-wrapper {
-            height: 330px !important;
-            max-height: 330px !important;
-            margin-top: 6px !important;
-            margin-bottom: 2px !important;
+            height: 320px !important;
+            margin-top: 4px !important;
             animation: chartGlow 2.6s infinite linear;
             position: relative;
         }
@@ -266,8 +274,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         #tv-home-container {
             position: relative;
             overflow: hidden;
-            height: 275px !important;
-            margin-top: 2px !important;
+            height: 260px !important;
         }
         #tv-home-container iframe {
             position: absolute !important;
@@ -302,8 +309,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .bottom-nav { 
-            position: fixed; 
-            bottom: 8px; 
+            position: absolute; 
+            bottom: 6px; 
             left: 50%; 
             transform: translateX(-50%); 
             width: calc(100% - 16px); 
@@ -365,21 +372,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin: 2px auto;
         }
 
-        /* STRICT SCREEN SEPARATION TO PREVENT OVERLAPS */
-        .screen { 
-            display: none; 
-            width: 100%; 
-            height: calc(100vh - 75px); 
-            flex-direction: column; 
-            gap: 4px; 
-            overflow-y: auto; 
-            position: absolute;
-            top: 6px;
-            left: 8px;
-            right: 8px;
-            padding-right: 4px;
-        }
-        .screen.active { display: flex; }
         .icon-svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; vertical-align: middle; }
     </style>
 </head>
@@ -499,39 +491,37 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (PROPORTIONALLY BALANCED & NON-OVERLAPPING) -->
-        <div id="screen-signal" class="screen pt-1 flex flex-col justify-between">
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
+        <div id="screen-signal" class="screen">
             
-            <div class="space-y-1.5">
-                <div class="pro-neon-card py-1 px-3 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
-                    <span>BD: <span id="bd-time">00:55:03</span></span>
-                    <span class="text-gray-500">|</span>
-                    <span>QX UTC: <span id="utc-time">18:55:03</span></span>
-                </div>
-
-                <div class="grid grid-cols-3 gap-1.5">
-                    <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
-                        <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
-                        <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
-                        <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
-                        <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
-                        <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
-                        <option value="USD/INR (OTC)">USD/INR (OTC)</option>
-                    </select>
-
-                    <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
-                        <option value="10S">10S</option>
-                        <option value="1M">1M</option>
-                        <option value="5M">5M</option>
-                    </select>
-                </div>
-
-                <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
-                    ⚡ ANALYZE MARKET & GET SIGNAL
-                </button>
+            <div class="pro-neon-card py-1 px-3 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
+                <span>BD: <span id="bd-time">00:55:03</span></span>
+                <span class="text-gray-500">|</span>
+                <span>QX UTC: <span id="utc-time">18:55:03</span></span>
             </div>
 
-            <div class="pro-neon-card p-2 text-center my-1">
+            <div class="grid grid-cols-3 gap-1.5">
+                <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                    <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
+                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
+                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
+                    <option value="USD/INR (OTC)">USD/INR (OTC)</option>
+                </select>
+
+                <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border border-purple-500/80 text-white font-bold text-center">
+                    <option value="10S">10S</option>
+                    <option value="1M">1M</option>
+                    <option value="5M">5M</option>
+                </select>
+            </div>
+
+            <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
+                ⚡ ANALYZE MARKET & GET SIGNAL
+            </button>
+
+            <div class="pro-neon-card p-2 text-center">
                 <span class="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase inline-block mb-0.5">
                     CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
                 </span>
@@ -548,7 +538,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <p class="text-[6px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <div class="pro-neon-card p-1.5 flex justify-between items-center text-[8.5px] font-bold mb-1">
+            <div class="pro-neon-card p-1.5 flex justify-between items-center text-[8.5px] font-bold">
                 <div>
                     <span class="text-gray-400 uppercase text-[6.5px] block">LAST TRADE HISTORY</span>
                     <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
@@ -558,7 +548,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <div class="grid grid-cols-2 gap-1.5 text-[8px] font-bold mb-1">
+            <div class="grid grid-cols-2 gap-1.5 text-[8px] font-bold">
                 <div class="pro-module-box mod-anim-1">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
