@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (UPDATED MANUAL SIGNAL LAYOUT)
+# FRONTEND UI ENGINE (BUG-FREE & PERFECT LAYOUT)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -471,7 +471,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (CLEANED: TOP HEADER & UPLOAD BAR REMOVED, SPACED UP) -->
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
         <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             
             <!-- LIVE CLOCK BANNER -->
@@ -499,7 +499,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </select>
             </div>
 
-            <!-- ANALYZE BUTTON (BRIGHT NEON SEAGREEN) -->
+            <!-- ANALYZE BUTTON -->
             <button onclick="startManualScanPro()" class="bg-[#00f5a0] text-black font-black text-xs py-2.5 rounded-xl w-full tracking-wide mb-1.5 shadow-[0_0_15px_rgba(0,245,160,0.6)] hover:scale-[1.01] active:scale-95 transition-all">
                 ⚡ ANALYZE MARKET & GET SIGNAL
             </button>
@@ -533,7 +533,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES (DYNAMIC SCANNING RULES) -->
+            <!-- 6 PRO ANALYSIS MODULES -->
             <div class="grid grid-cols-2 gap-1 mb-1.5 text-[8px] font-bold">
                 <div class="pro-module-box">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
@@ -711,7 +711,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function resetChartUploadUI() {
             document.getElementById('signal-result-ui').classList.add('hidden');
-            document.getElementById('upload-idle-ui').classList.remove('hidden');
+            document.getElementById('upload-idle-ui').classList.add('hidden');
             document.getElementById('chart-file-input').value = '';
         }
 
