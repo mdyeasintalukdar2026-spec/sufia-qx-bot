@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (UPDATED ROBOT IMAGES & AUTO-REMOVE SIGNAL)
+# FRONTEND UI ENGINE (RELIABLE HIGH-DEF IMAGES)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -440,7 +440,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX REAL CHART UPLOAD (UPDATED AVATAR & AUTO-REMOVE ANIMATION) -->
+        <!-- SCREEN 2: QX REAL CHART UPLOAD (RELIABLE STABLE IMAGES) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
@@ -448,9 +448,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="glass-card p-3 space-y-2.5 text-center mt-1 shadow-xl border border-cyan-500/40 mx-auto w-[96%]">
-                <!-- NEW STANDING ROBOT AVATAR WITH HIGH QUALITY -->
+                <!-- STANDING ROBOT AVATAR -->
                 <div class="relative w-28 h-28 mx-auto rounded-full bg-black flex items-center justify-center border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.6)] overflow-hidden">
-                    <img src="https://i.ibb.co/37XyZnm/standing-robot.jpg" alt="Standing Robot AI" class="w-full h-full object-cover object-top filter brightness-110 contrast-125">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&auto=format&fit=crop&q=80" alt="Standing Robot AI" class="w-full h-full object-cover filter brightness-110 contrast-125">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-1">
                         <span class="text-[8px] font-black text-cyan-300 uppercase tracking-widest golden-font">QX OTC</span>
                         <span class="text-[9px] font-black text-white tracking-wider">LIVE SCANNER</span>
@@ -473,9 +473,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- DYNAMIC UP / DOWN BANNER & RULES CONTAINER (REMOVES AFTER 10 SECONDS) -->
+            <!-- DYNAMIC UP / DOWN BANNER & RULES CONTAINER (AUTO-REMOVE AFTER 10 SECONDS) -->
             <div id="dynamic-signal-container" class="hidden w-[96%] mx-auto mt-2 space-y-2 fade-in-animation">
-                <!-- DYNAMIC ROBOT SIGNAL BANNER (UP / DOWN) -->
                 <div class="w-full rounded-2xl overflow-hidden border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-black relative">
                     <img id="signal-robot-img" src="" alt="Robot Signal Banner" class="w-full h-36 object-cover filter brightness-110 contrast-110">
                     <div class="absolute top-2 right-2 bg-black/80 border border-cyan-400/60 rounded-lg px-2 py-0.5 text-[8px] font-black text-cyan-300 font-mono">
@@ -483,7 +482,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </div>
                 </div>
 
-                <!-- DYNAMIC CONFLUENCE RULES CARD -->
                 <div class="pro-neon-card p-2.5 text-left bg-black/90 space-y-1.5 border border-cyan-500/60 shadow-lg">
                     <div class="flex justify-between items-center border-b border-cyan-500/30 pb-1">
                         <span class="text-[9px] text-cyan-300 font-black uppercase">🎯 AI ANALYSIS RULES CONFLUENCE</span>
@@ -738,7 +736,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }, 5000);
         }
 
-        /* UPDATED CHART UPLOAD HANDLER WITH AUTO-REMOVE 10S TIMER */
         let autoRemoveInterval = null;
 
         function handleChartUpload(event) {
@@ -757,20 +754,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const robotImg = document.getElementById('signal-robot-img');
                 const ruleDetailText = document.getElementById('rule-detail-text');
 
-                // ROBOT IMAGES ENHANCED
+                // STABLE HIGH-DEFINITION TRADING ROBOT IMAGES (UP & DOWN)
                 if(isCall) {
-                    robotImg.src = "https://i.ibb.co/311v3z4/robot-up.jpg"; // UP ROBOT IMAGE
+                    robotImg.src = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&auto=format&fit=crop&q=80"; // GREEN UP THEME
                     ruleDetailText.innerHTML = "• <b>UP RULE:</b> Bullish SMC Liquidity Sweep, Fair Value Gap (FVG) Fill & Strong Buyers Momentum.";
                     speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।");
                 } else {
-                    robotImg.src = "https://i.ibb.co/L9s3H4K/robot-down.jpg"; // DOWN ROBOT IMAGE
+                    robotImg.src = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80"; // RED DOWN THEME
                     ruleDetailText.innerHTML = "• <b>DOWN RULE:</b> Bearish Supply Rejection, Order Block Resistance & Stoch RSI Overbought Drop.";
                     speakText("চার্ট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।");
                 }
 
                 dynamicContainer.classList.remove('hidden');
                 
-                // AUTO REMOVE AFTER 10 SECONDS
+                // 10 SECONDS AUTO REMOVE TIMER
                 let timeLeft = 10;
                 document.getElementById('auto-remove-timer').innerText = `${timeLeft}s`;
                 
