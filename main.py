@@ -133,7 +133,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ==========================================
-# FRONTEND UI ENGINE (ORIGINAL EXACT LOOK & CLICK FIXES)
+# FRONTEND UI ENGINE (EXACT ORIGINAL + GAP FILLING)
 # ==========================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -333,11 +333,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border-radius: 12px;
         }
 
+        /* 3-4% ENLARGED BOTTOM MODULES TO FILL GAP UP TO MARKER */
         .pro-module-box {
             background: #020914;
             border: 1.5px solid #00e5ff;
-            border-radius: 10px;
-            padding: 6px 8px;
+            border-radius: 11px;
+            padding: 9.5px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -486,7 +487,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL -->
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (GAP FILLED TO MARKER) -->
         <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             
             <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300">
@@ -533,18 +534,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <p class="text-[7px] text-gray-500 font-semibold">TRADE DURATION: LOCK DISENGAGED</p>
             </div>
 
-            <div class="pro-neon-card p-1.5 mb-1.5 flex justify-between items-center text-[9px] font-bold">
+            <!-- ENLARGED LAST TRADE HISTORY -->
+            <div class="pro-neon-card p-2 mb-1.5 flex justify-between items-center text-[9.5px] font-bold">
                 <div>
                     <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
                     <span id="last-trade-pair" class="text-white font-extrabold">USD/BDT (OTC) • MASTER WIN</span>
                 </div>
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2 py-0.5 rounded-lg">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2.5 py-0.5 rounded-lg">
                     ITM WIN 🎯
                 </span>
             </div>
 
-            <!-- 6 PRO ANALYSIS MODULES -->
-            <div class="grid grid-cols-2 gap-1 mb-1.5 text-[8px] font-bold">
+            <!-- 6 PRO ANALYSIS MODULES (ENLARGED ~3-4%) -->
+            <div class="grid grid-cols-2 gap-1.5 mb-1.5 text-[8.5px] font-bold">
                 <div class="pro-module-box">
                     <span class="text-gray-300">📈 TREND (EMA 50/200)</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN</span>
@@ -571,8 +573,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- FOOTER INFOGRAPHIC BAR -->
-            <div class="pro-neon-card p-1.5 grid grid-cols-3 text-center text-[8px] font-bold">
+            <!-- ENLARGED FOOTER INFOGRAPHIC BAR -->
+            <div class="pro-neon-card p-2 grid grid-cols-3 text-center text-[8.5px] font-bold">
                 <div>
                     <span class="text-gray-400 block text-[7px]">WIN-RATE</span>
                     <span class="text-emerald-400 font-black">DYNAMIC 98%</span>
