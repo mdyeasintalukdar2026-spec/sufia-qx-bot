@@ -8,8 +8,6 @@ from flask import Flask, jsonify, request, render_template_string
 import google.generativeai as genai
 import pandas as pd
 import numpy as np
-import yfinance as yf
-from tradingview_ta import TA_Handler, Interval
 
 app = Flask(__name__)
 
@@ -121,19 +119,11 @@ def run_binance_websocket():
         except:
             time.sleep(5)
 
-def get_tradingview_recommendation(symbol="EURUSD"):
-    try:
-        clean_sym = symbol.replace("/", "").replace("FX:", "").strip()
-        handler = TA_Handler(
-            symbol=clean_sym,
-            exchange="FX",
-            screener="forex",
-            interval=Interval.INTERVAL_1_MINUTE
-        )
-        analysis = handler.get_analysis()
-        return analysis.summary['RECOMMENDATION']
-    except:
-        return "NEUTRAL"
+# Start background threads safely
+threading.Thread(target=monitor_finnhub_news, daemon=True).start()
+threading.Thread(target=monitor_global_news, daemon=True).start()
+threading.Thread(target=monitor_fred_macro, daemon=True).start()
+threading.Thread(target=run_binance_websocket, daemon=True).start()
 
 # ================================================================================
 # TWELVE DATA & GEMINI AI SIGNAL GENERATOR
@@ -180,7 +170,7 @@ def calculate_pure_indicators(df):
 
     return current_rsi, current_macd, prev_rsi
 
-def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status, tv_rec):
+def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status):
     if not ai_model:
         return "CALL" if rsi < 50 else "PUT"
     prompt = f"""
@@ -193,7 +183,6 @@ def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status
     - Global Market Sentiment: {sentiment}
     - Breaking News Status: {news_status}
     - FRED Macroeconomic Status: {fred_status}
-    - TradingView Live Recommendation: {tv_rec}
     
     Evaluate thoroughly based on institutional Smart Money Concepts, Order Blocks, and FVG. Reply ONLY with one single word:
     - 'CALL' (if absolute buying confirmation)
@@ -212,7 +201,6 @@ def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status
 def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     df = fetch_twelve_data_candles(symbol)
     check_market_sentiment()
-    tv_rec = get_tradingview_recommendation(symbol)
     
     if df is None or df.empty:
         curr_time = int(time.time())
@@ -230,7 +218,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     prev_close = df['close'].iloc[-2]
     trend = "UPTREND" if latest_close > prev_close else "Downtrend"
 
-    ai_decision = ask_gemini_ai(symbol, rsi, latest_close, trend, market_sentiment, global_news_status, fred_macro_status, tv_rec)
+    ai_decision = ask_gemini_ai(symbol, rsi, latest_close, trend, market_sentiment, global_news_status, fred_macro_status)
     
     if ai_decision == "CALL" or rsi < 45:
         signal = "CALL (BUY) - NEXT CANDLE UP"
