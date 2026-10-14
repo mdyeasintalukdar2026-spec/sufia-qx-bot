@@ -45,71 +45,7 @@ global_news_status = "SAFE"
 fred_macro_status = "STABLE"
 
 # ================================================================================
-# BACKGROUND GUARDS
-# ================================================================================
-def monitor_finnhub_news():
-    global is_news_safe
-    url = f"https://finnhub.io/api/v1/calendar/economic?token={FINNHUB_API_KEY}"
-    while True:
-        try:
-            res = requests.get(url, timeout=10)
-            if res.status_code == 200:
-                events = res.json().get('economicCalendar', [])
-                high_impact = any(e.get('impact') == 'high' for e in events)
-                is_news_safe = not high_impact
-            time.sleep(300)
-        except:
-            time.sleep(60)
-
-def monitor_global_news():
-    global global_news_status
-    url = f"https://newsapi.org/v2/everything?q=forex+market+crash+OR+bitcoin+OR+inflation&apiKey={NEWS_API_KEY}"
-    while True:
-        try:
-            res = requests.get(url, timeout=10)
-            if res.status_code == 200:
-                articles = res.json().get('articles', [])
-                risk_keywords = ['crash', 'war', 'emergency', 'collapse', 'panic']
-                found_risk = any(any(kw in art.get('title', '').lower() for kw in risk_keywords) for art in articles[:5])
-                global_news_status = "WARNING" if found_risk else "SAFE"
-        except:
-            pass
-        time.sleep(600)
-
-def monitor_fred_macro():
-    global fred_macro_status
-    url = f"https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key={FRED_API_KEY}&file_type=json"
-    while True:
-        try:
-            res = requests.get(url, timeout=10)
-            if res.status_code == 200:
-                data = res.json()
-                observations = data.get('observations', [])
-                if observations:
-                    latest_rate = float(observations[-1]['value'])
-                    fred_macro_status = "STABLE" if latest_rate > 0 else "CAUTION"
-        except:
-            pass
-        time.sleep(3600)
-
-def check_market_sentiment():
-    global market_sentiment
-    url = "https://api.alternative.me/fng/"
-    try:
-        res = requests.get(url, timeout=5)
-        data = res.json()
-        if "data" in data:
-            market_sentiment = data['data'][0]['value_classification']
-    except:
-        pass
-
-# Safe Background Thread Startup
-threading.Thread(target=monitor_finnhub_news, daemon=True).start()
-threading.Thread(target=monitor_global_news, daemon=True).start()
-threading.Thread(target=monitor_fred_macro, daemon=True).start()
-
-# ================================================================================
-# TWELVE DATA & SIGNAL GENERATOR
+# TWELVE DATA & SIGNAL GENERATOR (NON-BLOCKING)
 # ================================================================================
 def fetch_twelve_data_candles(symbol="EUR/USD"):
     clean_symbol = symbol.replace("FX:", "").replace("_OTC", "").replace("OTC", "").replace("FX_", "").strip()
@@ -118,7 +54,7 @@ def fetch_twelve_data_candles(symbol="EUR/USD"):
     
     url = f"https://api.twelvedata.com/time_series?symbol={clean_symbol}&interval=1min&outputsize=100&apikey={TWELVE_DATA_API_KEY}"
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=4)
         if response.status_code == 200:
             data = response.json()
             if "values" in data:
@@ -164,8 +100,6 @@ def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status
     - RSI (14): {rsi}
     - Trend: {trend}
     - Global Market Sentiment: {sentiment}
-    - Breaking News Status: {news_status}
-    - FRED Macroeconomic Status: {fred_status}
     
     Evaluate thoroughly based on institutional Smart Money Concepts, Order Blocks, and FVG. Reply ONLY with one single word:
     - 'CALL' (if absolute buying confirmation)
@@ -183,7 +117,6 @@ def ask_gemini_ai(symbol, rsi, price, trend, sentiment, news_status, fred_status
 
 def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     df = fetch_twelve_data_candles(symbol)
-    check_market_sentiment()
     
     if df is None or df.empty:
         curr_time = int(time.time())
@@ -309,17 +242,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         @keyframes btnPulse2 { 0% { border: 1.5px solid #f59e0b; box-shadow: 0 0 8px #f59e0b; } 100% { border: 1.5px solid #ef4444; box-shadow: 0 0 12px #ef4444; } }
         @keyframes btnPulse3 { 0% { border: 1.5px solid #14b8a6; box-shadow: 0 0 8px #14b8a6; } 100% { border: 1.5px solid #3b82f6; box-shadow: 0 0 12px #3b82f6; } }
         .action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.6);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            z-index: 5;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: #ffffff; box-shadow: 0 3px 12px rgba(0,0,0,0.6);
+            transition: all 0.2s ease; cursor: pointer; z-index: 5;
         }
         .action-btn:active { transform: scale(0.9); }
         .golden-font { font-family: 'Cinzel', serif; letter-spacing: 1px; }
@@ -332,12 +258,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             100% { border-color: #ffff00; box-shadow: 0 0 8px rgba(255, 255, 0, 0.4); }
         }
         .chart-box-wrapper {
-            height: 360px !important;
-            max-height: 360px !important;
-            margin-top: 8px !important;
-            margin-bottom: 2px !important;
-            animation: chartGlow 2.6s infinite linear;
-            position: relative;
+            height: 360px !important; max-height: 360px !important;
+            margin-top: 8px !important; margin-bottom: 2px !important;
+            animation: chartGlow 2.6s infinite linear; position: relative;
         }
         @keyframes chartGlow {
             0% { border: 2px solid #7b68ee; box-shadow: 0 0 12px rgba(123, 104, 238, 0.4); }
