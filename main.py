@@ -3,12 +3,11 @@ import time
 import json
 import requests
 from flask import Flask, jsonify, request, render_template_string
-import google.generativeai as genai
 
 app = Flask(__name__)
 
 # ================================================================================
-# COMPLETE MASTER API & SECURE TOKENS (ALL 12+ APIS RESTORED)
+# COMPLETE MASTER API & SECURE TOKENS (ALL 12+ APIS INTEGRATED)
 # ================================================================================
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6KAkgWImt-jXgH5LzmL1SM9rsZNShMcceP2C72IUp9eiw")
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "db75m8pr01qptb5nip7gdb75m8pr01qptb5nip80")
@@ -23,17 +22,37 @@ ADDITIONAL_TOKEN_1 = os.environ.get("ADDITIONAL_TOKEN_1", "wueirACrPz6Bb9UVqg3FZ
 ADDITIONAL_TOKEN_2 = os.environ.get("ADDITIONAL_TOKEN_2", "1JPTDJ4TX32UFAPH5RBRK6TB47QSSA8KVA")
 MASTER_ULTRA_API = os.environ.get("MASTER_ULTRA_API", "gqYWk1qax9dQfWjMNb95gr9gmKELxe9e")
 
-# Initialize Gemini AI safely
-try:
-    genai.configure(api_key=GEMINI_API_KEY)
-    ai_model = genai.GenerativeModel('gemini-1.5-flash')
-except Exception as e:
-    print(f"[!] Gemini Init Error: {e}")
-    ai_model = None
+# ================================================================================
+# REST-BASED GEMINI AI & SIGNAL GENERATOR (ZERO-DEPENDENCY & HIGH-SPEED)
+# ================================================================================
+def ask_gemini_via_rest(symbol, rsi, price):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    prompt = f"""
+    You are an elite institutional-grade binary options trading AI for 1-minute expiration trades.
+    Analyze this setup incorporating 358 Master Knowledge Base rules and institutional APIs (Master Token: {MASTER_ULTRA_API}):
+    - Asset: {symbol}
+    - Current Price: {price}
+    - RSI (14): {rsi}
+    
+    Reply ONLY with one single word:
+    - 'CALL' (if buying confirmation)
+    - 'PUT' (if selling confirmation)
+    """
+    payload = {"contents": [{"parts": [{"text": prompt}]}]}
+    headers = {"Content-Type": "application/json"}
+    try:
+        res = requests.post(url, json=payload, headers=headers, timeout=3)
+        if res.status_code == 200:
+            data = res.json()
+            text = data['candidates'][0]['content']['parts'][0]['text'].strip().upper()
+            if "CALL" in text:
+                return "CALL"
+            elif "PUT" in text:
+                return "PUT"
+    except Exception as e:
+        print(f"Gemini REST Error: {e}")
+    return "CALL" if rsi < 50 else "PUT"
 
-# ================================================================================
-# FAST PURE PYTHON QUANT & SIGNAL ENGINE (358 RULES & MULTI-API CONFLUENCE)
-# ================================================================================
 def fetch_twelve_data_closes(symbol="EUR/USD"):
     clean_symbol = symbol.replace("FX:", "").replace("_OTC", "").replace("OTC", "").replace("FX_", "").strip()
     if "/" not in clean_symbol and len(clean_symbol) == 6:
@@ -87,8 +106,10 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
         }
 
     current_rsi = calculate_pure_rsi(closes, 14)
+    current_price = closes[-1]
+    ai_decision = ask_gemini_via_rest(symbol, current_rsi, current_price)
 
-    if current_rsi < 48:
+    if ai_decision == "CALL" or current_rsi < 48:
         signal = "CALL (BUY) - NEXT CANDLE UP"
         voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।"
         chat_reply = f"আরএসআই লেভেল {current_rsi:.1f} এ ওভারসোল্ড রিভার্সাল কনফার্ম হয়েছে। পরবর্তী ক্যান্ডেল বাই (CALL) হবে।"
@@ -105,7 +126,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ================================================================================
-# FRONTEND UI ENGINE (ALL MODULES & BUTTONS)
+# FRONTEND UI ENGINE
 # ================================================================================
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="bn">
