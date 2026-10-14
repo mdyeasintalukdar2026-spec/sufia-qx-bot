@@ -3,5 +3,7 @@ requests
 websocket-client
 google-generativeai
 pandas
+pandas-ta
 yfinance
+tradingview-ta
 gunicorn
