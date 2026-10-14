@@ -7,7 +7,8 @@ import websocket
 from flask import Flask, jsonify, request, render_template_string
 import google.generativeai as genai
 import pandas as pd
-import pandas_ta as ta
+import numpy as np
+import yfinance as yf
 from tradingview_ta import TA_Handler, Interval
 
 app = Flask(__name__)
@@ -135,7 +136,7 @@ def get_tradingview_recommendation(symbol="EURUSD"):
         return "NEUTRAL"
 
 # ================================================================================
-# TWELVE DATA, PANDAS-TA & GEMINI AI SIGNAL GENERATOR
+# TWELVE DATA & GEMINI AI SIGNAL GENERATOR
 # ================================================================================
 def fetch_twelve_data_candles(symbol="EUR/USD"):
     clean_symbol = symbol.replace("FX:", "").replace("_OTC", "").replace("OTC", "").replace("FX_", "").strip()
@@ -159,16 +160,19 @@ def fetch_twelve_data_candles(symbol="EUR/USD"):
         print(f"Twelve Data API Error: {e}")
     return None
 
-def calculate_indicators_pandas_ta(df):
+def calculate_pure_indicators(df):
     if df is None or df.empty:
         return 50.0, 0.0, 50.0
     
-    df['rsi'] = ta.rsi(df['close'], length=14)
-    macd_df = ta.macd(df['close'], fast=12, slow=26, signal=9)
-    if macd_df is not None and not macd_df.empty:
-        df['macd'] = macd_df['MACD_12_26_9']
-    else:
-        df['macd'] = 0.0
+    delta = df['close'].diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+    rs = gain / loss
+    df['rsi'] = 100 - (100 / (1 + rs))
+    
+    ema12 = df['close'].ewm(span=12, adjust=False).mean()
+    ema26 = df['close'].ewm(span=26, adjust=False).mean()
+    df['macd'] = ema12 - ema26
 
     current_rsi = df['rsi'].iloc[-1] if not pd.isna(df['rsi'].iloc[-1]) else 50.0
     current_macd = df['macd'].iloc[-1] if not pd.isna(df['macd'].iloc[-1]) else 0.0
@@ -221,7 +225,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
             "chat_reply": "আলট্রা-প্রো কুয়ান্টাম ও মাস্টার এপিআই এনালাইসিস সম্পন্ন হয়েছে। ট্রেড প্রস্তুত।"
         }
 
-    rsi, macd, prev_rsi = calculate_indicators_pandas_ta(df)
+    rsi, macd, prev_rsi = calculate_pure_indicators(df)
     latest_close = df['close'].iloc[-1]
     prev_close = df['close'].iloc[-2]
     trend = "UPTREND" if latest_close > prev_close else "Downtrend"
@@ -230,13 +234,13 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     
     if ai_decision == "CALL" or rsi < 45:
         signal = "CALL (BUY) - NEXT CANDLE UP"
-        reason = f"Master API + Pandas-TA & Gemini Engine: RSI ({rsi:.1f}) Oversold bounce at Price {latest_close}."
+        reason = f"Master API & Gemini Engine: RSI ({rsi:.1f}) Oversold bounce at Price {latest_close}."
         voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল বাই অপশনে যাবে।"
         chat_reply = f"আরএসআই লেভেল {rsi:.1f} এ ওভারসোল্ড রিভার্সাল কনফার্ম হয়েছে। পরবর্তী ক্যান্ডেল বাই (CALL) হবে।"
         acc = 99.9
     else:
         signal = "PUT (SELL) - NEXT CANDLE DOWN"
-        reason = f"Master API + Pandas-TA & Gemini Engine: RSI ({rsi:.1f}) Overbought drop at Price {latest_close}."
+        reason = f"Master API & Gemini Engine: RSI ({rsi:.1f}) Overbought drop at Price {latest_close}."
         voice_msg = "মার্কেট এনালাইসিস সম্পন্ন। পরবর্তী ক্যান্ডেল সেল অপশনে যাবে।"
         chat_reply = f"আরএসআই লেভেল {rsi:.1f} এ ওভারবট রিজেকশন কনফার্ম হয়েছে। পরবর্তী ক্যান্ডেল সেল (PUT) হবে।"
         acc = 99.5
@@ -650,7 +654,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         </span>
                     </div>
                     <p id="rule-detail-text" class="text-[10px] text-gray-200 font-bold leading-relaxed">
-                        • Institutional Order Block, Fair Value Gap & Pandas-TA Confluence verified.
+                        • Institutional Order Block, Fair Value Gap & Quant Confluence verified.
                     </p>
                     <div class="grid grid-cols-2 gap-1.5 pt-1 text-[8.5px]">
                         <div class="bg-purple-950/60 p-1.5 rounded-lg border border-purple-500/40 flex justify-between">
@@ -739,7 +743,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             <div class="grid grid-cols-2 gap-1.5 mb-1.5 text-[8.5px] font-bold">
                 <div class="pro-module-box border-2 dynamic-color-border-4">
-                    <span class="text-gray-300">📈 PANDAS-TA RSI/MACD</span>
+                    <span class="text-gray-300">📈 RSI / MACD QUANT</span>
                     <span id="mod-1" class="text-cyan-300 font-extrabold">AWAITING SCAN...</span>
                 </div>
                 <div class="pro-module-box border-2 dynamic-color-border-5">
