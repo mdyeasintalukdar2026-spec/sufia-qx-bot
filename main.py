@@ -240,7 +240,7 @@ def master_signal_generator(symbol="EUR/USD", timeframe="1m"):
     }
 
 # ================================================================================
-# FRONTEND UI ENGINE (1-100% SCANNING, BLACK BG AVATAR & SLOW GLOW BUTTON)
+# FRONTEND UI ENGINE (1-100% SCANNING, REAL & OTC MARKETS SEPARATED)
 # ================================================================================
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -511,7 +511,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <body>
     <div class="mobile-container">
         
-        <!-- SCREEN 1: HOME STUDIO -->
+        <!-- SCREEN 1: HOME STUDIO (REAL MARKETS ONLY) -->
         <div id="screen-home" class="screen active">
             <div class="flex flex-col items-center justify-center pt-1 pb-0.5 relative">
                 <div class="relative flex items-center justify-center">
@@ -538,9 +538,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <div class="flex justify-between items-center bg-red-950/40 px-3 py-1 rounded-lg border header-lighting-box">
-                <span class="golden-font text-[11px] font-black text-amber-200">Quotex Live Market</span>
+                <span class="golden-font text-[11px] font-black text-amber-200">Quotex Real Live Market</span>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> QX BINARY
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> REAL MARKET
                 </span>
             </div>
 
@@ -554,6 +554,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <option value="FX:USDCAD">USD/CAD (Real)</option>
                         <option value="FX:EURJPY">EUR/JPY (Real)</option>
                         <option value="FX:GBPJPY">GBP/JPY (Real)</option>
+                        <option value="FX:AUDJPY">AUD/JPY (Real)</option>
+                        <option value="FX:CHFJPY">CHF/JPY (Real)</option>
                     </select>
 
                     <div class="bg-black/80 border border-amber-500/60 rounded-lg px-2 py-1 text-center shadow-inner">
@@ -572,7 +574,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (1-100% SCANNING & BLACK BG AVATAR) -->
+        <!-- SCREEN 2: QX OTC LIVE CHART SCANNER (1-100% SCANNING ANIMATION) -->
         <div id="screen-auto" class="screen pt-1 overflow-y-auto pb-16">
             <div class="flex justify-between items-center mb-1 px-2">
                 <button onclick="navTo('screen-home')" class="text-cyan-400 text-xs font-bold" type="button">‹ Back</button>
@@ -615,7 +617,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                             CALL (BUY) 🚀
                         </h1>
                         <p id="signal-short-sub" class="text-[10px] font-bold text-cyan-200 tracking-wide">
-                            NEXT CANDLE UP • 98% HIGH CONFIDENCE
+                            NEXT CANDLE UP • 98.5% HIGH CONFIDENCE
                         </p>
                     </div>
 
@@ -648,7 +650,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (OTC MARKETS) -->
+        <!-- SCREEN 3: QX MANUAL PRO SIGNAL (ONLY OTC MARKETS AS REQUESTED) -->
         <div id="screen-signal" class="screen pt-1 overflow-y-auto pb-14">
             <div class="pro-neon-card py-1 px-3 mb-1.5 flex justify-between items-center text-[9px] font-mono font-bold text-cyan-300 dynamic-color-border-4">
                 <span>BD: <span id="bd-time">00:55:03</span></span>
@@ -658,14 +660,27 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             <div class="grid grid-cols-3 gap-1.5 mb-1.5">
                 <select id="manual-pair" class="col-span-2 bg-[#0a021a] text-[11px] p-2 rounded-xl border-2 text-white font-bold text-center dynamic-color-border-5">
-                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
-                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
-                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
-                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
+                    <option value="NZD/USD (OTC)">NZD/USD (OTC)</option>
+                    <option value="USD/BRL (OTC)">USD/BRL (OTC)</option>
+                    <option value="USD/ARS (OTC)">USD/ARS (OTC)</option>
+                    <option value="NZD/CAD (OTC)">NZD/CAD (OTC)</option>
+                    <option value="USD/DZD (OTC)">USD/DZD (OTC)</option>
+                    <option value="GBP/NZD (OTC)">GBP/NZD (OTC)</option>
+                    <option value="USD/PKR (OTC)">USD/PKR (OTC)</option>
+                    <option value="USD/ZAR (OTC)">USD/ZAR (OTC)</option>
+                    <option value="USD/IDR (OTC)">USD/IDR (OTC)</option>
+                    <option value="CAD/CHF (OTC)">CAD/CHF (OTC)</option>
+                    <option value="EUR/NZD (OTC)">EUR/NZD (OTC)</option>
+                    <option value="USD/MXN (OTC)">USD/MXN (OTC)</option>
                     <option value="USD/INR (OTC)">USD/INR (OTC)</option>
-                    <option value="EUR/JPY (OTC)">EUR/JPY (OTC)</option>
-                    <option value="GBP/JPY (OTC)">GBP/JPY (OTC)</option>
+                    <option value="USD/NGN (OTC)">USD/NGN (OTC)</option>
+                    <option value="USD/PHP (OTC)">USD/PHP (OTC)</option>
+                    <option value="EUR/GBP (OTC)">EUR/GBP (OTC)</option>
+                    <option value="NZD/CHF (OTC)">NZD/CHF (OTC)</option>
+                    <option value="NZD/JPY (OTC)">NZD/JPY (OTC)</option>
                     <option value="USD/BDT (OTC)">USD/BDT (OTC)</option>
+                    <option value="USD/COP (OTC)">USD/COP (OTC)</option>
+                    <option value="AUD/NZD (OTC)">AUD/NZD (OTC)</option>
                 </select>
 
                 <select id="manual-timeframe" class="bg-[#0a021a] text-[11px] p-2 rounded-xl border-2 text-white font-bold text-center dynamic-color-border-6">
@@ -684,7 +699,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     CONFIDENCE: <span id="manual-conf-status">STANDBY</span>
                 </span>
                 
-                <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">EUR/USD (OTC) • 10S ALGO MARKET</p>
+                <p id="pair-time-title" class="text-[11px] font-black text-white mt-0.5">NZD/USD (OTC) • 10S ALGO MARKET</p>
 
                 <div class="dashed-circle-loader">
                     <span id="loader-inner-text" class="text-[8px] font-black text-cyan-300">READY</span>
@@ -699,7 +714,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div class="pro-neon-card p-2 mb-1.5 flex justify-between items-center text-[9.5px] font-bold border-2 dynamic-color-border-3">
                 <div>
                     <span class="text-gray-400 uppercase text-[7px] block">LAST TRADE HISTORY</span>
-                    <span id="last-trade-pair" class="text-white font-extrabold">EUR/USD (OTC) • MASTER WIN</span>
+                    <span id="last-trade-pair" class="text-white font-extrabold">NZD/USD (OTC) • MASTER WIN</span>
                 </div>
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/60 text-[8px] px-2.5 py-0.5 rounded-lg">
                     ITM WIN 🎯
